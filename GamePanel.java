@@ -10,7 +10,7 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 	private long prevTime, diffTime;
 	//private Monster[] monsters;
 	private Player player;
-	boolean[] keyIsPressed = new boolean[4];
+	private boolean[] keyIsPressed = new boolean[4];
 	private int[][] map = {
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
