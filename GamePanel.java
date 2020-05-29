@@ -10,6 +10,7 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 	private long prevTime, diffTime;
 	//private Monster[] monsters;
 	private Player player;
+	boolean[] keyIsPressed;
 	private int[][] map = {
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
@@ -45,18 +46,20 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (isVisible()) {
-			if (e.getKeyCode() == KeyEvent.VK_UP) player.walk(Character.UP);
-			else if (e.getKeyCode() == KeyEvent.VK_DOWN) player.walk(Character.DOWN);
-			else if (e.getKeyCode() == KeyEvent.VK_LEFT) player.walk(Character.LEFT);
-			else if (e.getKeyCode() == KeyEvent.VK_RIGHT) player.walk(Character.RIGHT);
+			if (e.getKeyCode() == KeyEvent.VK_UP) keyIsPressed[Direction.UP]=true;
+			else if (e.getKeyCode() == KeyEvent.VK_DOWN) keyIsPressed[Direction.DOWN]=true;
+			else if (e.getKeyCode() == KeyEvent.VK_LEFT) keyIsPressed[Direction.LEFT]=true;
+			else if (e.getKeyCode() == KeyEvent.VK_RIGHT) keyIsPressed[Direction.RIGHT]=true;
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if (isVisible()) {
-			if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN) player.stop(Character.UP);
-			else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT) player.stop(Character.LEFT);
+			if (e.getKeyCode() == KeyEvent.VK_UP) keyIsPressed[Direction.UP]=false;
+			else if (e.getKeyCode() == KeyEvent.VK_DOWN) keyIsPressed[Direction.DOWN)=false;
+			else if (e.getKeyCode() == KeyEvent.VK_LEFT) keyIsPressed[Direction.LEFT]=false;
+			else if (e.getKeyCode() == KeyEvent.VK_RIGHT) keyIsPressed[Direction.RIGHT]=false;
 		}
 	}
 
@@ -90,6 +93,16 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 		return map.length;
 	}
 
+	public void movePlayer() {
+		if (keyIsPressed[Direction.UP]) player.move(Direction.UP);
+		if (keyIsPressed[Direction.DOWN]) player.move(Direction.DOWN);
+		if (keyIsPressed[Direction.LEFT]) player.move(Direction.LEFT);
+		if (keyIsPressed[Direction.RIGHT]) player.move(Direction.RIGHT);
+
+		if (!keyIsPressed[Direction.UP] && !keyIsPressed[Direction.DOWN] && !keyIsPressed[Direction.LEFT] && !keyIsPressed[Direction.RIGHT])
+			player.stop();
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -103,9 +116,10 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 
 		// If player intersects a wall, stop them
 		Rectangle playerRect = player.getRect();
-
-		for (int y = 0; y < map.length; ++y) {
-			for (int x = 0; x < map[y].length; ++x) {
+	
+		/*
+		for (int y = 0; y < numRows(); ++y) {
+			for (int x = 0; x < numColumns(); ++x) {
 				Point topLeftPoint = new Point((int) (x * blockWidth), (int) (y * blockHeight));
 				Dimension blockSize = new Dimension((int) blockWidth, (int) blockHeight);
 				Rectangle wallBlockRect = new Rectangle(topLeftPoint, blockSize);
@@ -116,11 +130,10 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 				}
 			}
 		}
+		*/
 
 		// Draw the player
-		player.updatePos();
-		int[] playerPos = player.getPos();
-		g.drawImage(player.getImage(), playerPos[0], playerPos[1], null);
+		g.drawImage(player.getImage(), player.getX(), player.getY(), null);
 
 	}
 
@@ -129,13 +142,14 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 		prevTime = System.currentTimeMillis();
 
 		while (true) {
+			movePlayer();
 			repaint();
+
 			diffTime = System.currentTimeMillis() - prevTime;
 
-			//Sleep for 40 milliseconds with accomodation for the time repaint() took
-			try {
-				Thread.sleep(40 - diffTime);
-			} catch (InterruptedException e) {}
+			// Sleep for 40 milliseconds with accomodation for the time repaint() and movePlayer() took
+			try { Thread.sleep(40 - diffTime); }
+			catch (InterruptedException e) {}
 
 			prevTime = System.currentTimeMillis();
 		}
