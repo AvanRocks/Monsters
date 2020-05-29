@@ -3,13 +3,13 @@ import javax.swing.*;
 import java.awt.event.*;
 
 class MenuPanel extends JPanel implements ActionListener {
-	CardLayout cards;
-	Container pane;
-	GamePanel game;
-	JPanel playBtnPnl;
-	JButton playBtn;
-	JPanel rulesBtnPnl;
-	JButton rulesBtn;
+	private CardLayout cards;
+	private Container pane;
+	private GamePanel game;
+	private JPanel playBtnPnl;
+	private JButton playBtn;
+	private JPanel rulesBtnPnl;
+	private JButton rulesBtn;
 
 	MenuPanel(CardLayout cards, Container pane, GamePanel game) {
 		this.cards=cards;

@@ -1,16 +1,17 @@
 import java.awt.image.BufferedImage;
+import java.awt.*;
 
 abstract class Character {
-	final int POS_INCREMENT = 5;
-	final static int UP = 0;
-	final static int LEFT = 1;
-	final static int DOWN = 2;
-	final static int RIGHT = 3;
-	int xPos, yPos;
-	int xVel, yVel;
-	int prevDir = DOWN;
-	int prevStep = 0;
-	BufferedImage[][] walk;
+	private final int POS_INCREMENT = 5;
+	public final static int UP = 0;
+	public final static int LEFT = 1;
+	public final static int DOWN = 2;
+	public final static int RIGHT = 3;
+	private int xPos, yPos;
+	private int xVel, yVel;
+	private int prevDir = DOWN;
+	private int prevStep = 0;
+	private BufferedImage[][] walk;
 
 	Character(int x, int y, BufferedImage spriteSheet) {
 		xPos=x;
@@ -24,12 +25,12 @@ abstract class Character {
 		}
 	}
 
-	public void move(int dir) {
+	public void walk(int dir) {
 		switch (dir) {
-			case UP:   yVel=-5; prevDir=UP; break;
-			case DOWN: yVel=5;  prevDir=DOWN; break;
-			case LEFT: xVel=-5; prevDir=LEFT; break;
-			case RIGHT:xVel=5;  prevDir=RIGHT; break;
+			case UP:   yVel=-POS_INCREMENT; prevDir=UP; break;
+			case DOWN: yVel=POS_INCREMENT;  prevDir=DOWN; break;
+			case LEFT: xVel=-POS_INCREMENT; prevDir=LEFT; break;
+			case RIGHT:xVel=POS_INCREMENT;  prevDir=RIGHT; break;
 		}
 	}
 
@@ -41,6 +42,11 @@ abstract class Character {
 			case RIGHT:xVel=0; break;
 		}
 	}
+	
+	public void reverseDir() {
+		xVel=-xVel;
+		yVel=-yVel;
+	}
 
 	public BufferedImage getImage() {
 		if (xVel==0 && yVel==0) return walk[prevDir][0];
@@ -48,11 +54,17 @@ abstract class Character {
 		return walk[prevDir][++prevStep];
 	}
 
-	public int[] getPos() {
+	public Rectangle getRect() {
+		return new Rectangle(xPos, yPos, 64, 64);
+	}
+
+	public void updatePos() {
 		xPos+=xVel;
 		yPos+=yVel;
+	}
+
+	public int[] getPos() {
 		return new int[] {xPos, yPos};
 	}
-	
 
 }

@@ -3,11 +3,11 @@ import javax.swing.*;
 import java.awt.event.*;
 
 class Monsters extends JFrame {
-	GamePanel game;
-	MenuPanel menu;
-	JPanel rules;
-	JLabel rulesLabel;
-	CardLayout cards;
+	private GamePanel game;
+	private MenuPanel menu;
+	private JPanel rules;
+	private JLabel rulesLabel;
+	private CardLayout cards;
 
 	Monsters(String name) {
 		super(name);
