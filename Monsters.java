@@ -2,7 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-class Monsters extends JFrame implements ActionListener {
+class Monsters extends JFrame {
 	GamePanel game;
 	MenuPanel menu;
 	JPanel rules;
@@ -28,10 +28,6 @@ class Monsters extends JFrame implements ActionListener {
 		getContentPane().add("game", game);
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		
-	}
-	
 	public static void main(String[] args) {
 		JFrame frame = new Monsters("Monsters");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

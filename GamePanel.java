@@ -4,11 +4,12 @@ import javax.swing.*;
 import java.io.*;
 import javax.imageio.ImageIO;
 
-class GamePanel extends JPanel implements KeyListener{
+class GamePanel extends JPanel implements KeyListener, Runnable {
 	double blockWidth;
 	double blockHeight;
-	int playerX, playerY;
 	int playerInitX = 100, playerInitY = 100;
+	Thread thread;
+	long prevTime, diffTime;
 	//Monster[] monsters;
 	Player player;
 	private int[][] map = {
@@ -26,11 +27,15 @@ class GamePanel extends JPanel implements KeyListener{
 
 	GamePanel() {
 		try {
-			player = new Player(playerInitX, playerInitY, ImageIO.read(new File("images"+File.pathSeparator+"player1.png")));
+			player = new Player(playerInitX, playerInitY, ImageIO.read(new File("images"+File.separator+"player1.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		resetPlayerPos();
+	}
+
+	public void start() {
+		thread = new Thread(this);
+		thread.start();
 	}
 
 	@Override
@@ -71,5 +76,28 @@ class GamePanel extends JPanel implements KeyListener{
 				}
 			}
 		}
+
+		// Draw the player
+		int[] playerPos = player.getPos();
+		g.drawImage(player.getImage(), playerPos[0], playerPos[1], null);
 	}
+
+	@Override
+	public void run() {
+		prevTime = System.currentTimeMillis();
+
+		while (true) {
+			repaint();	
+			diffTime = System.currentTimeMillis() - prevTime;
+
+			//Sleep for 40 milliseconds with accomodation for the time repaint() took
+			try {
+				Thread.sleep(40 - diffTime);
+			} catch (InterruptedException e) {}
+
+			prevTime = System.currentTimeMillis();
+		}
+
+	}
+
 }

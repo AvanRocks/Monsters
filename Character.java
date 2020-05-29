@@ -15,6 +15,8 @@ abstract class Character {
 	Character(int x, int y, BufferedImage spriteSheet) {
 		xPos=x;
 		yPos=y;
+
+		walk = new BufferedImage[4][9];
 		for (int i=0;i<4;++i) {
 			for (int j=0;j<9;++j) {
 				walk[i][j] = spriteSheet.getSubimage(j*64, i*64, 64, 64);
@@ -24,10 +26,10 @@ abstract class Character {
 
 	public void move(int dir) {
 		switch (dir) {
-			case UP:   yVel=-5; prevDir=UP;
-			case DOWN: yVel=5;  prevDir=DOWN;
-			case LEFT: xVel=-5; prevDir=LEFT; 
-			case RIGHT:xVel=5;  prevDir=RIGHT; 
+			case UP:   yVel=-5; prevDir=UP; break;
+			case DOWN: yVel=5;  prevDir=DOWN; break;
+			case LEFT: xVel=-5; prevDir=LEFT; break;
+			case RIGHT:xVel=5;  prevDir=RIGHT; break;
 		}
 	}
 
@@ -42,8 +44,8 @@ abstract class Character {
 
 	public BufferedImage getImage() {
 		if (xVel==0 && yVel==0) return walk[prevDir][0];
+		if (prevStep==8) prevStep=-1;
 		return walk[prevDir][++prevStep];
-		
 	}
 
 	public int[] getPos() {

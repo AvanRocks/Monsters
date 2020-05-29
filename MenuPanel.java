@@ -52,6 +52,7 @@ class MenuPanel extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("PLAY")) {
+			game.start();
 			cards.show(pane, "game");
 		}
 		else
