@@ -96,6 +96,21 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 	public void movePlayer(int dir) {
 		// TODO add collision detection
 		player.walk(dir);
+		Rectangle playerRect = player.getRect();
+		for (int y = 0; y < numRows(); ++y) {
+			for (int x = 0; x < numColumns(); ++x) {
+ 				if (map[i][j] && playerRect.intersects(new Rectangle((int)(j*blockWidth), (int)(i*blockHeight), (int)blockWidth, (int)blockHeight))) {
+				Point topLeftPoint = new Point((int) (x * blockWidth), (int) (y * blockHeight));
+				Dimension blockSize = new Dimension((int) blockWidth, (int) blockHeight);
+				Rectangle wallBlockRect = new Rectangle(topLeftPoint, blockSize);
+				if (isWall(x, y) && playerRect.intersects(wallBlockRect)) {
+					// TODO only stop in the direction they intersect in
+					player.stop(0);
+					player.stop(1);
+				}
+			}
+		}
+
 	}
 
 	public void movePlayer() {
@@ -120,7 +135,7 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 		this.paintMap(g);
 
 		// If player intersects a wall, stop them
-		Rectangle playerRect = player.getRect();
+		//Rectangle playerRect = player.getRect();
 
 		/*
 		for (int y = 0; y < numRows(); ++y) {
