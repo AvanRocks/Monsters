@@ -3,13 +3,10 @@ import java.awt.*;
 
 abstract class Character {
 	private final int POS_INCREMENT = 5;
-	public final static int UP = 0;
-	public final static int LEFT = 1;
-	public final static int DOWN = 2;
-	public final static int RIGHT = 3;
+
 	private int xPos, yPos;
 	private int xVel, yVel;
-	private int prevDir = DOWN;
+	private int prevDir = Direction.DOWN;
 	private int prevStep = 0;
 	private BufferedImage[][] walk;
 
@@ -27,22 +24,30 @@ abstract class Character {
 
 	public void walk(int dir) {
 		switch (dir) {
-			case UP:   yVel=-POS_INCREMENT; prevDir=UP; break;
-			case DOWN: yVel=POS_INCREMENT;  prevDir=DOWN; break;
-			case LEFT: xVel=-POS_INCREMENT; prevDir=LEFT; break;
-			case RIGHT:xVel=POS_INCREMENT;  prevDir=RIGHT; break;
+			case Direction.UP:   yVel=-POS_INCREMENT; prevDir = Direction.UP; break;
+			case Direction.DOWN: yVel=POS_INCREMENT;  prevDir= Direction.DOWN; break;
+			case Direction.LEFT: xVel=-POS_INCREMENT; prevDir=Direction.LEFT; break;
+			case Direction.RIGHT:xVel=POS_INCREMENT;  prevDir=Direction.RIGHT; break;
 		}
 	}
 
 	public void stop(int dir) {
 		switch (dir) {
-			case UP:
-			case DOWN: yVel=0; break;
-			case LEFT: 
-			case RIGHT:xVel=0; break;
+			case Direction.UP:
+			case Direction.DOWN: yVel=0; break;
+			case Direction.LEFT:
+			case Direction.RIGHT:xVel=0; break;
 		}
 	}
-	
+
+	public int getY() {
+		return yPos;
+	}
+
+	public int getX() {
+		return xPos;
+	}
+
 	public void reverseDir() {
 		xVel=-xVel;
 		yVel=-yVel;

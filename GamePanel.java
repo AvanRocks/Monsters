@@ -93,14 +93,19 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 		return map.length;
 	}
 
+	public void movePlayer(int dir) {
+		// TODO add collision detection
+		player.walk(dir);
+	}
+
 	public void movePlayer() {
-		if (keyIsPressed[Direction.UP]) player.move(Direction.UP);
-		if (keyIsPressed[Direction.DOWN]) player.move(Direction.DOWN);
-		if (keyIsPressed[Direction.LEFT]) player.move(Direction.LEFT);
-		if (keyIsPressed[Direction.RIGHT]) player.move(Direction.RIGHT);
+		if (keyIsPressed[Direction.UP]) movePlayer(Direction.UP);
+		if (keyIsPressed[Direction.DOWN]) movePlayer(Direction.DOWN);
+		if (keyIsPressed[Direction.LEFT]) movePlayer(Direction.LEFT);
+		if (keyIsPressed[Direction.RIGHT]) movePlayer(Direction.RIGHT);
 
 		if (!keyIsPressed[Direction.UP] && !keyIsPressed[Direction.DOWN] && !keyIsPressed[Direction.LEFT] && !keyIsPressed[Direction.RIGHT])
-			player.stop();
+			player.stop(0);
 	}
 
 	@Override
@@ -116,7 +121,7 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 
 		// If player intersects a wall, stop them
 		Rectangle playerRect = player.getRect();
-	
+
 		/*
 		for (int y = 0; y < numRows(); ++y) {
 			for (int x = 0; x < numColumns(); ++x) {
