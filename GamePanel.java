@@ -134,8 +134,8 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 		this.paintMap(g);
 
 
-    	// Draw the player
-    	g.drawImage(player.getImage(), player.getX(), player.getY(), null);
+		// Draw the player
+		g.drawImage(player.getImage(), player.getX(), player.getY(), null);
 
   	}
 

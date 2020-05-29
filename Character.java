@@ -42,7 +42,7 @@ public abstract class Character {
 	}
 
 	public BufferedImage getImage() {
-		this.isMoving = true;
+		if (!isMoving) return walk[prevDir][0];
 		if (prevStep==8) prevStep=-1;
 		System.out.println(prevStep);
 		return walk[prevDir][++prevStep];
