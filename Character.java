@@ -5,14 +5,13 @@ abstract class Character {
 	private int x, y, speed;
 	private int prevDir = Direction.DOWN;
 	private int prevStep = 0;
-	private BufferedImage[][] walk;
+	private BufferedImage[][] walk = new BufferedImage[4][9];
 	private boolean isMoving = false;
 
 	Character(int x, int y, BufferedImage spriteSheet) {
 	  this.x = x;
 	  this.y = y;
 
-		walk = new BufferedImage[4][9];
 		for (int i=0;i<4;++i) {
 			for (int j=0;j<9;++j) {
 				walk[i][j] = spriteSheet.getSubimage(j*64, i*64, 64, 64);
@@ -31,7 +30,7 @@ abstract class Character {
 	}
 
 	public void stop() {
-	  this.isMoving = false;
+	  // this.isMoving = false;
 	}
 
 	public int getY() {

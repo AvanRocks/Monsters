@@ -94,6 +94,7 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 	}
 
 	public void movePlayer(int dir) {
+		System.out.println(player);
 		player.walk(dir);
 		Rectangle playerRect = player.getRect();
 		for (int y = 0; y < numRows(); ++y) {
@@ -111,8 +112,13 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 		if (keyIsPressed[Direction.LEFT]) movePlayer(Direction.LEFT);
 		if (keyIsPressed[Direction.RIGHT]) movePlayer(Direction.RIGHT);
 
-		if (!keyIsPressed[Direction.UP] && !keyIsPressed[Direction.DOWN] && !keyIsPressed[Direction.LEFT] && !keyIsPressed[Direction.RIGHT])
+		if (!keyIsPressed[Direction.UP] &&
+			!keyIsPressed[Direction.DOWN] &&
+			!keyIsPressed[Direction.LEFT] &&
+			!keyIsPressed[Direction.RIGHT]) {
+			System.out.println(player);
 			player.stop();
+		}
 	}
 
 	@Override
