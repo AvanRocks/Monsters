@@ -2,8 +2,6 @@ import java.awt.image.BufferedImage;
 import java.awt.*;
 
 abstract class Character {
-	private final int POS_INCREMENT = 5;
-
 	private int x, y, speed;
 	private int prevDir = Direction.DOWN;
 	private int prevStep = 0;
