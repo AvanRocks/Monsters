@@ -11,5 +11,6 @@ public class Direction {
 			case LEFT: return RIGHT;
 			case RIGHT: return LEFT;
 		}
+		return -1;
 	}
 }
