@@ -1,7 +1,7 @@
 import java.awt.image.BufferedImage;
 import java.awt.*;
 
-abstract class Character {
+public abstract class Character {
 	private int x, y, speed;
 	private int prevDir = Direction.DOWN;
 	private int prevStep = 0;
