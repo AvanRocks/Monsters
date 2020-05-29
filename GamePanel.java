@@ -96,6 +96,7 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 	public void movePlayer(int dir) {
 		Rectangle playerRect = player.getRect();
 		player.walk(dir);
+
 		for (int y = 0; y < numRows(); ++y) {
 			for (int x = 0; x < numColumns(); ++x) {
 				Point topLeftPoint = new Point((int) (x * blockWidth), (int) (y * blockHeight));
@@ -107,8 +108,6 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 				}
 			}
 		}
-
-		player.walk(dir);
 	}
 
 	public void movePlayer() {
@@ -127,6 +126,7 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 
 	@Override
 	public void paintComponent(Graphics g) {
+		movePlayer();
 		super.paintComponent(g);
 
 		// resize blocks
@@ -136,7 +136,6 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 		// draw map
 		this.paintMap(g);
 
-		movePlayer();
 
     // Draw the player
     g.drawImage(player.getImage(), player.getX(), player.getY(), null);
