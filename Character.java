@@ -2,7 +2,7 @@ import java.awt.image.BufferedImage;
 import java.awt.*;
 
 public abstract class Character {
-	private int x, y, speed;
+	private int x, y, speed = 5;
 	private int prevDir = Direction.DOWN;
 	private int prevStep = 0;
 	private BufferedImage[][] walk = new BufferedImage[4][9];
@@ -30,7 +30,7 @@ public abstract class Character {
 	}
 
 	public void stop() {
-	  // this.isMoving = false;
+	  this.isMoving = false;
 	}
 
 	public int getY() {
