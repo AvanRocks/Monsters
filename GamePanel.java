@@ -123,8 +123,8 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		movePlayer();
 		super.paintComponent(g);
+
 
 		// resize blocks
 		double blockWidth = (double) getWidth() / numColumns();
@@ -145,10 +145,11 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 
     while (true) {
       repaint();
+      movePlayer();
 
       diffTime = System.currentTimeMillis() - prevTime;
 
-      // Sleep for 40 milliseconds with accomodation for the time repaint() and movePlayer() took
+      // Sleep for 40 milliseconds with accomodation for the time repaint() took
       try { Thread.sleep(40 - diffTime); }
       catch (InterruptedException e) {}
 

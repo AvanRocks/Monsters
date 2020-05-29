@@ -21,6 +21,7 @@ public abstract class Character {
 
 	public void walk(int dir) {
 		prevDir = dir;
+		isMoving=true;
 		switch (dir) {
 			case Direction.UP:    y -= speed; break;
 			case Direction.DOWN:  y += speed; break;
@@ -30,7 +31,7 @@ public abstract class Character {
 	}
 
 	public void stop() {
-	  this.isMoving = false;
+	  isMoving = false;
 	}
 
 	public int getY() {
@@ -42,9 +43,7 @@ public abstract class Character {
 	}
 
 	public BufferedImage getImage() {
-		if (!isMoving) return walk[prevDir][0];
-		if (prevStep==8) prevStep=-1;
-		System.out.println(prevStep);
+		if (!isMoving || prevStep==8) prevStep=-1;
 		return walk[prevDir][++prevStep];
 	}
 
