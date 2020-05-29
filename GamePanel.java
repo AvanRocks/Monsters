@@ -85,15 +85,15 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 		return map[y][x] == 1;
 	}
 
-	public int numColumns() {
+	private int numColumns() {
 		return map[0].length;
 	}
 
-	public int numRows() {
+	private int numRows() {
 		return map.length;
 	}
 
-	public void movePlayer(int dir) {
+	private void movePlayer(int dir) {
 		Rectangle playerRect = player.getRect();
 		player.walk(dir);
 
@@ -125,7 +125,6 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-
 		// resize blocks
 		double blockWidth = (double) getWidth() / numColumns();
 		double blockHeight = (double) getHeight() / numRows();
@@ -133,8 +132,8 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 		// draw map
 		this.paintMap(g);
 
-
     	// Draw the player
+      	movePlayer();
     	g.drawImage(player.getImage(), player.getX(), player.getY(), null);
 
   	}
@@ -145,7 +144,6 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 
     while (true) {
       repaint();
-      movePlayer();
 
       diffTime = System.currentTimeMillis() - prevTime;
 
