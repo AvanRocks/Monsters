@@ -98,10 +98,7 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 		player.walk(dir);
 		for (int y = 0; y < numRows(); ++y) {
 			for (int x = 0; x < numColumns(); ++x) {
-				Point topLeftPoint = new Point((int) (x * blockWidth), (int) (y * blockHeight));
-				Dimension blockSize = new Dimension((int) blockWidth, (int) blockHeight);
-				Rectangle wallBlockRect = new Rectangle(topLeftPoint, blockSize);
-				if (isWall(x, y) && playerRect.intersects(wallBlockRect)) {
+				if (isWall(x, y) && playerRect.intersects(new Rectangle((int)(x*blockWidth), (int)(y*blockHeight), (int)blockWidth, (int)blockHeight))) {
 					player.walk(Direction.getOpposite(dir));
 					return;
 				}
@@ -138,10 +135,10 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 
 		movePlayer();
 
-    // Draw the player
-    g.drawImage(player.getImage(), player.getX(), player.getY(), null);
+    	// Draw the player
+    	g.drawImage(player.getImage(), player.getX(), player.getY(), null);
 
-  }
+  	}
 
   @Override
   public void run() {
