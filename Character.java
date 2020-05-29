@@ -30,7 +30,7 @@ public abstract class Character {
 	}
 
 	public void stop() {
-	  // this.isMoving = false;
+	  isMoving = false;
 	}
 
 	public int getY() {
