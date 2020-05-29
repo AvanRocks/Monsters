@@ -57,7 +57,7 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 	public void keyReleased(KeyEvent e) {
 		if (isVisible()) {
 			if (e.getKeyCode() == KeyEvent.VK_UP) keyIsPressed[Direction.UP]=false;
-			else if (e.getKeyCode() == KeyEvent.VK_DOWN) keyIsPressed[Direction.DOWN)=false;
+			else if (e.getKeyCode() == KeyEvent.VK_DOWN) keyIsPressed[Direction.DOWN]=false;
 			else if (e.getKeyCode() == KeyEvent.VK_LEFT) keyIsPressed[Direction.LEFT]=false;
 			else if (e.getKeyCode() == KeyEvent.VK_RIGHT) keyIsPressed[Direction.RIGHT]=false;
 		}
