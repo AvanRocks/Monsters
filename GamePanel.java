@@ -10,7 +10,7 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 	private long prevTime, diffTime;
 	//private Monster[] monsters;
 	private Player player;
-	boolean[] keyIsPressed;
+	boolean[] keyIsPressed = new boolean[4];
 	private int[][] map = {
 		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 		{ 1, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
@@ -29,8 +29,8 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 		thread.start();
 
 		// initialize block size
-		blockWidth=(double)getWidth()/map[0].length;
-		blockHeight=(double)getHeight()/map.length;
+		blockWidth=(double)getWidth()/numColumns();
+		blockHeight=(double)getHeight()/numRows();
 
 		// find player's starting position in map and create player there
 		for (int i=0;i<map.length;++i) {
@@ -94,20 +94,12 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 	}
 
 	public void movePlayer(int dir) {
-		// TODO add collision detection
 		player.walk(dir);
 		Rectangle playerRect = player.getRect();
 		for (int y = 0; y < numRows(); ++y) {
 			for (int x = 0; x < numColumns(); ++x) {
- 				if (map[i][j] && playerRect.intersects(new Rectangle((int)(j*blockWidth), (int)(i*blockHeight), (int)blockWidth, (int)blockHeight))) {
-				Point topLeftPoint = new Point((int) (x * blockWidth), (int) (y * blockHeight));
-				Dimension blockSize = new Dimension((int) blockWidth, (int) blockHeight);
-				Rectangle wallBlockRect = new Rectangle(topLeftPoint, blockSize);
-				if (isWall(x, y) && playerRect.intersects(wallBlockRect)) {
-					// TODO only stop in the direction they intersect in
-					player.stop(0);
-					player.stop(1);
-				}
+ 				if (isWall(x,y) && playerRect.intersects(new Rectangle((int)(j*blockWidth), (int)(i*blockHeight), (int)blockWidth, (int)blockHeight)))
+					player.walk(Direction.getOpposite(dir));
 			}
 		}
 
