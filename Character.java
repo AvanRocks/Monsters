@@ -21,6 +21,10 @@ public abstract class Character {
 
 	public void walk(int dir) {
 		prevDir = dir;
+		move(dir);
+	}
+	
+	public void move(int dir) {
 		isMoving=true;
 		switch (dir) {
 			case Direction.UP:    y -= speed; break;
@@ -48,6 +52,6 @@ public abstract class Character {
 	}
 
 	public Rectangle getRect() {
-		return new Rectangle(x, y, 64, 64);
+		return new Rectangle(x+18, y+16, 25, 43);
 	}
 }

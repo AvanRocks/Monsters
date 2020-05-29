@@ -94,13 +94,13 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 	}
 
 	private void movePlayer(int dir) {
-		Rectangle playerRect = player.getRect();
 		player.walk(dir);
+		Rectangle playerRect = player.getRect();
 
 		for (int y = 0; y < numRows(); ++y) {
 			for (int x = 0; x < numColumns(); ++x) {
-				if (isWall(x, y) && playerRect.intersects(new Rectangle((int)(x*blockWidth), (int)(y*blockHeight), (int)blockWidth, (int)blockHeight))) {
-					player.walk(Direction.getOpposite(dir));
+				if (isWall(x, y) && playerRect.intersects(new Rectangle((int)(x*blockWidth), (int)(y*blockHeight), (int)blockWidth+1, (int)blockHeight+1))) {
+					player.move(Direction.getOpposite(dir));
 					return;
 				}
 			}
