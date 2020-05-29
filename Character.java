@@ -6,7 +6,7 @@ public abstract class Character {
 	private int prevDir = Direction.DOWN;
 	private int prevStep = 0;
 	private BufferedImage[][] walk = new BufferedImage[4][9];
-	private boolean isMoving = false;
+	private boolean isMoving = true;
 
 	Character(int x, int y, BufferedImage spriteSheet) {
 	  this.x = x;
@@ -42,8 +42,9 @@ public abstract class Character {
 	}
 
 	public BufferedImage getImage() {
-	  if (!isMoving) return walk[prevDir][0];
+		this.isMoving = true;
 		if (prevStep==8) prevStep=-1;
+		System.out.println(prevStep);
 		return walk[prevDir][++prevStep];
 	}
 
