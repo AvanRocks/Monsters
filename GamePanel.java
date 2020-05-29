@@ -105,7 +105,7 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 		if (keyIsPressed[Direction.RIGHT]) movePlayer(Direction.RIGHT);
 
 		if (!keyIsPressed[Direction.UP] && !keyIsPressed[Direction.DOWN] && !keyIsPressed[Direction.LEFT] && !keyIsPressed[Direction.RIGHT])
-			player.stop(0);
+			player.stop();
 	}
 
 	@Override
