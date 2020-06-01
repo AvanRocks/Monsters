@@ -85,22 +85,22 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 		return map[y][x] == 1;
 	}
 
-	public int numColumns() {
+	private int numColumns() {
 		return map[0].length;
 	}
 
-	public int numRows() {
+	private int numRows() {
 		return map.length;
 	}
 
-	public void movePlayer(int dir) {
-		Rectangle playerRect = player.getRect();
+	private void movePlayer(int dir) {
 		player.walk(dir);
+		Rectangle playerRect = player.getRect();
 
 		for (int y = 0; y < numRows(); ++y) {
 			for (int x = 0; x < numColumns(); ++x) {
-				if (isWall(x, y) && playerRect.intersects(new Rectangle((int)(x*blockWidth), (int)(y*blockHeight), (int)blockWidth, (int)blockHeight))) {
-					player.walk(Direction.getOpposite(dir));
+				if (isWall(x, y) && playerRect.intersects(new Rectangle((int)(x*blockWidth), (int)(y*blockHeight), (int)blockWidth+1, (int)blockHeight+1))) {
+					player.move(Direction.getOpposite(dir));
 					return;
 				}
 			}
@@ -125,7 +125,6 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-
 		// resize blocks
 		double blockWidth = (double) getWidth() / numColumns();
 		double blockHeight = (double) getHeight() / numRows();
@@ -133,10 +132,9 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 		// draw map
 		this.paintMap(g);
 
-
-		// Draw the player
-		g.drawImage(player.getImage(), player.getX(), player.getY(), null);
-
+    	// Draw the player
+      	movePlayer();
+    	g.drawImage(player.getImage(), player.getX(), player.getY(), null);
   	}
 
   @Override
@@ -145,7 +143,6 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 
     while (true) {
       repaint();
-      movePlayer();
 
       diffTime = System.currentTimeMillis() - prevTime;
 
