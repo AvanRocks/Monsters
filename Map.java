@@ -1,6 +1,6 @@
 class Map {
-	private int numRows;
-	private int numColumns;
+	private int numRows = 10;
+	private int numColumns = 10;
 
 	private int[][] map = {
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},

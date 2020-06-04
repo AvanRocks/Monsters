@@ -10,11 +10,10 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
   private long prevTime, diffTime;
   //private Monster[] monsters;
   private Player player;
-  private Map map;
+  private Map map = new Map();
   private boolean[] keyIsPressed = new boolean[4];
 
   public void start() {
-    this.map = new Map();
     thread = new Thread(this);
     thread.start();
 
@@ -31,6 +30,7 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
         }
       }
     }
+
   }
 
   @Override
@@ -62,7 +62,7 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 
     for (int y = 0; y < map.getNumRows(); ++y) {
       for (int x = 0; x < map.getNumColumns(); ++x) {
-        if (map.getBlock(x, y) == Map.BlockType.WALL) {
+        if (map.getBlock(x, y) == Map.BlockType.OPEN) {
           g.fillRect((int)(y*blockWidth), (int)(x*blockHeight), (int)blockWidth+1, (int)blockHeight+1);
         }
       }
@@ -113,6 +113,7 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
            // Draw the player
     movePlayer();
     g.drawImage(player.getImage(), player.getX(), player.getY(), null);
+
     }
 
   @Override
