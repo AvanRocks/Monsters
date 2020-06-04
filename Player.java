@@ -1,35 +1,32 @@
 import java.awt.image.BufferedImage;
 import java.awt.event.*;
+import java.awt.*;
 import javax.swing.*;
 
 class Player extends Character implements KeyListener {
 	private boolean[] keyIsPressed = new boolean[4];
 	double blockWidth, blockHeight;
-	JPanel panel;
+	GamePanel panel;
 
-	Player(int x, int y, BufferedImage spriteSheet, JPanel panel, Map map) {
+	Player(int x, int y, BufferedImage spriteSheet, GamePanel panel, Map map) {
 		super(x,y,spriteSheet,map);
 		this.panel=panel;
 	}
 
 	@Override
   public void keyPressed(KeyEvent e) {
-    if (panel.isVisible()) {
       if (e.getKeyCode() == KeyEvent.VK_UP) keyIsPressed[Direction.UP]=true;
       else if (e.getKeyCode() == KeyEvent.VK_DOWN) keyIsPressed[Direction.DOWN]=true;
       else if (e.getKeyCode() == KeyEvent.VK_LEFT) keyIsPressed[Direction.LEFT]=true;
       else if (e.getKeyCode() == KeyEvent.VK_RIGHT) keyIsPressed[Direction.RIGHT]=true;
-    }
   }
 
   @Override
   public void keyReleased(KeyEvent e) {
-    if (panel.isVisible()) {
       if (e.getKeyCode() == KeyEvent.VK_UP) keyIsPressed[Direction.UP]=false;
       else if (e.getKeyCode() == KeyEvent.VK_DOWN) keyIsPressed[Direction.DOWN]=false;
       else if (e.getKeyCode() == KeyEvent.VK_LEFT) keyIsPressed[Direction.LEFT]=false;
       else if (e.getKeyCode() == KeyEvent.VK_RIGHT) keyIsPressed[Direction.RIGHT]=false;
-    }
   }
 
   @Override
@@ -53,13 +50,13 @@ class Player extends Character implements KeyListener {
     Rectangle playerRect = getRect();
 
 		// resize block size
-		blockWidth = (double) panel.getWidth() / panel.numColumns();
-    blockHeight = (double) panel.getHeight() / panel.numRows();
+		blockWidth = (double) panel.getWidth() / map.getNumColumns();
+    blockHeight = (double) panel.getHeight() / map.getNumRows();
 
 
-    for (int y = 0; y < numRows(); ++y)
-      for (int x = 0; x < numColumns(); ++x)
-        if (isWall(x, y) && playerRect.intersects(new Rectangle((int)(x*blockWidth), (int)(y*blockHeight), (int)blockWidth+1, (int)blockHeight+1))) {
+    for (int y = 0; y < map.getNumRows(); ++y)
+      for (int x = 0; x < map.getNumColumns(); ++x)
+        if (map.getBlock(x,y) == Map.BlockType.WALL && playerRect.intersects(new Rectangle((int)(x*blockWidth), (int)(y*blockHeight), (int)blockWidth+1, (int)blockHeight+1))) {
           move(Direction.getOpposite(dir));
           return;
         }

@@ -13,11 +13,6 @@ class GamePanel extends JPanel implements Runnable {
   private Map map = new Map();
   private boolean[] keyIsPressed = new boolean[4];
 
-	public GamePanel() {
-		setFocusable(true);
-		addKeyListener(player);
-	}
-
   public void start() {
     thread = new Thread(this);
     thread.start();
@@ -30,11 +25,16 @@ class GamePanel extends JPanel implements Runnable {
     for (int y = 0; y < map.getNumRows(); ++y) {
       for (int x = 0; x < map.getNumColumns(); ++x) {
         if (map.getBlock(x, y) == Map.BlockType.PLAYER_SPAWN) {
-          try { player = new Player((int)(x * blockWidth),(int)(y * blockHeight), ImageIO.read(new File("images"+File.separator+"player1.png"))); }
+          try { player = new Player((int)(x * blockWidth),(int)(y * blockHeight), ImageIO.read(new File("images"+File.separator+"player1.png")), this, map); }
          catch (IOException e) { e.printStackTrace();}
         }
       }
     }
+
+		// add player as Key Listener
+		setFocusable(true);
+		requestFocusInWindow();
+		addKeyListener(player);
 
   }
 
@@ -51,18 +51,6 @@ class GamePanel extends JPanel implements Runnable {
     }
 
     g.setColor(oldColor);
-  }
-
-  public boolean isWall(int x, int y) {
-    return map[y][x] == 1;
-  }
-
-  public int numColumns() {
-    return map[0].length;
-  }
-
-  public int numRows() {
-    return map.length;
   }
 
   @Override
