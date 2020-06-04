@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.io.*;
 import javax.imageio.ImageIO;
 
-class GamePanel extends JPanel implements KeyListener, Runnable {
+class GamePanel extends JPanel implements Runnable {
   private double blockWidth, blockHeight;
   private Thread thread;
   private long prevTime, diffTime;
@@ -12,6 +12,11 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
   private Player player;
   private Map map = new Map();
   private boolean[] keyIsPressed = new boolean[4];
+
+	public GamePanel() {
+		setFocusable(true);
+		addKeyListener(player);
+	}
 
   public void start() {
     thread = new Thread(this);
@@ -26,35 +31,12 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
       for (int x = 0; x < map.getNumColumns(); ++x) {
         if (map.getBlock(x, y) == Map.BlockType.PLAYER_SPAWN) {
           try { player = new Player((int)(x * blockWidth),(int)(y * blockHeight), ImageIO.read(new File("images"+File.separator+"player1.png"))); }
-          catch (IOException e) { e.printStackTrace();}
+         catch (IOException e) { e.printStackTrace();}
         }
       }
     }
 
   }
-
-  @Override
-  public void keyPressed(KeyEvent e) {
-    if (isVisible()) {
-      if (e.getKeyCode() == KeyEvent.VK_UP) keyIsPressed[Direction.UP]=true;
-      else if (e.getKeyCode() == KeyEvent.VK_DOWN) keyIsPressed[Direction.DOWN]=true;
-      else if (e.getKeyCode() == KeyEvent.VK_LEFT) keyIsPressed[Direction.LEFT]=true;
-      else if (e.getKeyCode() == KeyEvent.VK_RIGHT) keyIsPressed[Direction.RIGHT]=true;
-    }
-  }
-
-  @Override
-  public void keyReleased(KeyEvent e) {
-    if (isVisible()) {
-      if (e.getKeyCode() == KeyEvent.VK_UP) keyIsPressed[Direction.UP]=false;
-      else if (e.getKeyCode() == KeyEvent.VK_DOWN) keyIsPressed[Direction.DOWN]=false;
-      else if (e.getKeyCode() == KeyEvent.VK_LEFT) keyIsPressed[Direction.LEFT]=false;
-      else if (e.getKeyCode() == KeyEvent.VK_RIGHT) keyIsPressed[Direction.RIGHT]=false;
-    }
-  }
-
-  @Override
-  public void keyTyped(KeyEvent e) {}
 
   private void paintMap(Graphics g) {
     Color oldColor = g.getColor();
@@ -71,32 +53,16 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
     g.setColor(oldColor);
   }
 
-  private void movePlayer(int dir) {
-    player.walk(dir);
-    Rectangle playerRect = player.getRect();
-
-    for (int y = 0; y < map.getNumRows(); ++y) {
-      for (int x = 0; x < map.getNumColumns(); ++x) {
-        if (map.getBlock(x, y) == Map.BlockType.WALL && playerRect.intersects(new Rectangle((int)(x*blockWidth), (int)(y*blockHeight), (int)blockWidth+1, (int)blockHeight+1))) {
-          player.move(Direction.getOpposite(dir));
-          return;
-        }
-      }
-    }
+  public boolean isWall(int x, int y) {
+    return map[y][x] == 1;
   }
 
-  public void movePlayer() {
-    if (keyIsPressed[Direction.UP]) movePlayer(Direction.UP);
-    if (keyIsPressed[Direction.DOWN]) movePlayer(Direction.DOWN);
-    if (keyIsPressed[Direction.LEFT]) movePlayer(Direction.LEFT);
-    if (keyIsPressed[Direction.RIGHT]) movePlayer(Direction.RIGHT);
+  public int numColumns() {
+    return map[0].length;
+  }
 
-    if (!keyIsPressed[Direction.UP] &&
-      !keyIsPressed[Direction.DOWN] &&
-      !keyIsPressed[Direction.LEFT] &&
-      !keyIsPressed[Direction.RIGHT]) {
-      player.stop();
-    }
+  public int numRows() {
+    return map.length;
   }
 
   @Override
@@ -104,17 +70,17 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
     super.paintComponent(g);
 
     // resize blocks
-    double blockWidth = (double) getWidth() / map.getNumColumns();
-    double blockHeight = (double) getHeight() / map.getNumRows();
+    blockWidth = (double) getWidth() / map.getNumColumns();
+    blockHeight = (double) getHeight() / map.getNumRows();
 
     // draw map
     this.paintMap(g);
 
-           // Draw the player
-    movePlayer();
+    // Draw the player
+    player.move();
     g.drawImage(player.getImage(), player.getX(), player.getY(), null);
 
-    }
+  }
 
   @Override
   public void run() {
