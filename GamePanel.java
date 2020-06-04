@@ -10,33 +10,23 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
   private long prevTime, diffTime;
   //private Monster[] monsters;
   private Player player;
+  private Map map;
   private boolean[] keyIsPressed = new boolean[4];
-  private int[][] map = {
-    { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-    { 1, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
-    { 1, 0, 1, 1, 0, 3, 0, 0, 0, 1 },
-    { 1, 0, 0, 1, 0, 0, 0, 1, 0, 0 },
-    { 1, 1, 1, 1, 0, 0, 0, 1, 0, 1 },
-    { 1, 0, 0, 0, 0, 1, 0, 1, 0, 1 },
-    { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-    { 1, 0, 0, 1, 1, 1, 0, 0, 1, 1 },
-    { 1, 0, 0, 0, 0, 0, 0, 1, 0, 1 },
-    { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-  };
 
   public void start() {
+    this.map = new Map();
     thread = new Thread(this);
     thread.start();
 
     // initialize block size
-    blockWidth=(double)getWidth()/numColumns();
-    blockHeight=(double)getHeight()/numRows();
+    blockWidth=(double)getWidth() / map.getNumColumns();
+    blockHeight=(double)getHeight() / map.getNumRows();
 
     // find player's starting position in map and create player there
-    for (int i=0;i<map.length;++i) {
-      for (int j=0;j<map[0].length;++j) {
-        if (map[i][j]==3) {
-          try { player = new Player((int)(j*blockWidth),(int)(i*blockHeight), ImageIO.read(new File("images"+File.separator+"player1.png"))); }
+    for (int y = 0; y < map.getNumRows(); ++y) {
+      for (int x = 0; x < map.getNumColumns(); ++x) {
+        if (map.getBlock(x, y) == Map.BlockType.PLAYER_SPAWN) {
+          try { player = new Player((int)(x * blockWidth),(int)(y * blockHeight), ImageIO.read(new File("images"+File.separator+"player1.png"))); }
           catch (IOException e) { e.printStackTrace();}
         }
       }
@@ -70,10 +60,10 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
     Color oldColor = g.getColor();
     g.setColor(Color.black);
 
-    for (int i=0;i<map.length;++i) {
-      for (int j=0;j<map[i].length;++j) {
-        if (map[i][j]==1) {
-          g.fillRect((int)(j*blockWidth), (int)(i*blockHeight), (int)blockWidth+1, (int)blockHeight+1);
+    for (int y = 0; y < map.getNumRows(); ++y) {
+      for (int x = 0; x < map.getNumColumns(); ++x) {
+        if (map.getBlock(x, y) == Map.BlockType.WALL) {
+          g.fillRect((int)(y*blockWidth), (int)(x*blockHeight), (int)blockWidth+1, (int)blockHeight+1);
         }
       }
     }
@@ -81,25 +71,13 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
     g.setColor(oldColor);
   }
 
-  private boolean isWall(int x, int y) {
-    return map[y][x] == 1;
-  }
-
-  private int numColumns() {
-    return map[0].length;
-  }
-
-  private int numRows() {
-    return map.length;
-  }
-
   private void movePlayer(int dir) {
     player.walk(dir);
     Rectangle playerRect = player.getRect();
 
-    for (int y = 0; y < numRows(); ++y) {
-      for (int x = 0; x < numColumns(); ++x) {
-        if (isWall(x, y) && playerRect.intersects(new Rectangle((int)(x*blockWidth), (int)(y*blockHeight), (int)blockWidth+1, (int)blockHeight+1))) {
+    for (int y = 0; y < map.getNumRows(); ++y) {
+      for (int x = 0; x < map.getNumColumns(); ++x) {
+        if (map.getBlock(x, y) == Map.BlockType.WALL && playerRect.intersects(new Rectangle((int)(x*blockWidth), (int)(y*blockHeight), (int)blockWidth+1, (int)blockHeight+1))) {
           player.move(Direction.getOpposite(dir));
           return;
         }
@@ -126,8 +104,8 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
     super.paintComponent(g);
 
     // resize blocks
-    double blockWidth = (double) getWidth() / numColumns();
-    double blockHeight = (double) getHeight() / numRows();
+    double blockWidth = (double) getWidth() / map.getNumColumns();
+    double blockHeight = (double) getHeight() / map.getNumRows();
 
     // draw map
     this.paintMap(g);
