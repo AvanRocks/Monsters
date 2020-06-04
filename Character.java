@@ -7,8 +7,9 @@ public abstract class Character {
 	private int prevStep = 0;
 	private BufferedImage[][] walk = new BufferedImage[4][9];
 	private boolean isMoving = true;
+	protected Map map;
 
-	Character(int x, int y, BufferedImage spriteSheet) {
+	Character(int x, int y, BufferedImage spriteSheet, Map map) {
 		this.x = x;
 		this.y = y;
 
@@ -19,12 +20,16 @@ public abstract class Character {
 		}
 	}
 
-	public void walk(int dir) {
+	protected void walk(int dir) {
 		prevDir = dir;
 		move(dir);
 	}
 
-	public void move(int dir) {
+	protected void stop() {
+		isMoving = false;
+	}
+
+	private void move(int dir) {
 		isMoving=true;
 		switch (dir) {
 			case Direction.UP:    y -= speed; break;
@@ -32,10 +37,6 @@ public abstract class Character {
 			case Direction.LEFT:  x -= speed; break;
 			case Direction.RIGHT: x += speed; break;
 		}
-	}
-
-	public void stop() {
-		isMoving = false;
 	}
 
 	public int getY() {
