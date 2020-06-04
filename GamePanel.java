@@ -62,7 +62,7 @@ class GamePanel extends JPanel implements KeyListener, Runnable {
 
     for (int y = 0; y < map.getNumRows(); ++y) {
       for (int x = 0; x < map.getNumColumns(); ++x) {
-        if (map.getBlock(x, y) == Map.BlockType.OPEN) {
+        if (map.getBlock(x, y) == Map.BlockType.WALL) {
           g.fillRect((int)(x*blockWidth), (int)(y*blockHeight), (int)blockWidth+1, (int)blockHeight+1);
         }
       }

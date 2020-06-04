@@ -33,9 +33,9 @@ class Map {
 	public BlockType getBlock(int x, int y) {
 		switch (map[y][x]) {
 			case 0:
-				return BlockType.WALL;
-			case 1:
 				return BlockType.OPEN;
+			case 1:
+				return BlockType.WALL;
 			case 3:
 				return BlockType.PLAYER_SPAWN;
 		}
