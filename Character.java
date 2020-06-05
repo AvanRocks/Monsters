@@ -30,7 +30,7 @@ public abstract class Character {
 		isMoving = false;
 	}
 
-	private void move(int dir) {
+	protected void move(int dir) {
 		isMoving=true;
 		switch (dir) {
 			case Direction.UP:    y -= speed; break;

@@ -30,11 +30,11 @@ class Player extends Character implements KeyListener {
   @Override
   public void keyTyped(KeyEvent e) {}
 
-	public void move() {
-    if (keyIsPressed[Direction.UP]) move(Direction.UP);
-    if (keyIsPressed[Direction.DOWN]) move(Direction.DOWN);
-    if (keyIsPressed[Direction.LEFT]) move(Direction.LEFT);
-    if (keyIsPressed[Direction.RIGHT]) move(Direction.RIGHT);
+	public void updatePos() {
+    if (keyIsPressed[Direction.UP]) updatePos(Direction.UP);
+    if (keyIsPressed[Direction.DOWN]) updatePos(Direction.DOWN);
+    if (keyIsPressed[Direction.LEFT]) updatePos(Direction.LEFT);
+    if (keyIsPressed[Direction.RIGHT]) updatePos(Direction.RIGHT);
 
     if (!keyIsPressed[Direction.UP] &&
       !keyIsPressed[Direction.DOWN] &&
@@ -43,7 +43,7 @@ class Player extends Character implements KeyListener {
       stop();
 	}
 
-	private void move(int dir) {
+	private void updatePos(int dir) {
     walk(dir);
     Rectangle playerRect = getRect();
 

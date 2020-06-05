@@ -63,7 +63,7 @@ class GamePanel extends JPanel implements Runnable {
     this.paintMap(g);
 
     // Draw the player
-    player.move();
+    player.updatePos();
     g.drawImage(player.getImage(), player.getX(), player.getY(), null);
 
   }
