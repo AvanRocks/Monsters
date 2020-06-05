@@ -6,11 +6,9 @@ import javax.swing.*;
 class Player extends Character implements KeyListener {
 	private boolean[] keyIsPressed = new boolean[4];
 	double blockWidth, blockHeight;
-	GamePanel panel;
 
-	Player(int x, int y, BufferedImage spriteSheet, GamePanel panel, Map map) {
+	Player(int x, int y, BufferedImage spriteSheet, Map map) {
 		super(x,y,spriteSheet,map);
-		this.panel=panel;
 	}
 
 	@Override
@@ -49,14 +47,9 @@ class Player extends Character implements KeyListener {
     walk(dir);
     Rectangle playerRect = getRect();
 
-		// resize block size
-		blockWidth = (double) panel.getWidth() / map.getNumColumns();
-    blockHeight = (double) panel.getHeight() / map.getNumRows();
-
-
     for (int y = 0; y < map.getNumRows(); ++y)
       for (int x = 0; x < map.getNumColumns(); ++x)
-        if (map.getBlock(x,y) == Map.BlockType.WALL && playerRect.intersects(new Rectangle((int)(x*blockWidth), (int)(y*blockHeight), (int)blockWidth+1, (int)blockHeight+1))) {
+        if (map.getBlock(x,y) == Map.BlockType.WALL && playerRect.intersects(new Rectangle((int)(x*map.getBlockWidth()), (int)(y*map.getBlockHeight()), (int)map.getBlockWidth()+1, (int)map.getBlockHeight()+1))) {
           move(Direction.getOpposite(dir));
           return;
         }

@@ -12,6 +12,7 @@ public abstract class Character {
 	Character(int x, int y, BufferedImage spriteSheet, Map map) {
 		this.x = x;
 		this.y = y;
+		this.map=map;
 
 		for (int i=0;i<4;++i) {
 			for (int j=0;j<9;++j) {

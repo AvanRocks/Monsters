@@ -5,37 +5,36 @@ import java.io.*;
 import javax.imageio.ImageIO;
 
 class GamePanel extends JPanel implements Runnable {
-  private double blockWidth, blockHeight;
   private Thread thread;
   private long prevTime, diffTime;
   //private Monster[] monsters;
   private Player player;
-  private Map map = new Map();
+  private Map map;
   private boolean[] keyIsPressed = new boolean[4];
 
   public void start() {
     thread = new Thread(this);
     thread.start();
 
+		map = new Map(getWidth(), getHeight());
+
     // initialize block size
-    blockWidth=(double)getWidth() / map.getNumColumns();
-    blockHeight=(double)getHeight() / map.getNumRows();
+		map.updateBlockSize(getWidth(),getHeight());
 
     // find player's starting position in map and create player there
     for (int y = 0; y < map.getNumRows(); ++y) {
       for (int x = 0; x < map.getNumColumns(); ++x) {
         if (map.getBlock(x, y) == Map.BlockType.PLAYER_SPAWN) {
-          try { player = new Player((int)(x * blockWidth),(int)(y * blockHeight), ImageIO.read(new File("images"+File.separator+"player1.png")), this, map); }
+          try { player = new Player((int)(x * map.getBlockWidth()),(int)(y * map.getBlockHeight()), ImageIO.read(new File("images"+File.separator+"player1.png")), map); }
          catch (IOException e) { e.printStackTrace();}
         }
       }
     }
+		
 
-		// add player as Key Listener
-		setFocusable(true);
-		requestFocusInWindow();
 		addKeyListener(player);
 
+		setFocusable(true);
   }
 
   private void paintMap(Graphics g) {
@@ -45,7 +44,7 @@ class GamePanel extends JPanel implements Runnable {
     for (int y = 0; y < map.getNumRows(); ++y) {
       for (int x = 0; x < map.getNumColumns(); ++x) {
         if (map.getBlock(x, y) == Map.BlockType.WALL) {
-          g.fillRect((int)(x*blockWidth), (int)(y*blockHeight), (int)blockWidth+1, (int)blockHeight+1);
+          g.fillRect((int)(x*map.getBlockWidth()), (int)(y*map.getBlockHeight()), (int)map.getBlockWidth()+1, (int)map.getBlockHeight()+1);
         }
       }
     }
@@ -58,8 +57,7 @@ class GamePanel extends JPanel implements Runnable {
     super.paintComponent(g);
 
     // resize blocks
-    blockWidth = (double) getWidth() / map.getNumColumns();
-    blockHeight = (double) getHeight() / map.getNumRows();
+		map.updateBlockSize(getWidth(),getHeight());
 
     // draw map
     this.paintMap(g);
