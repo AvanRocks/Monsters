@@ -25,8 +25,8 @@ class GamePanel extends JPanel implements Runnable {
     for (int y = 0; y < map.getNumRows(); ++y) {
       for (int x = 0; x < map.getNumColumns(); ++x) {
         if (map.getBlock(x, y) == Map.BlockType.PLAYER_SPAWN) {
-          try { player = new Player((int)(x * map.getBlockWidth()),(int)(y * map.getBlockHeight()), ImageIO.read(new File("images"+File.separator+"player1.png")), map); }
-         catch (IOException e) { e.printStackTrace();}
+          try { player = new Player(x, y, ImageIO.read(new File("images"+File.separator+"player1.png")), map); }
+					catch (IOException e) { e.printStackTrace();}
         }
       }
     }
@@ -61,14 +61,12 @@ class GamePanel extends JPanel implements Runnable {
     // resize blocks
 		map.updateBlockSize(getWidth(),getHeight());
 
-		player.updateSpeed();
-
     // draw map
     this.paintMap(g);
 
     // Draw the player
     player.updatePos();
-    g.drawImage(player.getImage(), player.getX(), player.getY(), null);
+    g.drawImage(player.getImage(), (int)(player.getX() * map.getBlockWidth()), (int)(player.getY() * map.getBlockHeight()), (int)map.getBlockWidth(), (int)map.getBlockHeight(), null);
 
   }
 

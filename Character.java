@@ -2,7 +2,9 @@ import java.awt.image.BufferedImage;
 import java.awt.*;
 
 public abstract class Character {
-	private int x, y, speed;
+	// x, y, and speed are relative to blockSize
+	private double x, y;
+	final private double speed = 0.08;
 	private int prevDir = Direction.DOWN;
 	private int prevStep = 0;
 	private BufferedImage[][] walk = new BufferedImage[4][9];
@@ -20,8 +22,6 @@ public abstract class Character {
 			}
 		}
 
-		// set speed relative to frame size
-		speed = (int)Math.min(map.getBlockWidth(),map.getBlockHeight())/12;
 	}
 
 	protected void walk(int dir) {
@@ -43,15 +43,11 @@ public abstract class Character {
 		}
 	}
 
-	public void updateSpeed() {
-		speed = (int)Math.min(map.getBlockWidth(),map.getBlockHeight())/12;
-	}
-
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 
@@ -61,6 +57,8 @@ public abstract class Character {
 	}
 
 	public Rectangle getRect() {
-		return new Rectangle(x+18, y+16, 25, 43);
+		double width = map.getBlockWidth();
+		double height = map.getBlockHeight();
+		return new Rectangle((int)(x*width+width/3.9), (int)(y*height+height/4.8), (int)(width/2.2), (int)(height/1.3));
 	}
 }
