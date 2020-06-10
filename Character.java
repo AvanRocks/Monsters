@@ -59,6 +59,6 @@ public abstract class Character {
 	public Rectangle getRect() {
 		double width = map.getBlockWidth();
 		double height = map.getBlockHeight();
-		return new Rectangle((int)(x*width+width/3.9), (int)(y*height+height/4.8), (int)(width/2.2), (int)(height/1.3));
+		return new Rectangle((int)(x*width+width/3.67), (int)(y*height+height/4.8), (int)(width/2.13), (int)(height/1.3));
 	}
 }
