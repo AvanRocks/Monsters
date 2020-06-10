@@ -30,6 +30,7 @@ class Player extends Character implements KeyListener {
   @Override
   public void keyTyped(KeyEvent e) {}
 
+	// this is the method called from GamePanel
 	public void updatePos() {
     if (keyIsPressed[Direction.UP]) updatePos(Direction.UP);
     if (keyIsPressed[Direction.DOWN]) updatePos(Direction.DOWN);
@@ -44,9 +45,11 @@ class Player extends Character implements KeyListener {
 	}
 
 	private void updatePos(int dir) {
+		// move player
     walk(dir);
     Rectangle playerRect = getRect();
 
+		// check if they hit a wall, if so, move them back
     for (int y = 0; y < map.getNumRows(); ++y)
       for (int x = 0; x < map.getNumColumns(); ++x)
         if (map.getBlock(x,y) == Map.BlockType.WALL && playerRect.intersects(new Rectangle((int)(x*map.getBlockWidth()), (int)(y*map.getBlockHeight()), (int)map.getBlockWidth()+1, (int)map.getBlockHeight()+1))) {

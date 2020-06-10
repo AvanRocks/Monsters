@@ -20,9 +20,6 @@ class Monsters extends JFrame {
     menu = new MenuPanel(cards, getContentPane(), game);
     rules = new RulesPanel(cards, getContentPane());
 
-    //setFocusable(true);
-    //addKeyListener(game);
-    
     getContentPane().add("menu", menu);
     getContentPane().add("rules", rules);
     getContentPane().add("game", game);

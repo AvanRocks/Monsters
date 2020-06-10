@@ -38,9 +38,11 @@ class GamePanel extends JPanel implements Runnable {
   }
 
   private void paintMap(Graphics g) {
+		// Change color, but remember old color to set it back later
     Color oldColor = g.getColor();
     g.setColor(Color.black);
 
+		// draw all the walls
     for (int y = 0; y < map.getNumRows(); ++y) {
       for (int x = 0; x < map.getNumColumns(); ++x) {
         if (map.getBlock(x, y) == Map.BlockType.WALL) {
@@ -70,6 +72,7 @@ class GamePanel extends JPanel implements Runnable {
 
   @Override
   public void run() {
+		// count how long repaint() will take
     prevTime = System.currentTimeMillis();
 
     while (true) {
@@ -77,13 +80,12 @@ class GamePanel extends JPanel implements Runnable {
 
       diffTime = System.currentTimeMillis() - prevTime;
 
-      // Sleep for 40 milliseconds with accomodation for the time repaint() took
-      try { Thread.sleep(40 - diffTime); }
+      // Sleep for 75 milliseconds with accomodation for the time repaint() took
+      try { Thread.sleep(75 - diffTime); }
       catch (InterruptedException e) {}
 
+			// count how long repaint() will take
       prevTime = System.currentTimeMillis();
     }
-
   }
-
 }
