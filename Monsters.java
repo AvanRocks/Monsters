@@ -1,3 +1,8 @@
+/* Avaneesh Kulkarni & Leon Si
+Date: Jun 20th
+Final Project: Escaping Monsters Game (using GUI)
+ICS3U7-02 Ms. Strelkovska
+*/
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
