@@ -8,16 +8,17 @@ class Monsters extends JFrame {
   private JPanel rules;
   private JLabel rulesLabel;
   private CardLayout cards;
+	private Dimension size = new Dimension(550,550);
 
   Monsters(String name) {
     super(name);
-    setSize(new Dimension(700,900));
+    setSize(size);
 
     cards = new CardLayout();
     getContentPane().setLayout(cards);
 
     game = new GamePanel();
-    menu = new MenuPanel(cards, getContentPane(), game);
+    menu = new MenuPanel(cards, getContentPane(), game, size.getWidth(), size.getHeight());
     rules = new RulesPanel(cards, getContentPane());
 
     getContentPane().add("menu", menu);

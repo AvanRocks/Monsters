@@ -11,29 +11,32 @@ class MenuPanel extends JPanel implements ActionListener {
 	private JPanel rulesBtnPnl;
 	private JButton rulesBtn;
 
-	MenuPanel(CardLayout cards, Container pane, GamePanel game) {
+	MenuPanel(CardLayout cards, Container pane, GamePanel game, double width, double height) {
 		this.cards=cards;
 		this.pane=pane;
 		this.game=game;
 		
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(Color.blue);
 
-        playBtnPnl = new JPanel();
+    playBtnPnl = new JPanel();
 		playBtnPnl.setBackground(Color.blue);
 		playBtn = makeButton("PLAY", this);
 		playBtnPnl.add(playBtn);
 
-        rulesBtnPnl = new JPanel();
+    rulesBtnPnl = new JPanel();
 		rulesBtnPnl.setBackground(Color.blue);
 		rulesBtn = makeButton("RULES", this);
 		rulesBtnPnl.add(rulesBtn);
 
-        add(Box.createRigidArea(new Dimension(500,250)));
-        add(playBtnPnl);
-        add(Box.createRigidArea(new Dimension(500,100)));
-        add(rulesBtnPnl);
-        add(Box.createRigidArea(new Dimension(500,250)));
+    //add(Box.createRigidArea(new Dimension((int)width,(int)(height/3-50))));
+		add(Box.createVerticalGlue());
+    add(playBtnPnl);
+    //add(Box.createRigidArea(new Dimension((int)width,(int)(height/3-50))));
+		add(Box.createVerticalGlue());
+    add(rulesBtnPnl);
+    //add(Box.createRigidArea(new Dimension((int)width,(int)(height/3-50))));
+		add(Box.createVerticalGlue());
 	}
 
 	public static JButton makeButton(String text, ActionListener listener) {
