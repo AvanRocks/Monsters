@@ -61,6 +61,8 @@ class GamePanel extends JPanel implements Runnable {
     // resize blocks
 		map.updateBlockSize(getWidth(),getHeight());
 
+		player.updateSpeed();
+
     // draw map
     this.paintMap(g);
 

@@ -29,13 +29,10 @@ class MenuPanel extends JPanel implements ActionListener {
 		rulesBtn = makeButton("RULES", this);
 		rulesBtnPnl.add(rulesBtn);
 
-    //add(Box.createRigidArea(new Dimension((int)width,(int)(height/3-50))));
 		add(Box.createVerticalGlue());
     add(playBtnPnl);
-    //add(Box.createRigidArea(new Dimension((int)width,(int)(height/3-50))));
 		add(Box.createVerticalGlue());
     add(rulesBtnPnl);
-    //add(Box.createRigidArea(new Dimension((int)width,(int)(height/3-50))));
 		add(Box.createVerticalGlue());
 	}
 
