@@ -68,7 +68,7 @@ class Enemy extends Character {
 		System.out.println(startX + ", " + startY);
 		Coordinate s;
 		while ((s = queue.poll()) != null) {
-			if (s.getX() == map.getPlayerPos().getX() && s.getY() == map.getPlayerPos().getY()) break;
+			if (s == map.getPlayerPos()) break;
 			if (visit(s.getX()+1, s.getY(), Direction.RIGHT, map)) queue.add( new Coordinate(s.getX()+1, s.getY()));
 			if (visit(s.getX()-1, s.getY(), Direction.LEFT, map)) queue.add( new Coordinate(s.getX()-1, s.getY()));
 			if (visit(s.getX(), s.getY()+1, Direction.DOWN, map)) queue.add( new Coordinate(s.getX(), s.getY()+1));
