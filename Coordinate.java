@@ -6,6 +6,15 @@ class Coordinate {
 		this.y=y;
 	}
 
+	@Override
+	public boolean equals(Object other) {
+		if (other == this) return true;
+		if (other == null) return false;
+		if (getClass() != other.getClass()) return false;
+		Coordinate tmp = (Coordinate) other;
+		return ((x==tmp.x) && (y==tmp.y));
+	}
+
 	public int getX() {return x;}
 	public int getY() {return y;}
 
