@@ -83,4 +83,4 @@ public abstract class Character {
 	protected int getPrevDir() {return prevDir;}
 
 	protected double getSpeed() {return speed;}
-
+}
