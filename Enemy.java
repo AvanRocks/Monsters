@@ -43,13 +43,11 @@ class Enemy extends Character {
 	private boolean visit(int x, int y, int dir, Map map) {
 		if (x<0 || x>=map.getNumColumns() || y<0 || y>=map.getNumRows()) return false;
 		if (visited.get(y).get(x)) return false;
-		if (map.getBlock(x,y) == Map.BlockType.WALL) {
-			//System.out.println(x + ", " + y + " is Wall");
-			return false;
-		}
+		if (map.getBlock(x,y) == Map.BlockType.WALL) return false;
 
 		visited.get(y).set(x, true);
 		direction.get(y).set(x, dir);
+
 
 		return true;
 	}
@@ -63,19 +61,21 @@ class Enemy extends Character {
 
 		Queue<Coordinate> queue = new LinkedList<>();
 		queue.add(new Coordinate((int)(getX()),(int)(getY())));
+		visited.get((int)getY()).set((int)getX(), true);
 	
 		System.out.println((int)getX() + ", " + (int)getY() + ": ");
 
 		Coordinate s;
 		while ((s = queue.poll()) != null) {
-			if (s == map.getPlayerPos()) break;
+			System.out.println(s.getX() + " " + s.getY());
+			if (s.getX() == map.getPlayerPos().getX() && s.getY() == map.getPlayerPos().getY()) break;
 			if (visit(s.getX()+1, s.getY(), Direction.RIGHT, map)) queue.add( new Coordinate(s.getX()+1, s.getY()));
 			if (visit(s.getX()-1, s.getY(), Direction.LEFT, map)) queue.add( new Coordinate(s.getX()-1, s.getY()));
 			if (visit(s.getX(), s.getY()+1, Direction.DOWN, map)) queue.add( new Coordinate(s.getX(), s.getY()+1));
 			if (visit(s.getX(), s.getY()-1, Direction.UP, map)) queue.add( new Coordinate(s.getX(), s.getY()-1));
 		}
 
-		//System.out.println(visited);
+		System.out.println(visited);
 		System.out.println(direction);
 
 		path = new ArrayList<>();
@@ -94,6 +94,7 @@ class Enemy extends Character {
 		}
 
 		Collections.reverse(path);
+		System.out.println(path);
 	}
 
 	@Override
