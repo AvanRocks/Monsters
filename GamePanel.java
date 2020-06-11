@@ -76,7 +76,8 @@ class GamePanel extends JPanel implements Runnable {
     // Draw the characters
 		for (Character c : characters) {
 			c.updatePos();
-			g.drawImage(c.getImage(), (int)(c.getX() * map.getBlockWidth()), (int)(c.getY() * map.getBlockHeight()), (int)map.getBlockWidth(), (int)map.getBlockHeight(), null);
+			c.drawImage(g);
+			//g.drawImage(c.getImage(), (int)(c.getX() * map.getBlockWidth()), (int)(c.getY() * map.getBlockHeight()), (int)map.getBlockWidth(), (int)map.getBlockHeight(), null);
 		}
 
 		map.setPlayerPos((int)characters.get(0).getX(), (int)characters.get(0).getY());

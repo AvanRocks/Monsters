@@ -1,13 +1,16 @@
 import java.awt.image.BufferedImage;
 import java.util.*;
+import java.awt.*;
 
 class Enemy extends Character {
 	private BufferedImage[][] attack = new BufferedImage[4][6];
+	private int attackStep = -1;
 	private int steps = -1;
 	private int blocksTravelled = 0;
 	private ArrayList<ArrayList<Boolean>> visited;
 	private ArrayList<ArrayList<Integer>> direction;
 	private ArrayList<Integer> path;
+	private boolean isAttacking;
 
 	Enemy(int x, int y, BufferedImage spriteSheet, Map map) {
     super(x,y,spriteSheet,map);
@@ -65,10 +68,9 @@ class Enemy extends Character {
 		queue.add(new Coordinate(startX, startY));
 		visited.get(startY).set(startX, true);
 
-		System.out.println(startX + ", " + startY);
 		Coordinate s;
 		while ((s = queue.poll()) != null) {
-			if (s == map.getPlayerPos()) break;
+			if (s.equals(map.getPlayerPos())) break;
 			if (visit(s.getX()+1, s.getY(), Direction.RIGHT, map)) queue.add( new Coordinate(s.getX()+1, s.getY()));
 			if (visit(s.getX()-1, s.getY(), Direction.LEFT, map)) queue.add( new Coordinate(s.getX()-1, s.getY()));
 			if (visit(s.getX(), s.getY()+1, Direction.DOWN, map)) queue.add( new Coordinate(s.getX(), s.getY()+1));
@@ -90,7 +92,6 @@ class Enemy extends Character {
 		}
 
 		Collections.reverse(path);
-		System.out.println(path);
 	}
 
 	@Override
@@ -103,22 +104,48 @@ class Enemy extends Character {
 			steps=0;
 		}
 
-		System.out.println(getX() + ", " + getY());
 		if (steps == (int)(1/speed)) {
 			blocksTravelled++;
 			if (getX() % 1 > 0.999) setX((int)getX()+1);
 			if (getY() % 1 > 0.999) setY((int)getY()+1);
 			steps=0;
-			System.out.println(blocksTravelled);
-			if (blocksTravelled == 5 || blocksTravelled >= path.size()) {
+			if (blocksTravelled == 5 || blocksTravelled >= path.size() || path.size() == 0) {
 				calcPath();
 				blocksTravelled=0;
 			}
 		}
 
-		walk(path.get(blocksTravelled));
-		//checkCollision(direction.get((int)(getY())).get((int)(getX())));
-		steps++;
+		Coordinate pos = new Coordinate((int)getX(), (int)getY());
+		if (pos.equals(map.getPlayerPos())) {
+			isAttacking = true;
+		} else {
+			isAttacking = false;
+
+			walk(path.get(blocksTravelled));
+			checkCollision(path.get(blocksTravelled));
+			steps++;
+		}
+	}
+
+	@Override
+	public BufferedImage getImage() {
+		if (!isAttacking)
+			return super.getImage();
+		else {
+			if (attackStep == 5) attackStep = -1;
+			return attack[getPrevDir()][++attackStep];
+		}
+	}
+
+	@Override
+	public void drawImage(Graphics g) {
+		if (!isAttacking)
+			super.drawImage(g);
+		else {
+			Map map = getMap();
+			g.drawImage(getImage(), (int)((getX()-1) * map.getBlockWidth()), (int)((getY()-1) * map.getBlockHeight()), (int)(3*map.getBlockWidth()), (int)(3*map.getBlockHeight()), null);
+		}
+
 	}
 
 }

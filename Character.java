@@ -70,6 +70,10 @@ public abstract class Character {
 		return walk[prevDir][++prevStep];
 	}
 
+	public void drawImage(Graphics g) {
+    g.drawImage(getImage(), (int)(getX() * map.getBlockWidth()), (int)(getY() * map.getBlockHeight()), (int)map.getBlockWidth(), (int)map.getBlockHeight(), null);
+	}
+
 	private Rectangle getRect() {
 		double width = map.getBlockWidth();
 		double height = map.getBlockHeight();
