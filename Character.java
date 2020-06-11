@@ -8,14 +8,15 @@ public abstract class Character {
 	private int prevDir = Direction.DOWN;
 	private int prevStep = 0;
 	private BufferedImage[][] walk = new BufferedImage[4][9];
-	private boolean isMoving = true;
-	protected Map map;
+	private boolean isMoving = false;
+	private Map map;
 
 	Character(int x, int y, BufferedImage spriteSheet, Map map) {
 		this.x = x;
 		this.y = y;
 		this.map=map;
 
+		// load walking animation of character
 		for (int i=0;i<4;++i) {
 			for (int j=0;j<9;++j) {
 				walk[i][j] = spriteSheet.getSubimage(j*64, i*64, 64, 64);
@@ -23,6 +24,8 @@ public abstract class Character {
 		}
 
 	}
+
+	abstract public void updatePos();
 
 	protected void walk(int dir) {
 		prevDir = dir;
@@ -51,14 +54,33 @@ public abstract class Character {
 		return x;
 	}
 
+  // check if they hit a wall, if so, move them back
+	protected void checkCollision(int dir) {
+	  Rectangle characterRect = getRect();
+
+    for (int y = 0; y < map.getNumRows(); ++y)
+      for (int x = 0; x < map.getNumColumns(); ++x)
+        if (map.getBlock(x,y) == Map.BlockType.WALL && characterRect.intersects(new Rectangle((int)(x*map.getBlockWidth()), (int)(y*map.getBlockHeight()), (int)map.getBlockWidth()+1, (int)map.getBlockHeight()+1))) {
+          move(Direction.getOpposite(dir));
+          return;
+        }
+
+	}
+
 	public BufferedImage getImage() {
 		if (!isMoving || prevStep==8) prevStep=-1;
 		return walk[prevDir][++prevStep];
 	}
 
-	public Rectangle getRect() {
+	private Rectangle getRect() {
 		double width = map.getBlockWidth();
 		double height = map.getBlockHeight();
 		return new Rectangle((int)(x*width+width/3.67), (int)(y*height+height/4.8), (int)(width/2.13), (int)(height/1.3));
 	}
+
+	protected Map getMap() { return map; }
+
+	protected int getPrevDir() {return prevDir;}
+
+	protected double getSpeed() {return speed;}
 }

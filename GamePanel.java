@@ -3,12 +3,14 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 import javax.imageio.ImageIO;
+import java.util.*;
 
 class GamePanel extends JPanel implements Runnable {
   private Thread thread;
   private long prevTime, diffTime;
   //private Monster[] monsters;
-  private Player player;
+  //private Player player;
+	private ArrayList<Character> characters;
   private Map map;
   private boolean[] keyIsPressed = new boolean[4];
 
@@ -21,18 +23,25 @@ class GamePanel extends JPanel implements Runnable {
     // initialize block size
 		map.updateBlockSize(getWidth(),getHeight());
 
-    // find player's starting position in map and create player there
+		characters = new ArrayList<>();
+
+		// create player
+    try { characters.add( new Player(map.getPlayerPos().getX(), map.getPlayerPos().getY(), ImageIO.read(new File("images"+File.separator+"player.png")), map) ); }
+		catch (IOException e) { e.printStackTrace();}
+
+    // create Enemies at their specified starting positions
     for (int y = 0; y < map.getNumRows(); ++y) {
       for (int x = 0; x < map.getNumColumns(); ++x) {
-        if (map.getBlock(x, y) == Map.BlockType.PLAYER_SPAWN) {
-          try { player = new Player(x, y, ImageIO.read(new File("images"+File.separator+"player1.png")), map); }
+				// create enemy
+				if (map.getBlock(x,y) == Map.BlockType.ENEMY_SPAWN) {
+          try { characters.add( new Enemy(x, y, ImageIO.read(new File("images"+File.separator+"enemy-orc.png")), map) ); }
 					catch (IOException e) { e.printStackTrace();}
         }
       }
-    }
+		}
 		
 
-		addKeyListener(player);
+		addKeyListener((Player)characters.get(0));
 
 		setFocusable(true);
   }
@@ -64,9 +73,13 @@ class GamePanel extends JPanel implements Runnable {
     // draw map
     this.paintMap(g);
 
-    // Draw the player
-    player.updatePos();
-    g.drawImage(player.getImage(), (int)(player.getX() * map.getBlockWidth()), (int)(player.getY() * map.getBlockHeight()), (int)map.getBlockWidth(), (int)map.getBlockHeight(), null);
+    // Draw the characters
+		for (Character c : characters) {
+			c.updatePos();
+			g.drawImage(c.getImage(), (int)(c.getX() * map.getBlockWidth()), (int)(c.getY() * map.getBlockHeight()), (int)map.getBlockWidth(), (int)map.getBlockHeight(), null);
+		}
+
+		map.setPlayerPos((int)characters.get(0).getX(), (int)characters.get(0).getY());
 
   }
 
