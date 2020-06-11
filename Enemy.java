@@ -21,7 +21,7 @@ class Enemy extends Character {
 
 		resetArrays(map);
   }
-	
+
 	private void resetArrays(Map map) {
 		// reset direction
 		visited = new ArrayList<ArrayList<Boolean>>();
@@ -44,7 +44,6 @@ class Enemy extends Character {
 		if (x<0 || x>=map.getNumColumns() || y<0 || y>=map.getNumRows()) return false;
 		if (visited.get(y).get(x)) return false;
 		if (map.getBlock(x,y) == Map.BlockType.WALL) {
-			//System.out.println(x + ", " + y + " is Wall");
 			return false;
 		}
 
@@ -62,9 +61,10 @@ class Enemy extends Character {
 		resetArrays(map);
 
 		Queue<Coordinate> queue = new LinkedList<>();
-		queue.add(new Coordinate((int)(getX()),(int)(getY())));
-	
-		System.out.println((int)getX() + ", " + (int)getY() + ": ");
+		int startX = (int) getX();
+		int startY = (int) getY();
+		queue.add(new Coordinate(startX, startY));
+		visited.get(startY).set(startX, true);
 
 		Coordinate s;
 		while ((s = queue.poll()) != null) {
@@ -82,14 +82,15 @@ class Enemy extends Character {
 		int x = map.getPlayerPos().getX();
 		int y = map.getPlayerPos().getY();
 
-		while (!(x==(int)getX() && y==(int)(getY()))) {
+		while (!(x == startX && y == startY)) {
+			System.out.println("sx: " + startX + ", sy: " + startY);
 			System.out.println("x: " + x + ", y: " + y);
 			path.add(direction.get(y).get(x));
 			switch (direction.get(y).get(x)) {
-				case Direction.UP:    --y; break;
-				case Direction.DOWN:  ++y; break;
-				case Direction.LEFT:  --x; break;
-				case Direction.RIGHT: ++x; break;
+				case Direction.UP:    ++y; break;
+				case Direction.DOWN:  --y; break;
+				case Direction.LEFT:  ++x; break;
+				case Direction.RIGHT: --x; break;
 			}
 		}
 
@@ -110,7 +111,7 @@ class Enemy extends Character {
 		if (steps == (int)(1/speed)) {
 			blocksTravelled++;
 			steps=0;
-			if (blocksTravelled == 5) { 
+			if (blocksTravelled == 5) {
 				calcPath();
 				blocksTravelled=0;
 			}
