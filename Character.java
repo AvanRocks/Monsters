@@ -4,7 +4,7 @@ import java.awt.*;
 public abstract class Character {
 	// x, y, and speed are relative to blockSize
 	private double x, y;
-	final private double speed = 0.08;
+	final private double speed = 0.1;
 	private int prevDir = Direction.DOWN;
 	private int prevStep = 0;
 	private BufferedImage[][] walk = new BufferedImage[4][9];
@@ -45,14 +45,12 @@ public abstract class Character {
 			case Direction.RIGHT: x += speed; break;
 		}
 	}
+	
+	public void setX(int x) { this.x=x; }
+	public void setY(int y) { this.y=y; }
 
-	public double getY() {
-		return y;
-	}
-
-	public double getX() {
-		return x;
-	}
+	public double getX() { return x; }
+	public double getY() { return y; }
 
   // check if they hit a wall, if so, move them back
 	protected void checkCollision(int dir) {

@@ -21,7 +21,7 @@ class Enemy extends Character {
 
 		resetArrays(map);
   }
-	
+
 	private void resetArrays(Map map) {
 		// reset direction
 		visited = new ArrayList<ArrayList<Boolean>>();
@@ -43,7 +43,9 @@ class Enemy extends Character {
 	private boolean visit(int x, int y, int dir, Map map) {
 		if (x<0 || x>=map.getNumColumns() || y<0 || y>=map.getNumRows()) return false;
 		if (visited.get(y).get(x)) return false;
-		if (map.getBlock(x,y) == Map.BlockType.WALL) return false;
+		if (map.getBlock(x,y) == Map.BlockType.WALL) {
+			return false;
+		}
 
 		visited.get(y).set(x, true);
 		direction.get(y).set(x, dir);
@@ -55,19 +57,17 @@ class Enemy extends Character {
 	// find shortest path to player using breadth-first search
 	private void calcPath() {
 		Map map = getMap();
-		System.out.println("bfs from: ("+(int)getX()+", "+(int)getY()+") to ("+(int)map.getPlayerPos().getX()+", "+(int)map.getPlayerPos().getY()+")");
-
 		resetArrays(map);
 
 		Queue<Coordinate> queue = new LinkedList<>();
-		queue.add(new Coordinate((int)(getX()),(int)(getY())));
-		visited.get((int)getY()).set((int)getX(), true);
-	
-		System.out.println((int)getX() + ", " + (int)getY() + ": ");
+		int startX = (int) getX();
+		int startY = (int) getY();
+		queue.add(new Coordinate(startX, startY));
+		visited.get(startY).set(startX, true);
 
+		System.out.println(startX + ", " + startY);
 		Coordinate s;
 		while ((s = queue.poll()) != null) {
-			System.out.println(s.getX() + " " + s.getY());
 			if (s.getX() == map.getPlayerPos().getX() && s.getY() == map.getPlayerPos().getY()) break;
 			if (visit(s.getX()+1, s.getY(), Direction.RIGHT, map)) queue.add( new Coordinate(s.getX()+1, s.getY()));
 			if (visit(s.getX()-1, s.getY(), Direction.LEFT, map)) queue.add( new Coordinate(s.getX()-1, s.getY()));
@@ -75,21 +75,17 @@ class Enemy extends Character {
 			if (visit(s.getX(), s.getY()-1, Direction.UP, map)) queue.add( new Coordinate(s.getX(), s.getY()-1));
 		}
 
-		System.out.println(visited);
-		System.out.println(direction);
-
 		path = new ArrayList<>();
 		int x = map.getPlayerPos().getX();
 		int y = map.getPlayerPos().getY();
 
-		while (!(x==(int)getX() && y==(int)(getY()))) {
-			System.out.println("x: " + x + ", y: " + y);
+		while (!(x == startX && y == startY)) {
 			path.add(direction.get(y).get(x));
 			switch (direction.get(y).get(x)) {
-				case Direction.UP:    --y; break;
-				case Direction.DOWN:  ++y; break;
-				case Direction.LEFT:  --x; break;
-				case Direction.RIGHT: ++x; break;
+				case Direction.UP:    ++y; break;
+				case Direction.DOWN:  --y; break;
+				case Direction.LEFT:  ++x; break;
+				case Direction.RIGHT: --x; break;
 			}
 		}
 
@@ -107,21 +103,19 @@ class Enemy extends Character {
 			steps=0;
 		}
 
-		//System.out.println(steps + ", " + (int)(1/speed));
+		System.out.println(getX() + ", " + getY());
 		if (steps == (int)(1/speed)) {
 			blocksTravelled++;
+			if (getX() % 1 > 0.999) setX((int)getX()+1);
+			if (getY() % 1 > 0.999) setY((int)getY()+1);
 			steps=0;
-			if (blocksTravelled == 5) { 
+			System.out.println(blocksTravelled);
+			if (blocksTravelled == 5 || blocksTravelled >= path.size()) {
 				calcPath();
 				blocksTravelled=0;
 			}
 		}
 
-		//System.out.println(getX() + ", " + getY() + ": ");
-		//System.out.print((int)getX() + ", " + (int)getY() + ": ");
-		//System.out.println(direction.get((int)(getY())).get((int)(getX())));
-
-		//walk(direction.get((int)(getY())).get((int)(getX())));
 		walk(path.get(blocksTravelled));
 		//checkCollision(direction.get((int)(getY())).get((int)(getX())));
 		steps++;
