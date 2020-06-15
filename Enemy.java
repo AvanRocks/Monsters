@@ -54,7 +54,6 @@ class Enemy extends Character {
 		visited.get(y).set(x, true);
 		direction.get(y).set(x, dir);
 
-		System.out.println("visit(" + x + ", " + y + ") returns true.");
 		return true;
 	}
 
@@ -117,13 +116,14 @@ class Enemy extends Character {
 		Coordinate pos = new Coordinate((int)getX(), (int)getY());
 		if (pos.equals(map.getPlayerPos())) {
 			isAttacking = true;
-		} else if (path.size() != 0){
+		} else if (path.size() != 0) {
 			isAttacking = false;
 
 			walk(path.get(blocksTravelled));
 			checkCollision(path.get(blocksTravelled));
-			steps++;
 		}
+		
+		steps++;
 	}
 
 	@Override
