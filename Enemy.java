@@ -5,7 +5,7 @@ import java.awt.*;
 class Enemy extends Character {
 	private BufferedImage[][] attack = new BufferedImage[4][6];
 	private int attackStep = -1;
-	private int steps = -1;
+	private int steps = 0;
 	private int blocksTravelled = 0;
 	private ArrayList<ArrayList<Boolean>> visited;
 	private ArrayList<ArrayList<Integer>> direction;
@@ -16,13 +16,14 @@ class Enemy extends Character {
     super(x,y,spriteSheet,map);
 
 		// load attacking animation of enemy
-    for (int i=0;i<4;++i) {
-      for (int j=0;j<6;++j) {
+    for (int i = 0; i < 4; ++i) {
+      for (int j = 0; j < 6; ++j) {
         attack[i][j] = spriteSheet.getSubimage(576 + j*192, i*192, 192, 192);
       }
     }
 
 		resetArrays(map);
+    calcPath();
   }
 
 	private void resetArrays(Map map) {
@@ -98,11 +99,6 @@ class Enemy extends Character {
 	public void updatePos() {
 		Map map = getMap();
 		double speed = getSpeed();
-
-		if (steps == -1) {
-			calcPath();
-			steps=0;
-		}
 
 		if (steps == (int)(1/speed)) {
 			blocksTravelled++;
