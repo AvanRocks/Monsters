@@ -113,7 +113,10 @@ class Enemy extends Character {
 			}
 		}
 
-		Coordinate pos = new Coordinate((int)getX(), (int)getY());
+		int startX = (int) Math.round(getX());
+		int startY = (int) Math.round(getY());
+		Coordinate pos = new Coordinate(startX, startY);
+
 		if (pos.equals(map.getPlayerPos())) {
 			isAttacking = true;
 		} else {
