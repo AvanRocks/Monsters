@@ -103,9 +103,11 @@ class Enemy extends Character {
 		Map map = getMap();
 		double speed = getSpeed();
 
-		if (steps == (int)(1 / speed)) {
+		if (steps == (int)(1/speed)) {
 			blocksTravelled++;
-			steps = 0;
+
+			steps=0;
+
 			if (blocksTravelled == 5 || blocksTravelled >= path.size() || path.size() == 0) {
 				calcPath();
 				blocksTravelled=0;
