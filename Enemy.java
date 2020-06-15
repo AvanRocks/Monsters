@@ -100,10 +100,15 @@ class Enemy extends Character {
 		Map map = getMap();
 		double speed = getSpeed();
 
+		System.out.println("x: " + getX() + " y: " + getY());
 		if (steps == (int)(1/speed)) {
 			blocksTravelled++;
+			System.out.println("Travelled a block");
+
+			// this is needed if speed does not evenly divide 1
 			if (getX() % 1 > 0.999) setX((int)getX()+1);
 			if (getY() % 1 > 0.999) setY((int)getY()+1);
+
 			steps=0;
 			if (blocksTravelled == 5 || blocksTravelled >= path.size() || path.size() == 0) {
 				calcPath();
