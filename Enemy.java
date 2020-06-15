@@ -83,7 +83,7 @@ class Enemy extends Character {
 		path = new ArrayList<>();
 		int x = map.getPlayerPos().getX();
 		int y = map.getPlayerPos().getY();
-		System.out.println("playerX: " + x + ", playerY: " + y);
+		//System.out.println("playerX: " + x + ", playerY: " + y);
 
 		while (!(x == startX && y == startY)) {
 			path.add(direction.get(y).get(x));
@@ -108,16 +108,14 @@ class Enemy extends Character {
 		System.out.println("x: " + getX() + " y: " + getY());
 		if (steps == (int)(1/speed)) {
 			blocksTravelled++;
-			System.out.println("Travelled a block");
+			//System.out.println("TRaveled block");
 
 			// this is needed if speed does not evenly divide 1
 			if (getX() % 1 > 0.999) setX((int)getX()+1);
 			if (getY() % 1 > 0.999) setY((int)getY()+1);
 
 			steps=0;
-		if (steps == (int)(1 / speed)) {
-			blocksTravelled++;
-			steps = 0;
+
 			if (blocksTravelled == 5 || blocksTravelled >= path.size() || path.size() == 0) {
 				calcPath();
 				blocksTravelled=0;
