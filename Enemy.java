@@ -116,14 +116,16 @@ class Enemy extends Character {
 		Coordinate pos = new Coordinate((int)getX(), (int)getY());
 		if (pos.equals(map.getPlayerPos())) {
 			isAttacking = true;
-		} else if (path.size() != 0) {
+		} else {
+			steps++;
 			isAttacking = false;
 
-			walk(path.get(blocksTravelled));
-			checkCollision(path.get(blocksTravelled));
+			if (path.size() != 0) {
+				walk(path.get(blocksTravelled));
+				checkCollision(path.get(blocksTravelled));
+			}
 		}
-		
-		steps++;
+
 	}
 
 	@Override
