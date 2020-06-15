@@ -39,7 +39,7 @@ class GamePanel extends JPanel implements Runnable {
         }
       }
 		}
-		
+
 
 		addKeyListener((Player)characters.get(0));
 
@@ -80,8 +80,7 @@ class GamePanel extends JPanel implements Runnable {
 			//g.drawImage(c.getImage(), (int)(c.getX() * map.getBlockWidth()), (int)(c.getY() * map.getBlockHeight()), (int)map.getBlockWidth(), (int)map.getBlockHeight(), null);
 		}
 
-		map.setPlayerPos((int)characters.get(0).getX(), (int)characters.get(0).getY());
-
+		map.setPlayerPos((int) Math.round(characters.get(0).getX()), (int) Math.round(characters.get(0).getY()));
   }
 
   @Override
