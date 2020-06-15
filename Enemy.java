@@ -115,7 +115,7 @@ class Enemy extends Character {
 		Coordinate pos = new Coordinate((int)getX(), (int)getY());
 		if (pos.equals(map.getPlayerPos())) {
 			isAttacking = true;
-		} else {
+		} else if (path.size() != 0){
 			isAttacking = false;
 
 			walk(path.get(blocksTravelled));
