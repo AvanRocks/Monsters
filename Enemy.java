@@ -4,7 +4,7 @@ import java.awt.*;
 
 class Enemy extends Character {
 	private BufferedImage[][] attack = new BufferedImage[4][6];
-	private int attackStep = -1;
+	private int attackStep = 0;
 	private int steps = 0;
 	private int blocksTravelled = 0;
 	private ArrayList<ArrayList<Boolean>> visited;
@@ -66,6 +66,8 @@ class Enemy extends Character {
 		Queue<Coordinate> queue = new LinkedList<>();
 		int startX = (int) getX();
 		int startY = (int) getY();
+
+		System.out.println("enemyX: " + startX + ", enemyY: " + startY);
 		queue.add(new Coordinate(startX, startY));
 		visited.get(startY).set(startX, true);
 
@@ -81,6 +83,7 @@ class Enemy extends Character {
 		path = new ArrayList<>();
 		int x = map.getPlayerPos().getX();
 		int y = map.getPlayerPos().getY();
+		System.out.println("playerX: " + x + ", playerY: " + y);
 
 		while (!(x == startX && y == startY)) {
 			path.add(direction.get(y).get(x));
@@ -93,18 +96,18 @@ class Enemy extends Character {
 		}
 
 		Collections.reverse(path);
+		System.out.println(path);
 	}
 
 	@Override
 	public void updatePos() {
+		System.out.println(blocksTravelled);
 		Map map = getMap();
 		double speed = getSpeed();
 
-		if (steps == (int)(1/speed)) {
+		if (steps == (int)(1 / speed)) {
 			blocksTravelled++;
-			if (getX() % 1 > 0.999) setX((int)getX()+1);
-			if (getY() % 1 > 0.999) setY((int)getY()+1);
-			steps=0;
+			steps = 0;
 			if (blocksTravelled == 5 || blocksTravelled >= path.size() || path.size() == 0) {
 				calcPath();
 				blocksTravelled=0;
@@ -128,8 +131,8 @@ class Enemy extends Character {
 		if (!isAttacking)
 			return super.getImage();
 		else {
-			if (attackStep == 5) attackStep = -1;
-			return attack[getPrevDir()][++attackStep];
+			if (attackStep == 5) attackStep = 0;
+			return attack[getPrevDir()][attackStep++];
 		}
 	}
 
