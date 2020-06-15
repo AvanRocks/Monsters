@@ -54,7 +54,7 @@ class Enemy extends Character {
 		visited.get(y).set(x, true);
 		direction.get(y).set(x, dir);
 
-
+		System.out.println("visit(" + x + ", " + y + ") returns true.");
 		return true;
 	}
 
@@ -64,10 +64,9 @@ class Enemy extends Character {
 		resetArrays(map);
 
 		Queue<Coordinate> queue = new LinkedList<>();
-		int startX = (int) getX();
-		int startY = (int) getY();
+		int startX = (int) Math.round(getX());
+		int startY = (int) Math.round(getY());
 
-		System.out.println("enemyX: " + startX + ", enemyY: " + startY);
 		queue.add(new Coordinate(startX, startY));
 		visited.get(startY).set(startX, true);
 
@@ -83,7 +82,10 @@ class Enemy extends Character {
 		path = new ArrayList<>();
 		int x = map.getPlayerPos().getX();
 		int y = map.getPlayerPos().getY();
+<<<<<<< HEAD
 		//System.out.println("playerX: " + x + ", playerY: " + y);
+=======
+>>>>>>> 3bbbf417c013e6302e92c0417e73cb385d3cb088
 
 		while (!(x == startX && y == startY)) {
 			path.add(direction.get(y).get(x));
