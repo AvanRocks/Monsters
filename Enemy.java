@@ -90,6 +90,7 @@ class Enemy extends Character {
 		int y = map.getPlayerPos().getY();
 
 		while (!(x == startX && y == startY)) {
+			System.out.println("x: "+ x + " y: " + y);
 			path.add(direction.get(y).get(x));
 			switch (direction.get(y).get(x)) {
 				case Direction.UP:    ++y; break;
