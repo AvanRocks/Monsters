@@ -1,19 +1,13 @@
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 import javax.imageio.ImageIO;
 import java.util.*;
 
-class GamePanel extends JPanel implements Runnable {
-  private Thread thread;
-  private long prevTime, diffTime;
-  //private Monster[] monsters;
-  //private Player player;
+class GamePanel extends JPanel {
 	private ArrayList<Character> characters;
   private Map map;
-  private boolean[] keyIsPressed = new boolean[4];
-	private CardLayout cards;
+  private CardLayout cards;
 	private Container pane;
 	private MutableBoolean gameIsActive;
 
@@ -25,12 +19,11 @@ class GamePanel extends JPanel implements Runnable {
   public void start() {
 		gameIsActive = new MutableBoolean(true);
 
-    thread = new Thread(this);
-    thread.start();
+    characters = new ArrayList<>();
+    
+    new Thread(new GameThread(characters, gameIsActive, this)).start();
 
 		map = new Map(getWidth(), getHeight());
-
-		characters = new ArrayList<>();
 
 		// create player
     try { characters.add( new Player(map.getPlayerPos().getX(), map.getPlayerPos().getY(), ImageIO.read(new File("images"+File.separator+"player.png")), map) ); }
@@ -82,29 +75,11 @@ class GamePanel extends JPanel implements Runnable {
 
     // Draw the characters
 		for (Character c : characters) {
-			c.updatePos();
+			// c.updatePos();
 			c.drawImage(g);
 		}
 
 		map.setPlayerPos((int) Math.round(characters.get(0).getX()), (int) Math.round(characters.get(0).getY()));
   }
 
-  @Override
-  public void run() {
-		// count how long repaint() will take
-    prevTime = System.currentTimeMillis();
-
-    while (gameIsActive.getVal()) {
-      repaint();
-
-      diffTime = System.currentTimeMillis() - prevTime;
-
-      // Sleep for 75 milliseconds with accomodation for the time repaint() took
-      try { Thread.sleep(75 - diffTime); }
-      catch (InterruptedException e) {}
-
-			// count how long repaint() will take
-      prevTime = System.currentTimeMillis();
-    }
-  }
 }
