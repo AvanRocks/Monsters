@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.io.File;
 
-class MenuPanel extends JPanel implements ActionListener {
+class MenuPanel extends JPanel {
 	private final CardLayout cards;
 	private final Container pane;
 	private final GamePanel game;
@@ -14,17 +14,33 @@ class MenuPanel extends JPanel implements ActionListener {
 		this.pane = pane;
 		this.game = game;
 
-    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(Color.blue);
 
-		JPanel playBtnPnl = new PlayButton();
-		JPanel rulesBtnPnl = new RulesButton();
 		TitlePanel titlePanel = new TitlePanel();
+
+		JPanel playBtnPnl = new PlayButton();
+		playBtnPnl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				game.start();
+				cards.show(pane, "game");
+				game.requestFocusInWindow();
+			}
+		});
+
+		JPanel rulesBtnPnl = new RulesButton();
+		rulesBtnPnl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				cards.show(pane, "rules");
+			}
+		});
 
 		add(Box.createVerticalGlue());
 		add(titlePanel);
-    add(playBtnPnl);
-    add(rulesBtnPnl);
+		add(playBtnPnl);
+		add(rulesBtnPnl);
 		add(Box.createVerticalGlue());
 	}
 
@@ -39,18 +55,6 @@ class MenuPanel extends JPanel implements ActionListener {
 		btn.addActionListener(listener);
 
 		return btn;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("PLAY")) {
-			game.start();
-			cards.show(pane, "game");
-			game.requestFocusInWindow();
-		}
-		else {
-			cards.show(pane, "rules");
-		}
 	}
 }
 
