@@ -42,13 +42,6 @@ class MenuPanel extends JPanel implements ActionListener {
 	}
 
 	@Override
-  public void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    playBtn.setFont(new Font("Dialog", Font.PLAIN, Math.max(getWidth()/40, getHeight()/25)));
-    rulesBtn.setFont(new Font("Dialog", Font.PLAIN, Math.max(getWidth()/40, getHeight()/25)));
-  }
-
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("PLAY")) {
 			game.start();
