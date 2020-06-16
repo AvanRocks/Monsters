@@ -37,6 +37,7 @@ class Monsters extends JFrame {
   public static void main(String[] args) {
     JFrame frame = new Monsters("Monsters");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setMinimumSize(new Dimension(450,350));
     frame.setVisible(true);
   }
 }

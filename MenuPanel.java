@@ -21,7 +21,6 @@ class MenuPanel extends JPanel {
 		JPanel rulesBtnPnl = new RulesBtnPanel();
 		TitlePanel titlePanel = new TitlePanel();
 
-		JPanel playBtnPnl = new PlayButton();
 		playBtnPnl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -31,7 +30,6 @@ class MenuPanel extends JPanel {
 			}
 		});
 
-		JPanel rulesBtnPnl = new RulesButton();
 		rulesBtnPnl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
