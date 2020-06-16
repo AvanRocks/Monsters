@@ -17,13 +17,15 @@ class MenuPanel extends JPanel implements ActionListener {
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(Color.blue);
 
-		JPanel playBtnPnl = new PlayButton();
-		JPanel rulesBtnPnl = new RulesButton();
+		JPanel playBtnPnl = new PlayBtnPanel();
+		JPanel rulesBtnPnl = new RulesBtnPanel();
 		TitlePanel titlePanel = new TitlePanel();
 
 		add(Box.createVerticalGlue());
 		add(titlePanel);
+		add(Box.createVerticalGlue());
     add(playBtnPnl);
+		add(Box.createVerticalGlue());
     add(rulesBtnPnl);
 		add(Box.createVerticalGlue());
 	}
@@ -57,21 +59,24 @@ class MenuPanel extends JPanel implements ActionListener {
 class TitlePanel extends JPanel {
 	@Override
 	public Dimension getMinimumSize() {
-		return new Dimension(800, 400);
+		return new Dimension(450, 100);
 	}
 
 	@Override
 	public Dimension getMaximumSize() {
-		return new Dimension(800, 400);
+		return new Dimension(450, 100);
 	}
 
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(800, 400);
+		return new Dimension(450, 100);
 	}
+
+	TitlePanel() { setOpaque(false); }
 
 	@Override
 	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		try {
 			Image image = ImageIO.read(new File("images/title.png"));
 			int x = (this.getWidth() - image.getWidth(null)) / 2;
@@ -81,24 +86,13 @@ class TitlePanel extends JPanel {
 	}
 }
 
-class PlayButton extends JPanel {
-	@Override
-	public Dimension getMinimumSize() {
-		return new Dimension(400, 200);
-	}
+class PlayBtnPanel extends JPanel {
 
-	@Override
-	public Dimension getMaximumSize() {
-		return new Dimension(400, 200);
-	}
-
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(400, 200);
-	}
+	PlayBtnPanel() { setOpaque(false); }
 
 	@Override
 	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		try {
 			Image image = ImageIO.read(new File("images/play.png"));
 			int x = (this.getWidth() - image.getWidth(null)) / 2;
@@ -108,24 +102,13 @@ class PlayButton extends JPanel {
 	}
 }
 
-class RulesButton extends JPanel {
-	@Override
-	public Dimension getMinimumSize() {
-		return new Dimension(400, 200);
-	}
+class RulesBtnPanel extends JPanel {
 
-	@Override
-	public Dimension getMaximumSize() {
-		return new Dimension(400, 200);
-	}
-
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(400, 200);
-	}
+	RulesBtnPanel() { setOpaque(false); }
 
 	@Override
 	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		try {
 			Image image = ImageIO.read(new File("images/rules.png"));
 			int x = (this.getWidth() - image.getWidth(null)) / 2;
