@@ -10,6 +10,7 @@ import java.awt.event.*;
 class Monsters extends JFrame {
   private GamePanel game;
   private MenuPanel menu;
+  private GameOverPanel gameOver;
   private JPanel rules;
   private JLabel rulesLabel;
   private CardLayout cards;
@@ -22,13 +23,15 @@ class Monsters extends JFrame {
     cards = new CardLayout();
     getContentPane().setLayout(cards);
 
-    game = new GamePanel();
+    game = new GamePanel(cards, getContentPane());
     menu = new MenuPanel(cards, getContentPane(), game, size.getWidth(), size.getHeight());
     rules = new RulesPanel(cards, getContentPane());
+		gameOver = new GameOverPanel(cards, getContentPane(), size.getWidth(), size.getHeight());
 
     getContentPane().add("menu", menu);
     getContentPane().add("rules", rules);
     getContentPane().add("game", game);
+    getContentPane().add("game-over", gameOver);
   }
 
   public static void main(String[] args) {

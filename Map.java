@@ -26,9 +26,8 @@ class Map {
 	}
 
 	// For testing
-	public Map(int blockWidth, int blockHeight) {
-		this.blockWidth=blockWidth;
-		this.blockHeight=blockHeight;
+	public Map(double panelWidth, double panelHeight) {
+		updateBlockSize(panelWidth, panelHeight);
 
 		level++;
 

@@ -11,9 +11,15 @@ class Enemy extends Character {
 	private ArrayList<ArrayList<Integer>> direction;
 	private ArrayList<Integer> path;
 	private boolean isAttacking;
+	private CardLayout cards;
+	private Container pane;
+	private MutableBoolean gameIsActive;
 
-	Enemy(int x, int y, BufferedImage spriteSheet, Map map) {
+	Enemy(int x, int y, BufferedImage spriteSheet, Map map, CardLayout cards, Container pane, MutableBoolean gameIsActive) {
     super(x,y,spriteSheet,map);
+		this.cards=cards;
+		this.pane=pane;
+		this.gameIsActive=gameIsActive;
 
 		// load attacking animation of enemy
     for (int i = 0; i < 4; ++i) {
@@ -93,12 +99,10 @@ class Enemy extends Character {
 		}
 
 		Collections.reverse(path);
-		System.out.println(path);
 	}
 
 	@Override
 	public void updatePos() {
-		System.out.println(blocksTravelled);
 		Map map = getMap();
 		double speed = getSpeed();
 
@@ -128,7 +132,6 @@ class Enemy extends Character {
 				checkCollision(path.get(blocksTravelled));
 			}
 		}
-
 	}
 
 	@Override
@@ -136,7 +139,11 @@ class Enemy extends Character {
 		if (!isAttacking)
 			return super.getImage();
 		else {
-			if (attackStep == 5) attackStep = 0;
+			if (attackStep == 5) {
+				gameIsActive.setVal(false);
+				cards.show(pane,"game-over");
+				attackStep = 0;
+			}
 			return attack[getPrevDir()][attackStep++];
 		}
 	}
