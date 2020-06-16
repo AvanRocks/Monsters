@@ -42,6 +42,7 @@ class Player extends Character implements KeyListener {
       !keyIsPressed[Direction.LEFT] &&
       !keyIsPressed[Direction.RIGHT])
       stop();
+
 	}
 
 	// helper method

@@ -13,15 +13,22 @@ class GamePanel extends JPanel implements Runnable {
 	private ArrayList<Character> characters;
   private Map map;
   private boolean[] keyIsPressed = new boolean[4];
+	private CardLayout cards;
+	private Container pane;
+	private MutableBoolean gameIsActive;
+
+	GamePanel(CardLayout cards, Container pane) {
+		this.cards=cards;
+		this.pane=pane;
+	}
 
   public void start() {
+		gameIsActive = new MutableBoolean(true);
+
     thread = new Thread(this);
     thread.start();
 
 		map = new Map(getWidth(), getHeight());
-
-    // initialize block size
-		map.updateBlockSize(getWidth(),getHeight());
 
 		characters = new ArrayList<>();
 
@@ -34,7 +41,7 @@ class GamePanel extends JPanel implements Runnable {
       for (int x = 0; x < map.getNumColumns(); ++x) {
 				// create enemy
 				if (map.getBlock(x,y) == Map.BlockType.ENEMY_SPAWN) {
-          try { characters.add( new Enemy(x, y, ImageIO.read(new File("images"+File.separator+"enemy-orc.png")), map) ); }
+          try { characters.add( new Enemy(x, y, ImageIO.read(new File("images"+File.separator+"enemy-orc.png")), map, cards, pane, gameIsActive) ); }
 					catch (IOException e) { e.printStackTrace();}
         }
       }
@@ -87,7 +94,7 @@ class GamePanel extends JPanel implements Runnable {
 		// count how long repaint() will take
     prevTime = System.currentTimeMillis();
 
-    while (true) {
+    while (gameIsActive.getVal()) {
       repaint();
 
       diffTime = System.currentTimeMillis() - prevTime;
