@@ -1,9 +1,15 @@
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import java.io.*;
+import java.awt.*;
+
 class Map {
 	private int numRows = 10;
 	private int numColumns = 10;
 	private double blockWidth, blockHeight;
 	private int level = 0;
 	private Coordinate playerPos = new Coordinate(0,0);
+	private ArrayList<Character> characters;
 
 	private int[][] map = {
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -26,14 +32,33 @@ class Map {
 	}
 
 	// For testing
-	public Map(double panelWidth, double panelHeight) {
+	public Map(double panelWidth, double panelHeight, CardLayout cards, Container pane, MutableBoolean gameIsActive) {
 		updateBlockSize(panelWidth, panelHeight);
+
+		characters = new ArrayList<Character>();
 
 		level++;
 
+		// create player
 		for (int y=0;y<getNumRows();++y)
 			for (int x=0;x<getNumColumns();++x)
-				if (getBlock(x,y) == BlockType.PLAYER_SPAWN) playerPos = new Coordinate(x,y);
+				if (getBlock(x,y) == BlockType.PLAYER_SPAWN) {
+					playerPos = new Coordinate(x,y);
+  			  try { characters.add( new Player(playerPos.getX(), playerPos.getY(), ImageIO.read(new File("images"+File.separator+"player.png")), this) ); }
+					catch (IOException e) { e.printStackTrace();}
+				}
+
+    // create Enemies at their specified starting positions
+    for (int y = 0; y < numRows; ++y) {
+      for (int x = 0; x < numColumns; ++x) {
+				// create enemy
+				if (getBlock(x,y) == Map.BlockType.ENEMY_SPAWN) {
+          try { characters.add( new Enemy(x, y, ImageIO.read(new File("images"+File.separator+"enemy-orc.png")), this, cards, pane, gameIsActive) ); }
+					catch (IOException e) { e.printStackTrace();}
+        }
+      }
+		}
+
 
 		//numRows = 3 * level + 10;
 		//numColumns = 3 * level + 10;
@@ -61,6 +86,8 @@ class Map {
 		}
 		return BlockType.OPEN;
 	}
+
+	public ArrayList<Character> getCharacters() { return characters; }
 
 	public void setPlayerPos(int x, int y) {
 		playerPos.setX(x);

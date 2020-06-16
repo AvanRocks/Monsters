@@ -54,14 +54,20 @@ public abstract class Character {
 
   // check if they hit a wall, if so, move them back
 	protected void checkCollision(int dir) {
-	  Rectangle characterRect = getRect();
+	  Rectangle myRect = getRect();
 
+		// Check collision with walls
     for (int y = 0; y < map.getNumRows(); ++y)
       for (int x = 0; x < map.getNumColumns(); ++x)
-        if (map.getBlock(x,y) == Map.BlockType.WALL && characterRect.intersects(new Rectangle((int)(x*map.getBlockWidth()), (int)(y*map.getBlockHeight()), (int)map.getBlockWidth()+1, (int)map.getBlockHeight()+1))) {
+        if (map.getBlock(x,y) == Map.BlockType.WALL && myRect.intersects(new Rectangle((int)(x*map.getBlockWidth()), (int)(y*map.getBlockHeight()), (int)map.getBlockWidth()+1, (int)map.getBlockHeight()+1))) {
           move(Direction.getOpposite(dir));
           return;
         }
+
+		// Check collision with other characters
+		for (Character c : map.getCharacters()) 
+			if (this != c && myRect.intersects(c.getRect()))
+          move(Direction.getOpposite(dir));
 
 	}
 

@@ -5,6 +5,7 @@ import java.awt.*;
 class Enemy extends Character {
 	private BufferedImage[][] attack = new BufferedImage[4][6];
 	private int attackStep = 0;
+	private int attackDir;
 	private int steps = 0;
 	private int blocksTravelled = 0;
 	private ArrayList<ArrayList<Boolean>> visited;
@@ -123,6 +124,11 @@ class Enemy extends Character {
 
 		if (pos.equals(map.getPlayerPos())) {
 			isAttacking = true;
+			attackDir = getPrevDir();
+		}
+		else if (pos.isAdjacentTo(map.getPlayerPos())) {
+				isAttacking = true;
+				attackDir = pos.compareTo(map.getPlayerPos());
 		} else {
 			steps++;
 			isAttacking = false;
@@ -136,15 +142,17 @@ class Enemy extends Character {
 
 	@Override
 	public BufferedImage getImage() {
-		if (!isAttacking)
+		if (!isAttacking) {
+			attackStep=0;
 			return super.getImage();
+		}
 		else {
 			if (attackStep == 5) {
 				gameIsActive.setVal(false);
 				cards.show(pane,"game-over");
 				attackStep = 0;
 			}
-			return attack[getPrevDir()][attackStep++];
+			return attack[attackDir][attackStep++];
 		}
 	}
 
