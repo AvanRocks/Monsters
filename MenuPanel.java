@@ -39,7 +39,9 @@ class MenuPanel extends JPanel {
 
 		add(Box.createVerticalGlue());
 		add(titlePanel);
+		add(Box.createVerticalGlue());
 		add(playBtnPnl);
+		add(Box.createVerticalGlue());
 		add(rulesBtnPnl);
 		add(Box.createVerticalGlue());
 	}
