@@ -54,9 +54,6 @@ class Enemy extends Character {
 	private boolean visit(int x, int y, int dir, Map map) {
 		if (x<0 || x>=map.getNumColumns() || y<0 || y>=map.getNumRows()) return false;
 		if (visited.get(y).get(x)) return false;
-		if (map.getBlock(x,y) == Map.BlockType.WALL) {
-			return false;
-		}
 
 		visited.get(y).set(x, true);
 		direction.get(y).set(x, dir);
@@ -90,7 +87,6 @@ class Enemy extends Character {
 		int y = map.getPlayerPos().getY();
 
 		while (!(x == startX && y == startY)) {
-			System.out.println("x: "+ x + " y: " + y);
 			path.add(direction.get(y).get(x));
 			switch (direction.get(y).get(x)) {
 				case Direction.UP:    ++y; break;
@@ -163,7 +159,7 @@ class Enemy extends Character {
 			super.drawImage(g);
 		else {
 			Map map = getMap();
-			g.drawImage(getImage(), (int)((getX()-1) * map.getBlockWidth()), (int)((getY()-1) * map.getBlockHeight()), (int)(3*map.getBlockWidth()), (int)(3*map.getBlockHeight()), null);
+			g.drawImage(getImage(), (int)((getX()-0.5) * map.getBlockWidth()), (int)((getY()-0.5) * map.getBlockHeight()), (int)(3*map.getBlockWidth()/2), (int)(3*map.getBlockHeight()/2), null);
 		}
 
 	}

@@ -1,5 +1,6 @@
 import java.awt.image.BufferedImage;
 import java.awt.*;
+import java.awt.geom.*;
 
 public abstract class Character {
 	// x, y, and speed are relative to blockSize
@@ -57,12 +58,19 @@ public abstract class Character {
 	  Rectangle myRect = getRect();
 
 		// Check collision with walls
-    for (int y = 0; y < map.getNumRows(); ++y)
-      for (int x = 0; x < map.getNumColumns(); ++x)
-        if (map.getBlock(x,y) == Map.BlockType.WALL && myRect.intersects(new Rectangle((int)(x*map.getBlockWidth()), (int)(y*map.getBlockHeight()), (int)map.getBlockWidth()+1, (int)map.getBlockHeight()+1))) {
-          move(Direction.getOpposite(dir));
-          return;
-        }
+		Line2D.Double[] walls = map.getWalls();
+		if (walls == null) {
+				move(Direction.getOpposite(dir));
+				return;
+		}
+
+		for (Line2D.Double wall : walls) {
+			if (myRect.intersects(wall.getBounds2D())) {
+				move(Direction.getOpposite(dir));
+				System.out.println("stop");
+				return;
+			}
+		}
 
 		// Check collision with other characters
 		for (Character c : map.getCharacters()) 
@@ -77,12 +85,12 @@ public abstract class Character {
 	}
 
 	public void drawImage(Graphics g) {
-    g.drawImage(getImage(), (int)(getX() * map.getBlockWidth()), (int)(getY() * map.getBlockHeight()), (int)map.getBlockWidth(), (int)map.getBlockHeight(), null);
+    g.drawImage(getImage(), (int)(getX() * map.getBlockWidth()), (int)(getY() * map.getBlockHeight()), (int)(map.getBlockWidth()/2), (int)(map.getBlockHeight()/2), null);
 	}
 
 	private Rectangle getRect() {
-		double width = map.getBlockWidth();
-		double height = map.getBlockHeight();
+		double width = map.getBlockWidth()/2;
+		double height = map.getBlockHeight()/2;
 		return new Rectangle((int)(x*width+width/3.67), (int)(y*height+height/4.8), (int)(width/2.13), (int)(height/1.3));
 	}
 

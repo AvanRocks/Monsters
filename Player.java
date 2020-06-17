@@ -1,7 +1,5 @@
 import java.awt.image.BufferedImage;
 import java.awt.event.*;
-import java.awt.*;
-import javax.swing.*;
 
 class Player extends Character implements KeyListener {
 	private boolean[] keyIsPressed = new boolean[4];
