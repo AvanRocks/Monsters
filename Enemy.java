@@ -65,7 +65,7 @@ class Enemy extends Character {
 
 		//System.out.println(x + " " + y + " is clear to go in direction " + Direction.getOpposite(dir));
 		visited.get(y).set(x, true);
-		direction.get(y).set(x, Direction.getOpposite(dir));
+		direction.get(y).set(x, dir);
 		return true;
 	}
 
@@ -90,11 +90,12 @@ class Enemy extends Character {
 			if (visit(s.getX(), s.getY()-1, Direction.UP, map)) queue.add( new Coordinate(s.getX(), s.getY()-1));
 		}
 
+		System.out.println("avan is noob");
 		for (int y = 0; y < map.getNumRows(); ++y) {
 			for (int x = 0; x < map.getNumColumns(); ++x) {
-				//System.out.print(direction.get(y).get(x));
+				System.out.print(direction.get(y).get(x));
 			}
-			//System.out.println();
+			System.out.println();
 		}
 
 		path = new ArrayList<>();
@@ -108,16 +109,16 @@ class Enemy extends Character {
 				path.add(direction.get(y).get(x));
 				switch (direction.get(y).get(x)) {
 					case Direction.UP:
-						--y;
-						break;
-					case Direction.DOWN:
 						++y;
 						break;
+					case Direction.DOWN:
+						--y;
+						break;
 					case Direction.LEFT:
-						--x;
+						++x;
 						break;
 					case Direction.RIGHT:
-						++x;
+						--x;
 						break;
 				}
 			}
