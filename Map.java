@@ -62,8 +62,6 @@ class Map {
   }
 
   public Line2D.Double getLineInBetween(int x1, int y1, int x2, int y2) {
-    System.out.println(blockHeight + " " + blockWidth);
-
     if (y1 == y2) {
       if (x2 > x1) {
         System.out.println(new Line2D.Double(
