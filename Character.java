@@ -39,10 +39,10 @@ public abstract class Character {
   protected void move(int dir) {
     isMoving = true;
     switch (dir) {
-      case Direction.UP -> y -= speed;
-      case Direction.DOWN -> y += speed;
-      case Direction.LEFT -> x -= speed;
-      case Direction.RIGHT -> x += speed;
+      case Direction.UP: y -= speed; break;
+      case Direction.DOWN:  y += speed; break;
+      case Direction.LEFT:  x -= speed; break;
+      case Direction.RIGHT: x += speed; break;
     }
   }
 

@@ -5,12 +5,12 @@ public class Direction {
   public static final int RIGHT = 3;
 
   public static int getOpposite(int dir) {
-    return switch (dir) {
-      case UP -> DOWN;
-      case DOWN -> UP;
-      case LEFT -> RIGHT;
-      case RIGHT -> LEFT;
-      default -> -1;
-    };
+    switch (dir) {
+      case UP: return DOWN;
+      case DOWN: return UP;
+      case LEFT: return RIGHT;
+      case RIGHT: return LEFT;
+      default: return -1;
+    }
   }
 }

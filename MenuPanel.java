@@ -15,11 +15,12 @@ class MenuPanel extends JPanel {
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setBackground(Color.blue);
 
-    JPanel playBtnPnl = new PlayBtnPanel();
-    JPanel rulesBtnPnl = new RulesBtnPanel();
-    TitlePanel titlePanel = new TitlePanel();
+    CustomImagePanel playButton = new CustomImagePanel("images/play.png", 450, 100);
+    CustomImagePanel rulesButton = new CustomImagePanel("images/rules.png", 450, 100);
+    CustomImagePanel titlePanel = new CustomImagePanel(
+      "images/title.png", 450, 100);
 
-    playBtnPnl.addMouseListener(
+    playButton.addMouseListener(
       new MouseAdapter() {
 
         @Override
@@ -31,7 +32,7 @@ class MenuPanel extends JPanel {
       }
     );
 
-    rulesBtnPnl.addMouseListener(
+    rulesButton.addMouseListener(
       new MouseAdapter() {
 
         @Override
@@ -44,9 +45,9 @@ class MenuPanel extends JPanel {
     add(Box.createVerticalGlue());
     add(titlePanel);
     add(Box.createVerticalGlue());
-    add(playBtnPnl);
+    add(playButton);
     add(Box.createVerticalGlue());
-    add(rulesBtnPnl);
+    add(rulesButton);
     add(Box.createVerticalGlue());
   }
 
@@ -61,74 +62,5 @@ class MenuPanel extends JPanel {
     btn.addActionListener(listener);
 
     return btn;
-  }
-}
-
-class TitlePanel extends JPanel {
-
-  @Override
-  public Dimension getMinimumSize() {
-    return new Dimension(450, 100);
-  }
-
-  @Override
-  public Dimension getMaximumSize() {
-    return new Dimension(450, 100);
-  }
-
-  @Override
-  public Dimension getPreferredSize() {
-    return new Dimension(450, 100);
-  }
-
-  TitlePanel() {
-    setOpaque(false);
-  }
-
-  @Override
-  protected void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    try {
-      Image image = ImageIO.read(new File("images/title.png"));
-      int x = (this.getWidth() - image.getWidth(null)) / 2;
-      int y = (this.getHeight() - image.getHeight(null)) / 2;
-      g.drawImage(image, x, y, null);
-    } catch (Exception ignored) {}
-  }
-}
-
-class PlayBtnPanel extends JPanel {
-
-  PlayBtnPanel() {
-    setOpaque(false);
-  }
-
-  @Override
-  protected void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    try {
-      Image image = ImageIO.read(new File("images/play.png"));
-      int x = (this.getWidth() - image.getWidth(null)) / 2;
-      int y = (this.getHeight() - image.getHeight(null)) / 2;
-      g.drawImage(image, x, y, null);
-    } catch (Exception ignored) {}
-  }
-}
-
-class RulesBtnPanel extends JPanel {
-
-  RulesBtnPanel() {
-    setOpaque(false);
-  }
-
-  @Override
-  protected void paintComponent(Graphics g) {
-    super.paintComponent(g);
-    try {
-      Image image = ImageIO.read(new File("images/rules.png"));
-      int x = (this.getWidth() - image.getWidth(null)) / 2;
-      int y = (this.getHeight() - image.getHeight(null)) / 2;
-      g.drawImage(image, x, y, null);
-    } catch (Exception ignored) {}
   }
 }

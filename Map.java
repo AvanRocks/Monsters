@@ -53,12 +53,12 @@ class Map {
   }
 
   public BlockType getBlock(int x, int y) {
-    return switch (map[y][x]) {
-      case 0 -> BlockType.EMPTY;
-      case 1 -> BlockType.ENEMY_SPAWN;
-      case 2 -> BlockType.PLAYER_SPAWN;
-      default -> BlockType.EMPTY;
-    };
+    switch (map[y][x]) {
+      case 0: return BlockType.EMPTY;
+      case 1: return BlockType.ENEMY_SPAWN;
+      case 2: return BlockType.PLAYER_SPAWN;
+      default: return BlockType.EMPTY;
+    }
   }
 
   public Line2D.Double getLineInBetween(int x1, int y1, int x2, int y2) {
@@ -254,32 +254,36 @@ class Map {
     int dir = -1;
     switch (side) {
       // top
-      case 0 -> {
+      case 0: {
         x = (int) (Math.random() * numColumns);
         y = 0;
         dir = Direction.UP;
         exit = getLineInBetween(x, y, x, y - 1);
+        break;
       }
       // right
-      case 1 -> {
+      case 1: {
         x = numColumns - 1;
         y = (int) (Math.random() * numRows);
         dir = Direction.RIGHT;
         exit = getLineInBetween(x, y, x + 1, y);
+        break;
       }
       // down
-      case 2 -> {
+      case 2: {
         x = (int) (Math.random() * numColumns);
         y = numRows - 1;
         dir = Direction.DOWN;
         exit = getLineInBetween(x, y, x, y + 1);
+        break;
       }
       // left
-      case 3 -> {
+      case 3: {
         x = 0;
         y = (int) (Math.random() * numRows);
         dir = Direction.LEFT;
         exit = getLineInBetween(x, y, x - 1, y);
+        break;
       }
     }
     edges[y][x] |= (1 << dir);

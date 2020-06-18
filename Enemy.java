@@ -114,10 +114,10 @@ class Enemy extends Character {
       while (!(x == startX && y == startY)) {
         path.add(direction.get(y).get(x));
         switch (direction.get(y).get(x)) {
-          case Direction.UP -> ++y;
-          case Direction.DOWN -> --y;
-          case Direction.LEFT -> ++x;
-          case Direction.RIGHT -> --x;
+          case Direction.UP: ++y; break;
+          case Direction.DOWN: --y; break;
+          case Direction.LEFT: ++x; break;
+          case Direction.RIGHT: --x; break;
         }
       }
     } catch (Exception ignored) {}
