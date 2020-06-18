@@ -46,7 +46,7 @@ public abstract class Character {
 			case Direction.RIGHT: x += speed; break;
 		}
 	}
-	
+
 	public void setX(int x) { this.x=x; }
 	public void setY(int y) { this.y=y; }
 
@@ -65,7 +65,15 @@ public abstract class Character {
 		}
 
 		for (Line2D.Double wall : walls) {
-			if (myRect.intersects(wall.getBounds2D())) {
+			Rectangle2D wallBounds = wall.getBounds2D();
+			double width = Math.max(5, wallBounds.getWidth());
+			double height = Math.max(5, wallBounds.getHeight());
+			double x = wallBounds.getX();
+			double y = wallBounds.getY();
+			System.out.println(x + " " + y + " " + width + " " + height);
+
+			wallBounds.setRect(x, y, width, height);
+			if (myRect.intersects(wallBounds)) {
 				move(Direction.getOpposite(dir));
 				System.out.println("stop");
 				return;
@@ -73,7 +81,7 @@ public abstract class Character {
 		}
 
 		// Check collision with other characters
-		for (Character c : map.getCharacters()) 
+		for (Character c : map.getCharacters())
 			if (this != c && myRect.intersects(c.getRect()))
           move(Direction.getOpposite(dir));
 
@@ -85,13 +93,25 @@ public abstract class Character {
 	}
 
 	public void drawImage(Graphics g) {
-    g.drawImage(getImage(), (int)(getX() * map.getBlockWidth()), (int)(getY() * map.getBlockHeight()), (int)(map.getBlockWidth()/2), (int)(map.getBlockHeight()/2), null);
+    g.drawImage(getImage(), (int)(getX() * map.getBlockWidth()), (int)(getY() * map.getBlockHeight()), (int)(map.getBlockWidth()), (int)(map.getBlockHeight()), null);
 	}
 
-	private Rectangle getRect() {
-		double width = map.getBlockWidth()/2;
-		double height = map.getBlockHeight()/2;
-		return new Rectangle((int)(x*width+width/3.67), (int)(y*height+height/4.8), (int)(width/2.13), (int)(height/1.3));
+	public Rectangle getRect() {
+		double width = map.getBlockWidth();
+		double height = map.getBlockHeight();
+
+		double hitboxWidth = width * 0.5;
+		double hitboxHeight = height * 0.75;
+		double hitboxXOffset = width / 2 - hitboxWidth / 2;
+		double hitboxYOffset = height / 2 - hitboxHeight * 0.4;
+
+		// return new Rectangle((int)(x*width+width/3.67), (int)(y*height+height/4.8), (int)(width/2.13), (int)(height/1.3));
+		return new Rectangle(
+			(int)(x * width + hitboxXOffset),
+			(int)(y * height + hitboxYOffset),
+			(int)(hitboxWidth),
+			(int)(hitboxHeight)
+		);
 	}
 
 	protected Map getMap() { return map; }

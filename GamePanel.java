@@ -53,6 +53,7 @@ class GamePanel extends JPanel {
     Graphics2D g2d = (Graphics2D) g;
     g2d.setStroke(new BasicStroke(20));
 
+
     // draw borders
     // top
     Line2D.Double wall = new Line2D.Double(0, 0, getWidth(), 0);
@@ -68,21 +69,36 @@ class GamePanel extends JPanel {
     wall = new Line2D.Double(0, 0, 0, getHeight());
     g2d.draw(wall);
     walls.add(wall);
-    
+
     // bottom
     wall = new Line2D.Double(0, getHeight(), getWidth(), getHeight());
     g2d.draw(wall);
     walls.add(wall);
-    
+
     g2d.setStroke(new BasicStroke(10));
     // draw walls
-    for (int y=0;y<map.getNumRows(); ++y) 
+    for (int y=0;y<map.getNumRows(); ++y)
       for (int x=0;x<map.getNumColumns(); ++x) {
         if ((map.getEdge(x,y) & (1<<Direction.RIGHT)) == 0)
           drawWall(x,y,x+1,y,g2d);
         if ((map.getEdge(x,y) & (1<<Direction.DOWN)) == 0)
           drawWall(x,y,x,y+1,g2d);
       }
+
+
+    g2d.setColor(Color.red);
+
+    for (Line2D.Double w : walls) {
+      Rectangle2D wallBounds = w.getBounds2D();
+      int width = (int) Math.max(5, wallBounds.getWidth());
+      int height = (int) Math.max(5, wallBounds.getHeight());
+      int x = (int) wallBounds.getX();
+      int y = (int) wallBounds.getY();
+
+      g2d.drawRect(x, y, width, height);
+    }
+
+    g2d.draw(characters.get(0).getRect());
 
     g.setColor(oldColor);
   }
