@@ -5,20 +5,12 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 class MenuPanel extends JPanel {
-  private final CardLayout cards;
-  private final Container pane;
-  private final GamePanel game;
 
   MenuPanel(
     CardLayout cards,
     Container pane,
-    GamePanel game,
-    double width,
-    double height
+    GamePanel game
   ) {
-    this.cards = cards;
-    this.pane = pane;
-    this.game = game;
 
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setBackground(Color.blue);

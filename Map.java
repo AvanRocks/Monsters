@@ -11,7 +11,7 @@ class Map {
   private double blockWidth, blockHeight;
   private int level = 0;
   private Coordinate playerPos = new Coordinate(0, 0);
-  private ArrayList<Character> characters;
+  private final ArrayList<Character> characters;
   private int[] link;
   private int[] size;
   private ArrayList<Line2D.Double> walls = null;
@@ -20,9 +20,9 @@ class Map {
   // these are actually inverse edges
   // they determine where there are NO walls
   public int[][] edges;
-  private CardLayout cards;
-  private Container pane;
-  private MutableBoolean gameIsActive;
+  private final CardLayout cards;
+  private final Container pane;
+  private final MutableBoolean gameIsActive;
 
   public enum BlockType {
     EMPTY,
@@ -53,37 +53,40 @@ class Map {
   }
 
   public BlockType getBlock(int x, int y) {
-    switch (map[y][x]) {
-      case 0:
-        return BlockType.EMPTY;
-      case 1:
-        return BlockType.ENEMY_SPAWN;
-      case 2:
-        return BlockType.PLAYER_SPAWN;
-    }
-    return BlockType.EMPTY;
+    return switch (map[y][x]) {
+      case 0 -> BlockType.EMPTY;
+      case 1 -> BlockType.ENEMY_SPAWN;
+      case 2 -> BlockType.PLAYER_SPAWN;
+      default -> BlockType.EMPTY;
+    };
   }
 
   public Line2D.Double getLineInBetween(int x1, int y1, int x2, int y2) {
     if (y1 == y2) {
-      if (x2 > x1) return new Line2D.Double(
-        x2 * blockWidth,
-        y1 * blockHeight,
-        x2 * blockWidth,
-        (y1 + 1) * blockHeight
-      ); else if (x1 > x2) return new Line2D.Double(
-        x1 * blockWidth,
-        y1 * blockHeight,
-        x1 * blockWidth,
-        (y1 + 1) * blockHeight
-      );
+      if (x2 > x1) {
+        return new Line2D.Double(
+          x2 * blockWidth,
+          y1 * blockHeight,
+          x2 * blockWidth,
+          (y1 + 1) * blockHeight
+        );
+      } else if (x1 > x2) {
+        return new Line2D.Double(
+          x1 * blockWidth,
+          y1 * blockHeight,
+          x1 * blockWidth,
+          (y1 + 1) * blockHeight
+        );
+      }
     } else if (x1 == x2) {
       if (y2 > y1) return new Line2D.Double(
         x2 * blockWidth,
         y2 * blockHeight,
         (x2 + 1) * blockWidth,
         y2 * blockHeight
-      ); else if (y1 > y2) return new Line2D.Double(
+      );
+    } else if (y1 > y2) {
+      return new Line2D.Double(
         x2 * blockWidth,
         y1 * blockHeight,
         (x2 + 1) * blockWidth,
@@ -98,23 +101,23 @@ class Map {
     characters.clear();
 
     // create player
-    for (int y = 0; y < getNumRows(); ++y) for (
-      int x = 0;
-      x < getNumColumns();
-      ++x
-    ) if (getBlock(x, y) == BlockType.PLAYER_SPAWN) {
-      playerPos = new Coordinate(x, y);
-      try {
-        characters.add(
-          new Player(
-            playerPos.getX(),
-            playerPos.getY(),
-            ImageIO.read(new File("images" + File.separator + "player.png")),
-            this
-          )
-        );
-      } catch (IOException e) {
-        e.printStackTrace();
+    for (int y = 0; y < getNumRows(); ++y) {
+      for (int x = 0; x < getNumColumns(); ++x) if (
+        getBlock(x, y) == BlockType.PLAYER_SPAWN
+      ) {
+        playerPos = new Coordinate(x, y);
+        try {
+          characters.add(
+            new Player(
+              playerPos.getX(),
+              playerPos.getY(),
+              ImageIO.read(new File("images" + File.separator + "player.png")),
+              this
+            )
+          );
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
       }
     }
 
@@ -225,8 +228,9 @@ class Map {
       }
 
       // put untouched 2nd row cells in their own set
-      for (int x = 0; x < numColumns; ++x) if (set[1][x] == 0) set[1][x] =
-        (y + 1) * getNumColumns() + x + 1;
+      for (int x = 0; x < numColumns; ++x) {
+        if (set[1][x] == 0) set[1][x] = (y + 1) * getNumColumns() + x + 1;
+      }
 
       // move 2nd row up, and make a new 2nd row
       set[0] = set[1];
@@ -250,33 +254,33 @@ class Map {
     int dir = -1;
     switch (side) {
       // top
-      case 0:
+      case 0 -> {
         x = (int) (Math.random() * numColumns);
         y = 0;
         dir = Direction.UP;
         exit = getLineInBetween(x, y, x, y - 1);
-        break;
+      }
       // right
-      case 1:
+      case 1 -> {
         x = numColumns - 1;
         y = (int) (Math.random() * numRows);
         dir = Direction.RIGHT;
         exit = getLineInBetween(x, y, x + 1, y);
-        break;
+      }
       // down
-      case 2:
+      case 2 -> {
         x = (int) (Math.random() * numColumns);
         y = numRows - 1;
         dir = Direction.DOWN;
         exit = getLineInBetween(x, y, x, y + 1);
-        break;
+      }
       // left
-      case 3:
+      case 3 -> {
         x = 0;
         y = (int) (Math.random() * numRows);
         dir = Direction.LEFT;
         exit = getLineInBetween(x, y, x - 1, y);
-        break;
+      }
     }
     edges[y][x] |= (1 << dir);
 

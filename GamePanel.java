@@ -6,9 +6,8 @@ import javax.swing.*;
 class GamePanel extends JPanel {
   private ArrayList<Character> characters;
   private Map map;
-  private CardLayout cards;
-  private Container pane;
-  private MutableBoolean gameIsActive;
+  private final CardLayout cards;
+  private final Container pane;
   private ArrayList<Line2D.Double> walls;
   private boolean isFirstPaint = true;
 
@@ -18,7 +17,7 @@ class GamePanel extends JPanel {
   }
 
   public void start() {
-    gameIsActive = new MutableBoolean(true);
+    MutableBoolean gameIsActive = new MutableBoolean(true);
 
     map = new Map(getWidth(), getHeight(), cards, pane, gameIsActive);
     map.advanceLevel();
@@ -68,37 +67,37 @@ class GamePanel extends JPanel {
       x < map.getNumColumns();
       ++x
     ) {
-      if ((map.getEdge(x, y) & (1 << Direction.RIGHT)) == 0) drawWall(
+      if ((map.getEdge(x, y) & (1 << Direction.RIGHT)) == 0) {drawWall(
         x,
         y,
         x + 1,
         y,
         g2d
-      );
-      if ((map.getEdge(x, y) & (1 << Direction.DOWN)) == 0) drawWall(
+      );}
+      if ((map.getEdge(x, y) & (1 << Direction.DOWN)) == 0) {drawWall(
         x,
         y,
         x,
         y + 1,
         g2d
-      );
+      );}
     }
 
     g.setColor(oldColor);
   }
 
   private void paintLevel(Graphics g) {
-    double rectWidth = getWidth() / 3;
-    double rectHeight = getWidth() / 5;
+    int rectWidth = getWidth() / 3;
+    int rectHeight = getWidth() / 5;
 
     Color oldColor = g.getColor();
     g.setColor(Color.black);
 
     g.fillRoundRect(
-      (int) (getWidth() - rectWidth / 2),
-      (int) (getHeight() - rectHeight / 2),
-      (int) (rectWidth),
-      (int) (rectHeight),
+      getWidth() - rectWidth / 2,
+      getHeight() - rectHeight / 2,
+      rectWidth,
+      rectHeight,
       10,
       10
     );

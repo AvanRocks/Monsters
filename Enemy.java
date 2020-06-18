@@ -3,7 +3,7 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 
 class Enemy extends Character {
-  private BufferedImage[][] attack = new BufferedImage[4][6];
+  private final BufferedImage[][] attack = new BufferedImage[4][6];
   private int attackStep = 0;
   private int attackDir;
   private int steps = 0;
@@ -12,9 +12,9 @@ class Enemy extends Character {
   private ArrayList<ArrayList<Integer>> direction;
   private ArrayList<Integer> path;
   private boolean isAttacking;
-  private CardLayout cards;
-  private Container pane;
-  private MutableBoolean gameIsActive;
+  private final CardLayout cards;
+  private final Container pane;
+  private final MutableBoolean gameIsActive;
 
   Enemy(
     int x,
@@ -46,16 +46,16 @@ class Enemy extends Character {
 
   private void resetArrays(Map map) {
     // reset visited
-    visited = new ArrayList<ArrayList<Boolean>>();
+    visited = new ArrayList<>();
     for (int i = 0; i < map.getNumRows(); ++i) {
-      visited.add(new ArrayList<Boolean>(map.getNumColumns()));
+      visited.add(new ArrayList<>(map.getNumColumns()));
       for (int j = 0; j < map.getNumColumns(); ++j) visited.get(i).add(false);
     }
 
     // reset direction
-    direction = new ArrayList<ArrayList<Integer>>();
+    direction = new ArrayList<>();
     for (int i = 0; i < map.getNumRows(); ++i) {
-      direction.add(new ArrayList<Integer>(map.getNumColumns()));
+      direction.add(new ArrayList<>(map.getNumColumns()));
       for (int j = 0; j < map.getNumColumns(); ++j) direction.get(i).add(0);
     }
   }
@@ -114,18 +114,10 @@ class Enemy extends Character {
       while (!(x == startX && y == startY)) {
         path.add(direction.get(y).get(x));
         switch (direction.get(y).get(x)) {
-          case Direction.UP:
-            ++y;
-            break;
-          case Direction.DOWN:
-            --y;
-            break;
-          case Direction.LEFT:
-            ++x;
-            break;
-          case Direction.RIGHT:
-            --x;
-            break;
+          case Direction.UP -> ++y;
+          case Direction.DOWN -> --y;
+          case Direction.LEFT -> ++x;
+          case Direction.RIGHT -> --x;
         }
       }
     } catch (Exception ignored) {}

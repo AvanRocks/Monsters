@@ -1,10 +1,10 @@
 import java.util.*;
 
 class GameThread implements Runnable {
-  private ArrayList<Character> characters;
-  private MutableBoolean gameIsActive;
-  private GamePanel gamePanel;
-  private Map map;
+  private final ArrayList<Character> characters;
+  private final MutableBoolean gameIsActive;
+  private final GamePanel gamePanel;
+  private final Map map;
 
   GameThread(
     ArrayList<Character> characters,
@@ -42,7 +42,7 @@ class GameThread implements Runnable {
       // Sleep for 75 milliseconds with accomodation for the time that updating and repaint() took
       try {
         Thread.sleep(75 - diffTime);
-      } catch (InterruptedException e) {}
+      } catch (InterruptedException ignored) {}
 
       // measure how long updating and repaint() will take
       prevTime = System.currentTimeMillis();
