@@ -62,8 +62,16 @@ class Map {
   }
 
   public Line2D.Double getLineInBetween(int x1, int y1, int x2, int y2) {
+    System.out.println(blockHeight + " " + blockWidth);
+
     if (y1 == y2) {
       if (x2 > x1) {
+        System.out.println(new Line2D.Double(
+          x2 * blockWidth,
+          y1 * blockHeight,
+          x2 * blockWidth,
+          (y1 + 1) * blockHeight
+        ).getBounds2D());
         return new Line2D.Double(
           x2 * blockWidth,
           y1 * blockHeight,
@@ -71,6 +79,12 @@ class Map {
           (y1 + 1) * blockHeight
         );
       } else if (x1 > x2) {
+        System.out.println(new Line2D.Double(
+          x1 * blockWidth,
+          y1 * blockHeight,
+          x1 * blockWidth,
+          (y1 + 1) * blockHeight
+        ).getBounds2D());
         return new Line2D.Double(
           x1 * blockWidth,
           y1 * blockHeight,
@@ -80,6 +94,12 @@ class Map {
       }
     } else if (x1 == x2) {
       if (y2 > y1) {
+        System.out.println(new Line2D.Double(
+          x2 * blockWidth,
+          y2 * blockHeight,
+          (x2 + 1) * blockWidth,
+          y2 * blockHeight
+        ).getBounds2D());
         return new Line2D.Double(
           x2 * blockWidth,
           y2 * blockHeight,
@@ -87,6 +107,12 @@ class Map {
           y2 * blockHeight
         );
       } else if (y1 > y2) {
+        System.out.println(new Line2D.Double(
+          x2 * blockWidth,
+          y1 * blockHeight,
+          (x2 + 1) * blockWidth,
+          y1 * blockHeight
+        ).getBounds2D());
         return new Line2D.Double(
           x2 * blockWidth,
           y1 * blockHeight,
