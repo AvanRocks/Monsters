@@ -25,7 +25,7 @@ class Enemy extends Character {
 		// load attacking animation of enemy
     for (int i = 0; i < 4; ++i) {
       for (int j = 0; j < 6; ++j) {
-        attack[i][j] = spriteSheet.getSubimage(576 + j*192, i*192, 192, 192);
+        attack[i][j] = spriteSheet.getSubimage(576 + j*192, i*192, 192, 192).getSubimage(64, 64, 64, 64);
       }
     }
 
@@ -159,7 +159,7 @@ class Enemy extends Character {
 			super.drawImage(g);
 		else {
 			Map map = getMap();
-			g.drawImage(getImage(), (int)((getX()-0.5) * map.getBlockWidth()), (int)((getY()-0.5) * map.getBlockHeight()), (int)(3*map.getBlockWidth()/2), (int)(3*map.getBlockHeight()/2), null);
+			g.drawImage(getImage(), (int)(getX() * map.getBlockWidth()), (int)(getY() * map.getBlockHeight()), (int)(map.getBlockWidth()), (int)(map.getBlockHeight()), null);
 		}
 
 	}
