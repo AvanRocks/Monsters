@@ -40,8 +40,6 @@ class GamePanel extends JPanel {
     if (wall!=null) {
       walls.add(wall);
       g2d.draw(wall);
-    } else {
-      System.out.println("wall is null");
     }
   }
 

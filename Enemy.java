@@ -34,7 +34,7 @@ class Enemy extends Character {
   }
 
 	private void resetArrays(Map map) {
-		// reset direction
+		// reset visited
 		visited = new ArrayList<ArrayList<Boolean>>();
 		for (int i=0;i<map.getNumRows();++i) {
 			visited.add(new ArrayList<Boolean>(map.getNumColumns()));
@@ -52,18 +52,12 @@ class Enemy extends Character {
 	}
 
 	private boolean visit(int x, int y, int dir, Map map) {
-		if (x<0 || x>=map.getNumColumns() || y<0 || y>=map.getNumRows()) return false;
-		if (visited.get(y).get(x)) return false;
+		if (x<0 || x>=map.getNumColumns() || y<0 || y>=map.getNumRows()) { return false; }
+		if (visited.get(y).get(x)) { return false; }
 
-		// Checking if there exists no wall between the opposite direction
+		// Checking if there exists a wall between the opposite direction
+		if ((map.getEdge(x, y) & (1 << Direction.getOpposite(dir))) == 0) { return false; }
 
-		//System.out.println("binary for " + x + " " + y + ": " + Integer.toBinaryString(map.getEdge(x, y)));
-		if ((map.getEdge(x, y) & (1 << Direction.getOpposite(dir))) == 0) {
-			//System.out.println(x + " " + y + " has wall in direction " + Direction.getOpposite(dir));
-			return false;
-		}
-
-		//System.out.println(x + " " + y + " is clear to go in direction " + Direction.getOpposite(dir));
 		visited.get(y).set(x, true);
 		direction.get(y).set(x, dir);
 		return true;
@@ -89,23 +83,12 @@ class Enemy extends Character {
 			if (visit(s.getX(), s.getY()+1, Direction.DOWN, map)) queue.add( new Coordinate(s.getX(), s.getY()+1));
 			if (visit(s.getX(), s.getY()-1, Direction.UP, map)) queue.add( new Coordinate(s.getX(), s.getY()-1));
 		}
-
-		System.out.println("avan is noob");
-		for (int y = 0; y < map.getNumRows(); ++y) {
-			for (int x = 0; x < map.getNumColumns(); ++x) {
-				System.out.print(direction.get(y).get(x));
-			}
-			System.out.println();
-		}
-
 		path = new ArrayList<>();
 		int x = map.getPlayerPos().getX();
 		int y = map.getPlayerPos().getY();
-		//System.out.println("playerX: " + x + ", playerY: " + y);
 
 		try {
 			while (!(x == startX && y == startY)) {
-				//System.out.println("x: " + x + ", y: " + y);
 				path.add(direction.get(y).get(x));
 				switch (direction.get(y).get(x)) {
 					case Direction.UP:
@@ -143,15 +126,16 @@ class Enemy extends Character {
 			}
 		}
 
-		int startX = (int) Math.round(getX());
-		int startY = (int) Math.round(getY());
-		Coordinate pos = new Coordinate(startX, startY);
+		Coordinate pos = new Coordinate((int) Math.round(getX()), (int) Math.round(getY()));
 
 		if (pos.equals(map.getPlayerPos())) {
 			isAttacking = true;
 			attackDir = getPrevDir();
 		}
-		else if (pos.isAdjacentTo(map.getPlayerPos())) {
+		// if the player is adjacent AND there is no wall int between
+		else if (pos.isAdjacentTo(map.getPlayerPos())
+						&& (map.getEdge(map.getPlayerPos().getX(), map.getPlayerPos().getY()) & (1 << Direction.getOpposite(pos.compareTo(map.getPlayerPos())))) == 1)
+		{
 				isAttacking = true;
 				attackDir = pos.compareTo(map.getPlayerPos());
 		} else {
@@ -191,5 +175,4 @@ class Enemy extends Character {
 		}
 
 	}
-
 }

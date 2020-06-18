@@ -35,7 +35,7 @@ class Map {
 
 	// these are actually inverse edges
 	// they determine where there are NO walls
-	private int[][] edges;
+	public int[][] edges;
 
 	public enum BlockType {
 		EMPTY,
@@ -149,8 +149,8 @@ class Map {
 			for (int x=0;x<numColumns;++x) {
 				if (x+1<numColumns && !same(set[0][x],set[0][x+1]) && ((int)(Math.random()*2) == 0)) {
 					unite(set[0][x],set[0][x+1]);
-					edges[y][x] = (1<<Direction.RIGHT);
-					edges[y][x+1] = (1<<Direction.LEFT);
+					edges[y][x] |= (1<<Direction.RIGHT);
+					edges[y][x+1] |= (1<<Direction.LEFT);
 				}
 			}
 		
@@ -207,11 +207,6 @@ class Map {
 				enemyY = (int)(Math.random()*numRows);
 			} while (Math.abs(enemyX-playerX) + Math.abs(enemyY-playerY) < 5);
 			map[enemyY][enemyX] = 1;
-		}
-		for (int i=0;i<edges.length;++i) {
-			for (int j=0;j<edges[i].length;++j)
-				System.out.print(Integer.toBinaryString(edges[i][j]) + " ");
-			System.out.println();
 		}
 	}
 
