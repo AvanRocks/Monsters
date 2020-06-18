@@ -4,8 +4,8 @@ Final Project: Escaping Monsters Game (using GUI)
 ICS3U7-02 Ms. Strelkovska
 */
 import java.awt.*;
-import javax.swing.*;
 import java.awt.event.*;
+import javax.swing.*;
 
 class Monsters extends JFrame {
   private GamePanel game;
@@ -14,7 +14,7 @@ class Monsters extends JFrame {
   private JPanel rules;
   private JLabel rulesLabel;
   private CardLayout cards;
-	private Dimension size = new Dimension(550,550);
+  private Dimension size = new Dimension(550, 550);
 
   Monsters(String name) {
     super(name);
@@ -24,9 +24,22 @@ class Monsters extends JFrame {
     getContentPane().setLayout(cards);
 
     game = new GamePanel(cards, getContentPane());
-    menu = new MenuPanel(cards, getContentPane(), game, size.getWidth(), size.getHeight());
+    menu =
+      new MenuPanel(
+        cards,
+        getContentPane(),
+        game,
+        size.getWidth(),
+        size.getHeight()
+      );
     rules = new RulesPanel(cards, getContentPane());
-		gameOver = new GameOverPanel(cards, getContentPane(), size.getWidth(), size.getHeight());
+    gameOver =
+      new GameOverPanel(
+        cards,
+        getContentPane(),
+        size.getWidth(),
+        size.getHeight()
+      );
 
     getContentPane().add("menu", menu);
     getContentPane().add("rules", rules);
@@ -37,7 +50,7 @@ class Monsters extends JFrame {
   public static void main(String[] args) {
     JFrame frame = new Monsters("Monsters");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setMinimumSize(new Dimension(450,350));
+    frame.setMinimumSize(new Dimension(450, 350));
     frame.setVisible(true);
   }
 }
