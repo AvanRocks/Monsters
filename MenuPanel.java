@@ -1,7 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 class MenuPanel extends JPanel {
@@ -9,7 +7,9 @@ class MenuPanel extends JPanel {
   MenuPanel(
     CardLayout cards,
     Container pane,
-    GamePanel game
+    GamePanel game,
+    int width,
+    int height
   ) {
 
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

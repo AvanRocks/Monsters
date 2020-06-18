@@ -29,8 +29,8 @@ class Monsters extends JFrame {
         cards,
         getContentPane(),
         game,
-        size.getWidth(),
-        size.getHeight()
+        (int) size.getWidth(),
+        (int) size.getHeight()
       );
     rules = new RulesPanel(cards, getContentPane());
     gameOver =
