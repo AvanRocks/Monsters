@@ -10,6 +10,7 @@ class GamePanel extends JPanel {
 	private Container pane;
   private MutableBoolean gameIsActive;
   private ArrayList<Line2D.Double> walls;
+  private boolean isFirstPaint = true;
 
 	GamePanel(CardLayout cards, Container pane) {
 		this.cards=cards;
@@ -20,22 +21,20 @@ class GamePanel extends JPanel {
 		gameIsActive = new MutableBoolean(true);
 
     map = new Map(getWidth(), getHeight(), cards, pane, gameIsActive);
-    walls = new ArrayList<>();
+    map.advanceLevel();
     characters = map.getCharacters();
+
+    walls = new ArrayList<>();
 
     new Thread(new GameThread(characters, gameIsActive, this, map)).start();
 
 		addKeyListener((Player)characters.get(0));
 
-		setFocusable(true);
+    setFocusable(true);
   }
 
   private void drawWall(int x1, int y1, int x2, int y2, Graphics2D g2d) {
-    Line2D.Double wall = null;
-    if (y1==y2)
-      wall = new Line2D.Double(x2*map.getBlockWidth(), y1*map.getBlockHeight(), x2*map.getBlockWidth(), (y1+1)*map.getBlockHeight());
-    else if (x1==x2)
-      wall = new Line2D.Double(x2*map.getBlockWidth(), y2*map.getBlockHeight(), (x2+1)*map.getBlockWidth(), y2*map.getBlockHeight());
+    Line2D.Double wall = map.getLineInBetween(x1, y1, x2, y2);
 
     if (wall!=null) {
       walls.add(wall);
@@ -44,34 +43,23 @@ class GamePanel extends JPanel {
   }
 
   private void paintMap(Graphics g) {
-		// Change color, but remember old color to set it back later
+		// Change color and stroke, but remember them to set it back later
     Color oldColor = g.getColor();
     g.setColor(Color.black);
 
     Graphics2D g2d = (Graphics2D) g;
     g2d.setStroke(new BasicStroke(20));
 
-
     // draw borders
     // top
-    Line2D.Double wall = new Line2D.Double(0, 0, getWidth(), 0);
-    g2d.draw(wall);
-    walls.add(wall);
-
-    // right
-    wall = new Line2D.Double(getWidth(), 0, getWidth(), getHeight());
-    g2d.draw(wall);
-    walls.add(wall);
+    for (int x=0;x<map.getNumColumns();++x)
+      if ((map.getEdge(x,0) & (1<<Direction.UP)) == 0)
+        drawWall(x,0,x,-1,g2d);
 
     // left
-    wall = new Line2D.Double(0, 0, 0, getHeight());
-    g2d.draw(wall);
-    walls.add(wall);
-
-    // bottom
-    wall = new Line2D.Double(0, getHeight(), getWidth(), getHeight());
-    g2d.draw(wall);
-    walls.add(wall);
+    for (int y=0;y<map.getNumRows();++y)
+      if ((map.getEdge(0,y) & (1<<Direction.LEFT)) == 0)
+        drawWall(0,y,-1,y,g2d);
 
     g2d.setStroke(new BasicStroke(10));
     // draw walls
@@ -83,20 +71,17 @@ class GamePanel extends JPanel {
           drawWall(x,y,x,y+1,g2d);
       }
 
+    g.setColor(oldColor);
+  }
 
-    g2d.setColor(Color.red);
+  private void paintLevel(Graphics g) {
+    double rectWidth = getWidth()/3;
+    double rectHeight = getWidth()/5;
 
-    for (Line2D.Double w : walls) {
-      Rectangle2D wallBounds = w.getBounds2D();
-      int width = (int) Math.max(5, wallBounds.getWidth());
-      int height = (int) Math.max(5, wallBounds.getHeight());
-      int x = (int) wallBounds.getX();
-      int y = (int) wallBounds.getY();
+    Color oldColor = g.getColor();
+    g.setColor(Color.black);
 
-      g2d.drawRect(x, y, width, height);
-    }
-
-    g2d.draw(characters.get(0).getRect());
+    g.fillRoundRect((int)(getWidth()-rectWidth/2), (int)(getHeight()-rectHeight/2), (int)(rectWidth), (int)(rectHeight), 10, 10);
 
     g.setColor(oldColor);
   }
@@ -116,6 +101,20 @@ class GamePanel extends JPanel {
     // Draw the characters
 		for (Character c : characters) {
 			c.drawImage(g);
-		}
+    }
+    
+    // check if the player has reached the exit
+    if (((Player)characters.get(0)).reachedExit()) {
+      map.advanceLevel();
+      paintLevel(g);
+    }
+
+    if (isFirstPaint) {
+      paintLevel(g);
+      System.out.println(map.getLevel());
+      isFirstPaint=false;
+      //try { Thread.sleep(5000); }
+      //catch (Exception ignored) {}
+    }
   }
 }

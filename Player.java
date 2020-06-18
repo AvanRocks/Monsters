@@ -1,5 +1,6 @@
 import java.awt.image.BufferedImage;
 import java.awt.event.*;
+import java.awt.geom.*;
 
 class Player extends Character implements KeyListener {
 	private boolean[] keyIsPressed = new boolean[4];
@@ -46,6 +47,15 @@ class Player extends Character implements KeyListener {
 	// helper method
 	private void updatePos(int dir) {
     walk(dir);
-		checkCollision(dir);
-	}
+    checkCollision(dir);
+  }
+  
+  public boolean reachedExit() {
+    Rectangle2D exitWallBounds = getMap().getExit().getBounds2D();
+    exitWallBounds.setRect(exitWallBounds.getX(),
+                           exitWallBounds.getY(),
+                           Math.max(5,exitWallBounds.getWidth()),
+                           Math.max(5,exitWallBounds.getHeight()));
+    return getRect().intersects(exitWallBounds);
+  }
 }

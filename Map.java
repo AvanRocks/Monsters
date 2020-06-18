@@ -15,27 +15,14 @@ class Map {
 	private int[] link;
 	private int[] size;
 	private ArrayList<Line2D.Double> walls = null;
-
-	/*
-	private int[][] map = {
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-		{1, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-		{1, 2, 1, 1, 0, 3, 0, 0, 0, 1},
-		{1, 0, 0, 1, 0, 0, 0, 1, 0, 4},
-		{1, 1, 1, 1, 0, 0, 0, 1, 0, 1},
-		{1, 0, 0, 0, 0, 1, 0, 1, 0, 1},
-		{1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 0, 0, 1, 1, 1, 0, 0, 1, 1},
-		{1, 2, 0, 0, 0, 0, 2, 1, 1, 1},
-		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-	};
-	*/
-
+	private Line2D.Double exit;
 	private int[][] map;
-
 	// these are actually inverse edges
 	// they determine where there are NO walls
 	public int[][] edges;
+	private CardLayout cards;
+	private Container pane;
+	private MutableBoolean gameIsActive;
 
 	public enum BlockType {
 		EMPTY,
@@ -45,12 +32,50 @@ class Map {
 
 	// For testing
 	public Map(double panelWidth, double panelHeight, CardLayout cards, Container pane, MutableBoolean gameIsActive) {
+		this.cards=cards;
+		this.pane=pane;
+		this.gameIsActive=gameIsActive;
+
 		updateBlockSize(panelWidth, panelHeight);
 
 		characters = new ArrayList<Character>();
-		generateMap();
+	}
 
+	public void advanceLevel() {
+		generateMap();
 		level++;
+	}
+
+	public BlockType getBlock(int x, int y) {
+		switch (map[y][x]) {
+			case 0:
+				return BlockType.EMPTY;
+			case 1:
+				return BlockType.ENEMY_SPAWN;
+			case 2:
+				return BlockType.PLAYER_SPAWN;
+		}
+		return BlockType.EMPTY;
+	}
+
+	public Line2D.Double getLineInBetween(int x1, int y1, int x2, int y2) {
+		if (y1==y2) {
+      if (x2 > x1)
+        return new Line2D.Double(x2*blockWidth, y1*blockHeight, x2*blockWidth, (y1+1)*blockHeight);
+      else if (x1 > x2)
+        return new Line2D.Double(x1*blockWidth, y1*blockHeight, x1*blockWidth, (y1+1)*blockHeight);
+    } else if (x1==x2) {
+      if (y2 > y1)
+       return new Line2D.Double(x2*blockWidth, y2*blockHeight, (x2+1)*blockWidth, y2*blockHeight);
+      else if (y1 > y2)
+      return  new Line2D.Double(x2*blockWidth, y1*blockHeight, (x2+1)*blockWidth, y1*blockHeight);
+		}
+
+		return null;
+	}
+
+	private void createCharacters() {
+		characters.clear();
 
 		// create player
 		for (int y=0;y<getNumRows();++y)
@@ -72,30 +97,6 @@ class Map {
       }
 		}
 
-
-		//numRows = 3 * level + 10;
-		//numColumns = 3 * level + 10;
-		//this.map = new int[numRows][numColumns];
-	}
-
-/*
-	public Map(int level) {
-		numRows = 10 * level + 3;
-		numColumns = 10 * level + 3;
-		this.map = new int[numRows][numColumns];
-	}
-*/
-
-	public BlockType getBlock(int x, int y) {
-		switch (map[y][x]) {
-			case 0:
-				return BlockType.EMPTY;
-			case 1:
-				return BlockType.ENEMY_SPAWN;
-			case 2:
-				return BlockType.PLAYER_SPAWN;
-		}
-		return BlockType.EMPTY;
 	}
 
 	private int find(int x) {
@@ -194,11 +195,49 @@ class Map {
 			}
 		}
 
-		// place the player and enemies' spawns
+		// make the exit
+		int side = (int)(Math.random()*4);
+		int x=-1, y=-1;
+		int dir=-1;
+		switch (side) {
+			// top
+			case 0: 
+				x = (int)(Math.random()*numColumns);
+				y = 0;
+				dir = Direction.UP;
+				exit = getLineInBetween(x, y, x, y-1);
+				break;
+			// right
+			case 1:
+				x = numColumns-1;
+				y =  (int)(Math.random()*numRows);
+				dir = Direction.RIGHT;
+				exit = getLineInBetween(x, y, x+1, y);
+				break;
+			// down
+			case 2:
+				x = (int)(Math.random()*numColumns);
+				y = numRows-1;
+				dir = Direction.DOWN;
+				exit = getLineInBetween(x, y, x, y+1);
+				break;
+			// left
+			case 3:
+				x = 0; 
+				y = (int)(Math.random()*numRows);
+				dir = Direction.LEFT;
+				exit = getLineInBetween(x, y, x-1, y);
+				break;
+		}
+		edges[y][x] |= (1<<dir);
+		
+
+		// place the player spawn
 		int playerX = (int)(Math.random()*numColumns);
 		int playerY = (int)(Math.random()*numRows);
 		map[playerY][playerX] = 2;
 
+		// place the enemies' spawn(s)
 		int numEnemies = (int)(Math.random()*3)+1;
 		for (int i=0;i<numEnemies;++i) {
 			int enemyX, enemyY;
@@ -208,6 +247,8 @@ class Map {
 			} while (Math.abs(enemyX-playerX) + Math.abs(enemyY-playerY) < 5);
 			map[enemyY][enemyX] = 1;
 		}
+
+		createCharacters();
 	}
 
 	public ArrayList<Character> getCharacters() { return characters; }
@@ -217,12 +258,16 @@ class Map {
 	public Line2D.Double[] getWalls() { return (walls == null) ? null : walls.toArray(new Line2D.Double[0]); }
 	public void setWalls(ArrayList<Line2D.Double> walls) { this.walls = walls; }
 
+	public Line2D.Double getExit() { return exit; }
+
 	public void setPlayerPos(int x, int y) {
 		playerPos.setX(x);
 		playerPos.setY(y);
 	}
 
 	public Coordinate getPlayerPos() { return playerPos; }
+
+	public int getLevel() { return level; }
 
 	public double getBlockWidth() { return blockWidth; }
 	public double getBlockHeight() {return blockHeight;}

@@ -23,7 +23,6 @@ public abstract class Character {
 				walk[i][j] = spriteSheet.getSubimage(j*64, i*64, 64, 64);
 			}
 		}
-
 	}
 
 	abstract public void updatePos();
@@ -93,6 +92,7 @@ public abstract class Character {
 	public void drawImage(Graphics g) {
     g.drawImage(getImage(), (int)(getX() * map.getBlockWidth()), (int)(getY() * map.getBlockHeight()), (int)(map.getBlockWidth()), (int)(map.getBlockHeight()), null);
 	}
+	
 
 	public Rectangle getRect() {
 		double width = map.getBlockWidth();

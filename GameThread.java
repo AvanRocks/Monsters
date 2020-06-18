@@ -26,13 +26,14 @@ class GameThread implements Runnable {
 		        c.updatePos();
 
             // tell map the player's new position
-            map.setPlayerPos((int) Math.round(characters.get(0).getX()), (int) Math.round(characters.get(0).getY()));
+            map.setPlayerPos((int) Math.round(characters.get(0).getX()),
+                             (int) Math.round(characters.get(0).getY()));
 
             gamePanel.repaint();
     
             diffTime = System.currentTimeMillis() - prevTime;
     
-            // Sleep for 75 milliseconds with accomodation for the time repaint() took
+            // Sleep for 75 milliseconds with accomodation for the time that updating and repaint() took
             try { Thread.sleep(75 - diffTime); }
             catch (InterruptedException e) {}
     
