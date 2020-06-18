@@ -20,6 +20,8 @@ class GamePanel extends JPanel {
     MutableBoolean gameIsActive = new MutableBoolean(true);
 
     map = new Map(getWidth(), getHeight(), cards, pane, gameIsActive);
+    System.out.println("width: " + getWidth()+" height: "+getHeight());
+    map.updateBlockSize(getWidth(), getHeight());
     map.advanceLevel();
     characters = map.getCharacters();
 

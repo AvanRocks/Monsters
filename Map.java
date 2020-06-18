@@ -62,6 +62,9 @@ class Map {
   }
 
   public Line2D.Double getLineInBetween(int x1, int y1, int x2, int y2) {
+    System.out.println("x1: "+x1+" y1: "+y1+" x2: "+x2+" y2: "+y2);
+    System.out.println("columns: " + numColumns+" rows: "+numRows);
+    System.out.println("blockWidth: "+blockWidth+" blockHeight: "+blockHeight);
     if (y1 == y2) {
       if (x2 > x1) {
         System.out.println(new Line2D.Double(
@@ -70,6 +73,12 @@ class Map {
           x2 * blockWidth,
           (y1 + 1) * blockHeight
         ).getBounds2D());
+         System.out.println(
+          x2 * blockWidth + " "+
+          y1 * blockHeight + " "+
+          x2 * blockWidth + " "+
+          (y1 + 1) * blockHeight
+        );
         return new Line2D.Double(
           x2 * blockWidth,
           y1 * blockHeight,
@@ -83,6 +92,12 @@ class Map {
           x1 * blockWidth,
           (y1 + 1) * blockHeight
         ).getBounds2D());
+        System.out.println(
+          x1 * blockWidth + " "+
+          y1 * blockHeight + " "+
+          x1 * blockWidth + " "+
+          (y1 + 1) * blockHeight
+        );
         return new Line2D.Double(
           x1 * blockWidth,
           y1 * blockHeight,
@@ -98,6 +113,12 @@ class Map {
           (x2 + 1) * blockWidth,
           y2 * blockHeight
         ).getBounds2D());
+        System.out.println(
+          x2 * blockWidth + " "+
+          y2 * blockHeight + " "+
+          (x2+1) * blockWidth + " "+
+          y2 * blockHeight
+        );
         return new Line2D.Double(
           x2 * blockWidth,
           y2 * blockHeight,
@@ -111,6 +132,12 @@ class Map {
           (x2 + 1) * blockWidth,
           y1 * blockHeight
         ).getBounds2D());
+        System.out.println(
+          x2 * blockWidth + " "+
+          y1 * blockHeight + " "+
+          (x2+1) * blockWidth + " "+
+          y1 * blockHeight
+        );
         return new Line2D.Double(
           x2 * blockWidth,
           y1 * blockHeight,
@@ -312,6 +339,9 @@ class Map {
         break;
       }
     }
+    //System.out.println(exit.getBounds2D());
+    //System.out.println(getLineInBetween(2,2,3,2).getBounds());
+
     edges[y][x] |= (1 << dir);
 
     // place the player spawn
@@ -320,7 +350,8 @@ class Map {
     map[playerY][playerX] = 2;
 
     // place the enemies' spawn(s)
-    int numEnemies = (int) (Math.random() * 3) + 1;
+    //int numEnemies = (int) (Math.random() * 3) + 1;
+    int numEnemies = 0;
     for (int i = 0; i < numEnemies; ++i) {
       int enemyX, enemyY;
       do {
