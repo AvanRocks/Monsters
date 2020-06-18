@@ -49,8 +49,8 @@ class Map {
   }
 
   public void nextLevel() {
-    generateMap();
     level++;
+    generateMap();
   }
 
   public BlockType getBlock(int x, int y) {
@@ -177,8 +177,10 @@ class Map {
   }
 
   private void generateMap() {
-    numColumns = (int) (Math.random() * 7) + 7;
-    numRows = (int) (Math.random() * 7) + 7;
+    //int temp = (int) (Math.random() * (level-1)*2) + 6;
+    int temp = 6 + (level-1)*3;
+    numColumns = temp;
+    numRows = temp;
 
     updateBlockSize(panelWidth, panelHeight);
 
@@ -257,6 +259,22 @@ class Map {
       }
     }
 
+    // merge random cells to create some loops
+    int numOfMerges = (int)(Math.random()*Math.min(numColumns,numRows))+Math.min(numColumns,numRows)*3;
+    for (int i=0;i<numOfMerges;++i) {
+      int x=-1, y=-1,dir=-1;
+      do {
+        x = (int)(Math.random()*numColumns);
+        y = (int)(Math.random()*numRows);
+        dir = (int)(Math.random()*4);
+      } while ((y==0 && dir==Direction.UP) ||
+               (y==numRows-1 && dir==Direction.DOWN) ||
+               (x==0 && dir==Direction.LEFT) ||
+               (x==numColumns-1 && dir==Direction.RIGHT) ||
+               (edges[y][x] & (1<<dir)) == 1);
+      edges[y][x] |= (1<<dir);
+    }
+
     // make the exit
     int side = (int) (Math.random() * 4);
     int x = -1, y = -1;
@@ -307,7 +325,7 @@ class Map {
     map[playerY][playerX] = 2;
 
     // place the enemies' spawn(s)
-    int numEnemies = (int) (Math.random() * 3) + 1;
+    int numEnemies = (int) (Math.random() * (level-1)) + level;
     for (int i = 0; i < numEnemies; ++i) {
       int enemyX, enemyY;
       do {
