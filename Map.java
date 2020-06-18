@@ -127,7 +127,7 @@ class Map {
 		edges = new int[numRows][numColumns];
 		map = new int[numRows][numColumns];
 
-		// Eller's algorithm for maze generation
+		// Eller's algorithm for maze generation (using Union Find structure)
 
 		int[][] set = new int[2][numColumns];
 		link = new int[numColumns*(numRows+1) + 1];
@@ -144,12 +144,13 @@ class Map {
 		// set number : ArrayList of indices
 		HashMap<Integer,ArrayList<Integer>> sets = new HashMap<>();
 
-		for (int y=0;y<numRows;++y) {
+		for (int y=0;y<numRows-1;++y) {
 			// randomly merge adjacent cells which are in different sets
 			for (int x=0;x<numColumns;++x) {
 				if (x+1<numColumns && !same(set[0][x],set[0][x+1]) && ((int)(Math.random()*2) == 0)) {
 					unite(set[0][x],set[0][x+1]);
 					edges[y][x] = (1<<Direction.RIGHT);
+					edges[y][x+1] = (1<<Direction.LEFT);
 				}
 			}
 		
@@ -167,6 +168,7 @@ class Map {
 					int randIdx = (int)(Math.random()*entry.getValue().size());
 					set[1][entry.getValue().get(randIdx)] = set[0][entry.getValue().get(randIdx)];
 					edges[y][entry.getValue().get(randIdx)] |= (1<<Direction.DOWN);
+					edges[y+1][entry.getValue().get(randIdx)] |= (1<<Direction.UP);
 					entry.getValue().remove(randIdx);
 				}
 			}
@@ -188,6 +190,7 @@ class Map {
 			if (!same(set[0][x],set[0][x+1])) {
 				unite(set[0][x],set[0][x+1]);
 				edges[numRows-1][x] |= (1<<Direction.RIGHT);
+				edges[numRows-1][x+1] |= (1<<Direction.LEFT);
 			}
 		}
 
@@ -204,6 +207,11 @@ class Map {
 				enemyY = (int)(Math.random()*numRows);
 			} while (Math.abs(enemyX-playerX) + Math.abs(enemyY-playerY) < 5);
 			map[enemyY][enemyX] = 1;
+		}
+		for (int i=0;i<edges.length;++i) {
+			for (int j=0;j<edges[i].length;++j)
+				System.out.print(Integer.toBinaryString(edges[i][j]) + " ");
+			System.out.println();
 		}
 	}
 
