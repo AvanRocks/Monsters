@@ -23,6 +23,7 @@ class Map {
   private final CardLayout cards;
   private final Container pane;
   private final MutableBoolean gameIsActive;
+  private int panelWidth, panelHeight;
 
   public enum BlockType {
     EMPTY,
@@ -62,23 +63,8 @@ class Map {
   }
 
   public Line2D.Double getLineInBetween(int x1, int y1, int x2, int y2) {
-    System.out.println("x1: "+x1+" y1: "+y1+" x2: "+x2+" y2: "+y2);
-    System.out.println("columns: " + numColumns+" rows: "+numRows);
-    System.out.println("blockWidth: "+blockWidth+" blockHeight: "+blockHeight);
     if (y1 == y2) {
       if (x2 > x1) {
-        System.out.println(new Line2D.Double(
-          x2 * blockWidth,
-          y1 * blockHeight,
-          x2 * blockWidth,
-          (y1 + 1) * blockHeight
-        ).getBounds2D());
-         System.out.println(
-          x2 * blockWidth + " "+
-          y1 * blockHeight + " "+
-          x2 * blockWidth + " "+
-          (y1 + 1) * blockHeight
-        );
         return new Line2D.Double(
           x2 * blockWidth,
           y1 * blockHeight,
@@ -86,18 +72,6 @@ class Map {
           (y1 + 1) * blockHeight
         );
       } else if (x1 > x2) {
-        System.out.println(new Line2D.Double(
-          x1 * blockWidth,
-          y1 * blockHeight,
-          x1 * blockWidth,
-          (y1 + 1) * blockHeight
-        ).getBounds2D());
-        System.out.println(
-          x1 * blockWidth + " "+
-          y1 * blockHeight + " "+
-          x1 * blockWidth + " "+
-          (y1 + 1) * blockHeight
-        );
         return new Line2D.Double(
           x1 * blockWidth,
           y1 * blockHeight,
@@ -107,18 +81,6 @@ class Map {
       }
     } else if (x1 == x2) {
       if (y2 > y1) {
-        System.out.println(new Line2D.Double(
-          x2 * blockWidth,
-          y2 * blockHeight,
-          (x2 + 1) * blockWidth,
-          y2 * blockHeight
-        ).getBounds2D());
-        System.out.println(
-          x2 * blockWidth + " "+
-          y2 * blockHeight + " "+
-          (x2+1) * blockWidth + " "+
-          y2 * blockHeight
-        );
         return new Line2D.Double(
           x2 * blockWidth,
           y2 * blockHeight,
@@ -126,18 +88,6 @@ class Map {
           y2 * blockHeight
         );
       } else if (y1 > y2) {
-        System.out.println(new Line2D.Double(
-          x2 * blockWidth,
-          y1 * blockHeight,
-          (x2 + 1) * blockWidth,
-          y1 * blockHeight
-        ).getBounds2D());
-        System.out.println(
-          x2 * blockWidth + " "+
-          y1 * blockHeight + " "+
-          (x2+1) * blockWidth + " "+
-          y1 * blockHeight
-        );
         return new Line2D.Double(
           x2 * blockWidth,
           y1 * blockHeight,
@@ -225,6 +175,8 @@ class Map {
   private void generateMap() {
     numColumns = (int) (Math.random() * 7) + 7;
     numRows = (int) (Math.random() * 7) + 7;
+
+    updateBlockSize(panelWidth, panelHeight);
 
     edges = new int[numRows][numColumns];
     map = new int[numRows][numColumns];
@@ -339,9 +291,6 @@ class Map {
         break;
       }
     }
-    //System.out.println(exit.getBounds2D());
-    //System.out.println(getLineInBetween(2,2,3,2).getBounds());
-
     edges[y][x] |= (1 << dir);
 
     // place the player spawn
@@ -406,8 +355,15 @@ class Map {
   }
 
   public void updateBlockSize(double panelWidth, double panelHeight) {
+    this.panelWidth=(int)panelWidth;
+    this.panelHeight=(int)panelHeight;
     blockWidth = panelWidth / numColumns;
     blockHeight = panelHeight / numRows;
+  }
+
+  public void setPanelSize(int panelWidth, int panelHeight) {
+    this.panelWidth=panelWidth;
+    this.panelHeight=panelHeight;
   }
 
   public int getNumRows() {

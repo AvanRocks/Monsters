@@ -20,9 +20,9 @@ class GamePanel extends JPanel {
     MutableBoolean gameIsActive = new MutableBoolean(true);
 
     map = new Map(getWidth(), getHeight(), cards, pane, gameIsActive);
-    System.out.println("width: " + getWidth()+" height: "+getHeight());
-    map.updateBlockSize(getWidth(), getHeight());
+    map.setPanelSize(getWidth(), getHeight());
     map.advanceLevel();
+
     characters = map.getCharacters();
 
     walls = new ArrayList<>();
@@ -132,7 +132,6 @@ class GamePanel extends JPanel {
 
     if (isFirstPaint) {
       paintLevel(g);
-      System.out.println(map.getLevel());
       isFirstPaint = false;
       //try { Thread.sleep(5000); }
       //catch (Exception ignored) {}
