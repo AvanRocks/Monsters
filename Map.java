@@ -79,21 +79,25 @@ class Map {
         );
       }
     } else if (x1 == x2) {
-      if (y2 > y1) return new Line2D.Double(
-        x2 * blockWidth,
-        y2 * blockHeight,
-        (x2 + 1) * blockWidth,
-        y2 * blockHeight
-      );
-    } else if (y1 > y2) {
-      return new Line2D.Double(
-        x2 * blockWidth,
-        y1 * blockHeight,
-        (x2 + 1) * blockWidth,
-        y1 * blockHeight
-      );
+      if (y2 > y1) {
+        return new Line2D.Double(
+          x2 * blockWidth,
+          y2 * blockHeight,
+          (x2 + 1) * blockWidth,
+          y2 * blockHeight
+        );
+      } else if (y1 > y2) {
+        return new Line2D.Double(
+          x2 * blockWidth,
+          y1 * blockHeight,
+          (x2 + 1) * blockWidth,
+          y1 * blockHeight
+        );
+      }
     }
 
+    System.out.println(x1 + " " + y1 + " " + x2 + " " + y2);
+    System.out.println("getlinenibteween");
     return null;
   }
 
