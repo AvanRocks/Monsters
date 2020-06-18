@@ -9,6 +9,7 @@ class Player extends Character implements KeyListener {
     super(x, y, spriteSheet, map);
   }
 
+  // Methods related to player movement
   @Override
   public void keyPressed(KeyEvent e) {
     if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
@@ -50,7 +51,8 @@ class Player extends Character implements KeyListener {
   @Override
   public void keyTyped(KeyEvent e) {}
 
-  // this is the method called from GamePanel
+  // Checks state of keys and uses them to decide whether to move the player
+  // or not
   @Override
   public void updatePos() {
     if (keyIsPressed[Direction.UP]) {
@@ -76,12 +78,13 @@ class Player extends Character implements KeyListener {
     }
   }
 
-  // helper method
+  // Helper method for updating the player's position
   private void updatePos(int dir) {
     walk(dir);
     checkCollision(dir);
   }
 
+  // Verifies if the player intersected with the exit wall
   public boolean reachedExit() {
     Rectangle2D exitWallBounds = getMap().getExit().getBounds2D();
     exitWallBounds.setRect(
