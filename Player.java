@@ -90,8 +90,8 @@ class Player extends Character implements KeyListener {
     exitWallBounds.setRect(
       exitWallBounds.getX(),
       exitWallBounds.getY(),
-      Math.max(5, exitWallBounds.getWidth()),
-      Math.max(5, exitWallBounds.getHeight())
+      Math.max(1, exitWallBounds.getWidth()),
+      Math.max(1, exitWallBounds.getHeight())
     );
     return getRect().intersects(exitWallBounds);
   }

@@ -82,9 +82,17 @@ public abstract class Character {
     }
 
     for (Line2D.Double wall : walls) {
+      final int wallWidth = (int) Math.min(map.getBlockHeight(),
+        map.getBlockWidth());
       Rectangle2D wallBounds = wall.getBounds2D();
-      double width = Math.max(5, wallBounds.getWidth());
-      double height = Math.max(5, wallBounds.getHeight());
+      double width = Math.max(
+        wallWidth * GamePanel.WALL_WIDTH_SCALE,
+        wallBounds.getWidth()
+      );
+      double height = Math.max(
+        wallWidth * GamePanel.WALL_WIDTH_SCALE,
+        wallBounds.getHeight()
+      );
       double x = wallBounds.getX();
       double y = wallBounds.getY();
 
@@ -96,9 +104,13 @@ public abstract class Character {
     }
 
     // Check collision with other characters
-    for (Character c : map.getCharacters()) if (
-      this != c && myRect.intersects(c.getRect())
-    ) move(Direction.getOpposite(dir));
+    /*
+    for (Character c : map.getCharacters()) {
+      if (this != c && myRect.intersects(c.getRect())) {
+        move(Direction.getOpposite(dir));
+      }
+    }
+     */
   }
 
   public BufferedImage getImage() {
@@ -126,7 +138,6 @@ public abstract class Character {
     double hitboxXOffset = width / 2 - hitboxWidth / 2;
     double hitboxYOffset = height / 2 - hitboxHeight * 0.4;
 
-    // return new Rectangle((int)(x*width+width/3.67), (int)(y*height+height/4.8), (int)(width/2.13), (int)(height/1.3));
     return new Rectangle(
       (int) (x * width + hitboxXOffset),
       (int) (y * height + hitboxYOffset),

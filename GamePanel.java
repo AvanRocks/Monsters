@@ -10,6 +10,7 @@ class GamePanel extends JPanel {
   private final Container pane;
   private ArrayList<Line2D.Double> walls;
   private boolean isFirstPaint = true;
+  public static double WALL_WIDTH_SCALE = 0.1;
 
   GamePanel(CardLayout cards, Container pane) {
     this.cards = cards;
@@ -45,7 +46,10 @@ class GamePanel extends JPanel {
     g.setColor(Color.black);
 
     Graphics2D g2d = (Graphics2D) g;
-    g2d.setStroke(new BasicStroke(20));
+    g2d.setStroke(new BasicStroke(
+      (int) Math.min(map.getBlockHeight() * WALL_WIDTH_SCALE * 3,
+        map.getBlockWidth() * WALL_WIDTH_SCALE * 3))
+    );
 
     // draw borders
     // top
@@ -58,7 +62,11 @@ class GamePanel extends JPanel {
       (map.getEdge(0, y) & (1 << Direction.LEFT)) == 0
     ) drawWall(0, y, -1, y, g2d);
 
-    g2d.setStroke(new BasicStroke(10));
+    g2d.setStroke(new BasicStroke(
+      (int) Math.min(map.getBlockHeight() * WALL_WIDTH_SCALE,
+        map.getBlockWidth() * WALL_WIDTH_SCALE))
+    );
+
     // draw walls
     for (int y = 0; y < map.getNumRows(); ++y) for (
       int x = 0;
