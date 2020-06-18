@@ -5,11 +5,12 @@ import java.nio.file.Paths;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+// The screen containing a description and the rules of the game
+
 class RulesPanel extends JPanel {
   RulesPanel(CardLayout cards, Container pane) {
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setBackground(Color.blue);
-
 
     String rulesText = "";
     try {
