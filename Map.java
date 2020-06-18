@@ -55,10 +55,14 @@ class Map {
 
   public BlockType getBlock(int x, int y) {
     switch (map[y][x]) {
-      case 0: return BlockType.EMPTY;
-      case 1: return BlockType.ENEMY_SPAWN;
-      case 2: return BlockType.PLAYER_SPAWN;
-      default: return BlockType.EMPTY;
+      case 0:
+        return BlockType.EMPTY;
+      case 1:
+        return BlockType.ENEMY_SPAWN;
+      case 2:
+        return BlockType.PLAYER_SPAWN;
+      default:
+        return BlockType.EMPTY;
     }
   }
 
@@ -259,37 +263,41 @@ class Map {
     int dir = -1;
     switch (side) {
       // top
-      case 0: {
-        x = (int) (Math.random() * numColumns);
-        y = 0;
-        dir = Direction.UP;
-        exit = getLineInBetween(x, y, x, y - 1);
-        break;
-      }
+      case 0:
+        {
+          x = (int) (Math.random() * numColumns);
+          y = 0;
+          dir = Direction.UP;
+          exit = getLineInBetween(x, y, x, y - 1);
+          break;
+        }
       // right
-      case 1: {
-        x = numColumns - 1;
-        y = (int) (Math.random() * numRows);
-        dir = Direction.RIGHT;
-        exit = getLineInBetween(x, y, x + 1, y);
-        break;
-      }
+      case 1:
+        {
+          x = numColumns - 1;
+          y = (int) (Math.random() * numRows);
+          dir = Direction.RIGHT;
+          exit = getLineInBetween(x, y, x + 1, y);
+          break;
+        }
       // down
-      case 2: {
-        x = (int) (Math.random() * numColumns);
-        y = numRows - 1;
-        dir = Direction.DOWN;
-        exit = getLineInBetween(x, y, x, y + 1);
-        break;
-      }
+      case 2:
+        {
+          x = (int) (Math.random() * numColumns);
+          y = numRows - 1;
+          dir = Direction.DOWN;
+          exit = getLineInBetween(x, y, x, y + 1);
+          break;
+        }
       // left
-      case 3: {
-        x = 0;
-        y = (int) (Math.random() * numRows);
-        dir = Direction.LEFT;
-        exit = getLineInBetween(x, y, x - 1, y);
-        break;
-      }
+      case 3:
+        {
+          x = 0;
+          y = (int) (Math.random() * numRows);
+          dir = Direction.LEFT;
+          exit = getLineInBetween(x, y, x - 1, y);
+          break;
+        }
     }
     edges[y][x] |= (1 << dir);
 
@@ -354,15 +362,15 @@ class Map {
   }
 
   public void updateBlockSize(double panelWidth, double panelHeight) {
-    this.panelWidth=(int)panelWidth;
-    this.panelHeight=(int)panelHeight;
+    this.panelWidth = (int) panelWidth;
+    this.panelHeight = (int) panelHeight;
     blockWidth = panelWidth / numColumns;
     blockHeight = panelHeight / numRows;
   }
 
   public void setPanelSize(int panelWidth, int panelHeight) {
-    this.panelWidth=panelWidth;
-    this.panelHeight=panelHeight;
+    this.panelWidth = panelWidth;
+    this.panelHeight = panelHeight;
   }
 
   public int getNumRows() {

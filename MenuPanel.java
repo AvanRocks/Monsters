@@ -11,14 +11,24 @@ class MenuPanel extends JPanel {
     int width,
     int height
   ) {
-
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setBackground(Color.blue);
 
-    CustomImagePanel playButton = new CustomImagePanel("images/play.png", 450, 100);
-    CustomImagePanel rulesButton = new CustomImagePanel("images/rules.png", 450, 100);
+    CustomImagePanel playButton = new CustomImagePanel(
+      "images/play.png",
+      450,
+      100
+    );
+    CustomImagePanel rulesButton = new CustomImagePanel(
+      "images/rules.png",
+      450,
+      100
+    );
     CustomImagePanel titlePanel = new CustomImagePanel(
-      "images/title.png", 450, 100);
+      "images/title.png",
+      450,
+      100
+    );
 
     playButton.addMouseListener(
       new MouseAdapter() {

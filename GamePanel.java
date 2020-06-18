@@ -65,20 +65,12 @@ class GamePanel extends JPanel {
       x < map.getNumColumns();
       ++x
     ) {
-      if ((map.getEdge(x, y) & (1 << Direction.RIGHT)) == 0) {drawWall(
-        x,
-        y,
-        x + 1,
-        y,
-        g2d
-      );}
-      if ((map.getEdge(x, y) & (1 << Direction.DOWN)) == 0) {drawWall(
-        x,
-        y,
-        x,
-        y + 1,
-        g2d
-      );}
+      if ((map.getEdge(x, y) & (1 << Direction.RIGHT)) == 0) {
+        drawWall(x, y, x + 1, y, g2d);
+      }
+      if ((map.getEdge(x, y) & (1 << Direction.DOWN)) == 0) {
+        drawWall(x, y, x, y + 1, g2d);
+      }
     }
 
     g.setColor(oldColor);

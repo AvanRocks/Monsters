@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 // The screen containing a description and the rules of the game
 
 class RulesPanel extends JPanel {
+
   RulesPanel(CardLayout cards, Container pane) {
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     setBackground(Color.blue);
@@ -29,7 +30,11 @@ class RulesPanel extends JPanel {
     rulesTextArea.setWrapStyleWord(true);
     rulesTextArea.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-    CustomImagePanel backBtn = new CustomImagePanel("images/back.png", 450, 100);
+    CustomImagePanel backBtn = new CustomImagePanel(
+      "images/back.png",
+      450,
+      100
+    );
     backBtn.setBounds(10, 10, 80, 40);
     backBtn.addMouseListener(
       new MouseAdapter() {

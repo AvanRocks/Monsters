@@ -6,11 +6,16 @@ public class Direction {
 
   public static int getOpposite(int dir) {
     switch (dir) {
-      case UP: return DOWN;
-      case DOWN: return UP;
-      case LEFT: return RIGHT;
-      case RIGHT: return LEFT;
-      default: return -1;
+      case UP:
+        return DOWN;
+      case DOWN:
+        return UP;
+      case LEFT:
+        return RIGHT;
+      case RIGHT:
+        return LEFT;
+      default:
+        return -1;
     }
   }
 }
