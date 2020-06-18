@@ -55,9 +55,17 @@ class Enemy extends Character {
 		if (x<0 || x>=map.getNumColumns() || y<0 || y>=map.getNumRows()) return false;
 		if (visited.get(y).get(x)) return false;
 
-		visited.get(y).set(x, true);
-		direction.get(y).set(x, dir);
+		// Checking if there exists no wall between the opposite direction
 
+		System.out.println("binary for " + x + " " + y + ": " + Integer.toBinaryString(map.getEdge(x, y)));
+		if ((map.getEdge(x, y) & (1 << Direction.getOpposite(dir))) == 0) {
+			System.out.println(x + " " + y + " has wall in direction " + Direction.getOpposite(dir));
+			return false;
+		}
+
+		System.out.println(x + " " + y + " is clear to go in direction " + Direction.getOpposite(dir));
+		visited.get(y).set(x, true);
+		direction.get(y).set(x, Direction.getOpposite(dir));
 		return true;
 	}
 
@@ -82,19 +90,38 @@ class Enemy extends Character {
 			if (visit(s.getX(), s.getY()-1, Direction.UP, map)) queue.add( new Coordinate(s.getX(), s.getY()-1));
 		}
 
+		for (int y = 0; y < map.getNumRows(); ++y) {
+			for (int x = 0; x < map.getNumColumns(); ++x) {
+				System.out.print(direction.get(y).get(x));
+			}
+			System.out.println();
+		}
+
 		path = new ArrayList<>();
 		int x = map.getPlayerPos().getX();
 		int y = map.getPlayerPos().getY();
+		System.out.println("playerX: " + x + ", playerY: " + y);
 
-		while (!(x == startX && y == startY)) {
-			path.add(direction.get(y).get(x));
-			switch (direction.get(y).get(x)) {
-				case Direction.UP:    ++y; break;
-				case Direction.DOWN:  --y; break;
-				case Direction.LEFT:  ++x; break;
-				case Direction.RIGHT: --x; break;
+		try {
+			while (!(x == startX && y == startY)) {
+				System.out.println("x: " + x + ", y: " + y);
+				path.add(direction.get(y).get(x));
+				switch (direction.get(y).get(x)) {
+					case Direction.UP:
+						--y;
+						break;
+					case Direction.DOWN:
+						++y;
+						break;
+					case Direction.LEFT:
+						--x;
+						break;
+					case Direction.RIGHT:
+						++x;
+						break;
+				}
 			}
-		}
+		} catch (Exception ignored) {};
 
 		Collections.reverse(path);
 	}

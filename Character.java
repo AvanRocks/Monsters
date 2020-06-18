@@ -70,12 +70,10 @@ public abstract class Character {
 			double height = Math.max(5, wallBounds.getHeight());
 			double x = wallBounds.getX();
 			double y = wallBounds.getY();
-			System.out.println(x + " " + y + " " + width + " " + height);
 
 			wallBounds.setRect(x, y, width, height);
 			if (myRect.intersects(wallBounds)) {
 				move(Direction.getOpposite(dir));
-				System.out.println("stop");
 				return;
 			}
 		}
