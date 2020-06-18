@@ -1,0 +1,7 @@
+You control a player who is trying to escape a maze while being chased by monsters. Your job is to make it as many levels as possible before the monsters reach you.
+
+In each level, there is a maze with one exit. You need to move the player past this exit to move on to the next level.
+
+Controls:
+- Arrow keys/WASD to move
+- Mouse and Drag to resize the screen (the game is resizable!)

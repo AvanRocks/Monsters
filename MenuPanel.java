@@ -107,7 +107,6 @@ class PlayBtnPanel extends JPanel {
 }
 
 class RulesBtnPanel extends JPanel {
-
 	RulesBtnPanel() { setOpaque(false); }
 
 	@Override
