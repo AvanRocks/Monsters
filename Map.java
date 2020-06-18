@@ -48,7 +48,7 @@ class Map {
     characters = new ArrayList<Character>();
   }
 
-  public void advanceLevel() {
+  public void nextLevel() {
     generateMap();
     level++;
   }
@@ -299,8 +299,7 @@ class Map {
     map[playerY][playerX] = 2;
 
     // place the enemies' spawn(s)
-    //int numEnemies = (int) (Math.random() * 3) + 1;
-    int numEnemies = 0;
+    int numEnemies = (int) (Math.random() * 3) + 1;
     for (int i = 0; i < numEnemies; ++i) {
       int enemyX, enemyY;
       do {

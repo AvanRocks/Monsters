@@ -21,15 +21,11 @@ class GamePanel extends JPanel {
 
     map = new Map(getWidth(), getHeight(), cards, pane, gameIsActive);
     map.setPanelSize(getWidth(), getHeight());
-    map.advanceLevel();
-
-    characters = map.getCharacters();
+    advanceLevel();
 
     walls = new ArrayList<>();
 
     new Thread(new GameThread(characters, gameIsActive, this, map)).start();
-
-    addKeyListener((Player) characters.get(0));
 
     setFocusable(true);
   }
@@ -88,6 +84,13 @@ class GamePanel extends JPanel {
     g.setColor(oldColor);
   }
 
+  private void advanceLevel() {
+    map.nextLevel();
+
+    characters = map.getCharacters();
+    addKeyListener((Player) characters.get(0));
+  }
+
   private void paintLevel(Graphics g) {
     int rectWidth = getWidth() / 3;
     int rectHeight = getWidth() / 5;
@@ -126,7 +129,7 @@ class GamePanel extends JPanel {
 
     // check if the player has reached the exit
     if (((Player) characters.get(0)).reachedExit()) {
-      map.advanceLevel();
+      advanceLevel();
       paintLevel(g);
     }
 
