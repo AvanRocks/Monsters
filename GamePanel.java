@@ -119,6 +119,13 @@ class GamePanel extends JPanel {
 		// resize blocks
 		map.updateBlockSize(getWidth(), getHeight());
 
+		// color the exit green
+		g.setColor(Color.green);
+		Rectangle2D exitRect = map.getExit().getBounds2D();
+		exitRect.setRect(exitRect.getX(),exitRect.getY(),Math.max(map.getBlockWidth()*WALL_WIDTH_SCALE,exitRect.getWidth()),Math.max(map.getBlockHeight()*WALL_WIDTH_SCALE, exitRect.getHeight()));
+		((Graphics2D)g).fill(exitRect);
+		g.setColor(Color.black);
+
 		// draw map
 		walls.clear();
 		paintMap(g);
@@ -133,5 +140,6 @@ class GamePanel extends JPanel {
 		if (((Player) characters.get(0)).reachedExit()) {
 			advanceLevel();
 		}
+
 	}
 }
