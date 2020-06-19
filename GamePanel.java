@@ -25,23 +25,6 @@ class GamePanel extends JPanel {
     map.setPanelSize(getWidth(), getHeight());
     advanceLevel();
 
-
-    thickWallStroke =
-      new BasicStroke(
-        (int) Math.min(
-          map.getBlockHeight() * WALL_WIDTH_SCALE * 3,
-          map.getBlockWidth() * WALL_WIDTH_SCALE * 3
-        )
-      );
-
-    thinWallStroke =
-      new BasicStroke(
-        (int) Math.min(
-          map.getBlockHeight() * WALL_WIDTH_SCALE,
-          map.getBlockWidth() * WALL_WIDTH_SCALE
-        )
-      );
-
     walls = new ArrayList<>();
 
     new Thread(new GameThread(characters, gameIsActive, this, map)).start();
