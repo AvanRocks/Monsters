@@ -90,7 +90,7 @@ class Player extends Character implements KeyListener {
   // Helper method for updating the player's position
   private void updatePos(int dir, boolean diagonal) {
     walk(dir, diagonal);
-    checkCollision(dir);
+    checkCollision(dir, diagonal);
   }
 
   // Verifies if the player intersected with the exit wall

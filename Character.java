@@ -75,13 +75,13 @@ public abstract class Character {
   }
 
   // check if they hit a wall, if so, move them back
-  protected void checkCollision(int dir) {
+  protected void checkCollision(int dir, boolean diagonal) {
     Rectangle myRect = getRect();
 
     // Check collision with walls
     Line2D.Double[] walls = map.getWalls();
     if (walls == null) {
-      move(Direction.getOpposite(dir), false);
+      move(Direction.getOpposite(dir), diagonal);
       return;
     }
 
@@ -94,18 +94,10 @@ public abstract class Character {
 
       wallBounds.setRect(x, y, width, height);
       if (myRect.intersects(wallBounds)) {
-        move(Direction.getOpposite(dir), false);
+        move(Direction.getOpposite(dir), diagonal);
         return;
       }
     }
-    // Check collision with other characters
-    /*
-    for (Character c : map.getCharacters()) {
-      if (this != c && myRect.intersects(c.getRect())) {
-        move(Direction.getOpposite(dir));
-      }
-    }
-     */
   }
 
   public void updateImage() {
