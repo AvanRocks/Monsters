@@ -184,12 +184,12 @@ class Enemy extends Character {
       isAttacking = true;
       attackDir = pos.compareTo(map.getPlayerPos());
     } else {
-      steps++;
       isAttacking = false;
 
       if (path.size() != 0) {
         walk(path.get(blocksTravelled));
         checkCollision(path.get(blocksTravelled));
+        steps++;
       }
     }
   }

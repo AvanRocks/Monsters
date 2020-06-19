@@ -258,7 +258,6 @@ class Map {
         edges[numRows - 1][x + 1] |= (1 << Direction.LEFT);
       }
     }
-    /*
 
     // merge random cells to create some loops
     int numOfMerges = (int) (Math.random() * Math.min(numColumns, numRows)) +
@@ -278,8 +277,21 @@ class Map {
         (edges[y][x] & (1 << dir)) == 1
       );
       edges[y][x] |= (1 << dir);
+      switch (dir) {
+        case Direction.UP:
+          edges[y-1][x] |= (1 << Direction.DOWN);
+          break;
+        case Direction.LEFT:
+          edges[y][x-1] |= (1 << Direction.RIGHT);
+          break;
+        case Direction.RIGHT:
+          edges[y][x+1] |= (1 << Direction.LEFT);
+          break;
+        case Direction.DOWN:
+          edges[y+1][x] |= (1 << Direction.UP);
+          break;
+      }
     }
-     */
 
     // make the exit
     int side = (int) (Math.random() * 4);
@@ -339,6 +351,13 @@ class Map {
         enemyY = (int) (Math.random() * numRows);
       } while (Math.abs(enemyX - playerX) + Math.abs(enemyY - playerY) < 5);
       map[enemyY][enemyX] = 1;
+    }
+
+    for (int i=0;i<numRows;++i) {
+      for (int j=0;j<numColumns;++j) {
+        System.out.format("%2s ", Integer.toBinaryString(edges[i][j]));
+      }
+      System.out.println();
     }
 
     createCharacters();
