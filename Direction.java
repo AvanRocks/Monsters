@@ -18,4 +18,21 @@ public class Direction {
         return -1;
     }
   }
+
+  public static boolean isHorizontal(int dir) {
+    switch (dir) {
+      case UP:
+      case DOWN:
+        return false;
+      case LEFT:
+      case RIGHT:
+        return true;
+    }
+    return true;
+  }
+
+  public static boolean isVertical(int dir) {
+    return !isHorizontal(dir);
+  }
 }
+

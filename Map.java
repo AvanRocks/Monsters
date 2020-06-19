@@ -178,7 +178,7 @@ class Map {
 
   private void generateMap() {
     //int temp = (int) (Math.random() * (level-1)*2) + 6;
-    int temp = 6 + (level-1)*3;
+    int temp = 6 + (level - 1) * 3;
     numColumns = temp;
     numRows = temp;
 
@@ -260,19 +260,23 @@ class Map {
     }
 
     // merge random cells to create some loops
-    int numOfMerges = (int)(Math.random()*Math.min(numColumns,numRows))+Math.min(numColumns,numRows)*3;
-    for (int i=0;i<numOfMerges;++i) {
-      int x=-1, y=-1,dir=-1;
+    int numOfMerges = (int) (Math.random() * Math.min(numColumns, numRows)) +
+    Math.min(numColumns, numRows) *
+    3;
+    for (int i = 0; i < numOfMerges; ++i) {
+      int x = -1, y = -1, dir = -1;
       do {
-        x = (int)(Math.random()*numColumns);
-        y = (int)(Math.random()*numRows);
-        dir = (int)(Math.random()*4);
-      } while ((y==0 && dir==Direction.UP) ||
-               (y==numRows-1 && dir==Direction.DOWN) ||
-               (x==0 && dir==Direction.LEFT) ||
-               (x==numColumns-1 && dir==Direction.RIGHT) ||
-               (edges[y][x] & (1<<dir)) == 1);
-      edges[y][x] |= (1<<dir);
+        x = (int) (Math.random() * numColumns);
+        y = (int) (Math.random() * numRows);
+        dir = (int) (Math.random() * 4);
+      } while (
+        (y == 0 && dir == Direction.UP) ||
+        (y == numRows - 1 && dir == Direction.DOWN) ||
+        (x == 0 && dir == Direction.LEFT) ||
+        (x == numColumns - 1 && dir == Direction.RIGHT) ||
+        (edges[y][x] & (1 << dir)) == 1
+      );
+      edges[y][x] |= (1 << dir);
     }
 
     // make the exit
@@ -325,7 +329,7 @@ class Map {
     map[playerY][playerX] = 2;
 
     // place the enemies' spawn(s)
-    int numEnemies = (int) (Math.random() * (level-1)) + level;
+    int numEnemies = (int) (Math.random() * (level - 1)) + level;
     for (int i = 0; i < numEnemies; ++i) {
       int enemyX, enemyY;
       do {

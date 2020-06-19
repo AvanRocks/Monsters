@@ -82,17 +82,9 @@ public abstract class Character {
     }
 
     for (Line2D.Double wall : walls) {
-      final int wallWidth = (int) Math.min(map.getBlockHeight(),
-        map.getBlockWidth());
       Rectangle2D wallBounds = wall.getBounds2D();
-      double width = Math.max(
-        wallWidth * GamePanel.WALL_WIDTH_SCALE,
-        wallBounds.getWidth()
-      );
-      double height = Math.max(
-        wallWidth * GamePanel.WALL_WIDTH_SCALE,
-        wallBounds.getHeight()
-      );
+      double width = Math.max(1, wallBounds.getWidth());
+      double height = Math.max(1, wallBounds.getHeight());
       double x = wallBounds.getX();
       double y = wallBounds.getY();
 
@@ -102,7 +94,6 @@ public abstract class Character {
         return;
       }
     }
-
     // Check collision with other characters
     /*
     for (Character c : map.getCharacters()) {
