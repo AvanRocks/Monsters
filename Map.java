@@ -371,13 +371,13 @@ class Map {
   public Line2D.Double getExit() {
     switch (exitDir) {
       case Direction.UP:
-        return getLineInBetween(exitX, exitY, exitX, exitY-1);
+        return getLineInBetween(exitX, exitY, exitX, exitY - 1);
       case Direction.LEFT:
-        return getLineInBetween(exitX, exitY, exitX-1, exitY);
+        return getLineInBetween(exitX, exitY, exitX - 1, exitY);
       case Direction.RIGHT:
-        return getLineInBetween(exitX, exitY, exitX+1, exitY);
+        return getLineInBetween(exitX, exitY, exitX + 1, exitY);
       case Direction.DOWN:
-        return getLineInBetween(exitX, exitY, exitX, exitY+1);
+        return getLineInBetween(exitX, exitY, exitX, exitY + 1);
     }
     return null;
   }
