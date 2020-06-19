@@ -25,6 +25,7 @@ class GamePanel extends JPanel {
     map.setPanelSize(getWidth(), getHeight());
     advanceLevel();
 
+
     thickWallStroke =
       new BasicStroke(
         (int) Math.min(
@@ -64,6 +65,22 @@ class GamePanel extends JPanel {
   }
 
   private void paintMap(Graphics g) {
+    thickWallStroke =
+      new BasicStroke(
+        (int) Math.min(
+          map.getBlockHeight() * WALL_WIDTH_SCALE * 3,
+          map.getBlockWidth() * WALL_WIDTH_SCALE * 3
+        )
+      );
+
+    thinWallStroke =
+      new BasicStroke(
+        (int) Math.min(
+          map.getBlockHeight() * WALL_WIDTH_SCALE,
+          map.getBlockWidth() * WALL_WIDTH_SCALE
+        )
+      );
+
     // Change color and stroke, but remember them to set it back later
     Color oldColor = g.getColor();
     g.setColor(Color.black);
