@@ -90,7 +90,6 @@ class Enemy extends Character {
     Queue<Coordinate> queue = new LinkedList<>();
     startX = (int) Math.round(getX());
     startY = (int) Math.round(getY());
-    System.out.println("StartX: "+startX+" StartY: "+startY);
 
     queue.add(new Coordinate(startX, startY));
     visited.get(startY).set(startX, true);
@@ -211,46 +210,18 @@ class Enemy extends Character {
 
   @Override
   public void drawImage(Graphics g) {
-
     if (!isAttacking) {
       super.drawImage(g);
     } else {
       Map map = getMap();
       g.drawImage(
         getImage(),
-        (int) (getX() * map.getBlockWidth()),
-        (int) (getY() * map.getBlockHeight()),
-        (int) (map.getBlockWidth()),
-        (int) (map.getBlockHeight()),
+        (int) (getX() * map.getBlockWidth() + map.getBlockWidth()/6),
+        (int) (getY() * map.getBlockHeight() + map.getBlockHeight()/6),
+        (int) (map.getBlockWidth()*2/3),
+        (int) (map.getBlockHeight()*2/3),
         null
       );
     }
-
-    /*
-    g.setColor(Color.orange);
-    int curX =
-      (int) (getX() * getMap().getBlockWidth() + getMap().getBlockWidth() / 2);
-    int curY =
-      (int) (getY() * getMap().getBlockHeight() + getMap()
-        .getBlockHeight() / 2);
-    for (Integer d : path) {
-      g.drawLine(curX, curY, curX + 10, curY + 10);
-
-      switch (d) {
-        case Direction.UP:
-          curY -= getMap().getBlockHeight();
-          break;
-        case Direction.DOWN:
-          curY += getMap().getBlockHeight();
-          break;
-        case Direction.LEFT:
-          curX -= getMap().getBlockWidth();
-          break;
-        case Direction.RIGHT:
-          curX += getMap().getBlockWidth();
-          break;
-      }
-    }
-     */
   }
 }

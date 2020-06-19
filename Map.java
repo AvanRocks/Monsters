@@ -353,13 +353,6 @@ class Map {
       map[enemyY][enemyX] = 1;
     }
 
-    for (int i=0;i<numRows;++i) {
-      for (int j=0;j<numColumns;++j) {
-        System.out.format("%2s ", Integer.toBinaryString(edges[i][j]));
-      }
-      System.out.println();
-    }
-
     createCharacters();
   }
 
