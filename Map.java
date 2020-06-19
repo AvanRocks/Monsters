@@ -24,6 +24,7 @@ class Map {
   private final Container pane;
   private final MutableBoolean gameIsActive;
   private int panelWidth, panelHeight;
+  private double playerExactX, playerExactY;
 
   public enum BlockType {
     EMPTY,
@@ -144,7 +145,8 @@ class Map {
                 this,
                 cards,
                 pane,
-                gameIsActive
+                gameIsActive,
+                Math.max(1,5-level)
               )
             );
           } catch (IOException e) {
@@ -384,6 +386,14 @@ class Map {
   public Coordinate getPlayerPos() {
     return playerPos;
   }
+
+  public void setExactPlayerPos(double x, double y) {
+    playerExactX = x;
+    playerExactY = y;
+  }
+
+  public double getPlayerExactX() { return playerExactX; }
+  public double getPlayerExactY() { return playerExactY; }
 
   public int getLevel() {
     return level;

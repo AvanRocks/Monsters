@@ -55,17 +55,26 @@ class Player extends Character implements KeyListener {
   // or not
   @Override
   public void updatePos() {
-    if (keyIsPressed[Direction.UP]) {
-      updatePos(Direction.UP);
-    }
-    if (keyIsPressed[Direction.DOWN]) {
-      updatePos(Direction.DOWN);
-    }
-    if (keyIsPressed[Direction.LEFT]) {
-      updatePos(Direction.LEFT);
-    }
-    if (keyIsPressed[Direction.RIGHT]) {
-      updatePos(Direction.RIGHT);
+    if (keyIsPressed[Direction.UP] && keyIsPressed[Direction.RIGHT]) {
+      updatePos(Direction.UP, true);
+      updatePos(Direction.RIGHT, true);
+    } else if (keyIsPressed[Direction.DOWN] && keyIsPressed[Direction.RIGHT]) {
+      updatePos(Direction.DOWN, true);
+      updatePos(Direction.RIGHT, true);
+    } else if (keyIsPressed[Direction.UP] && keyIsPressed[Direction.LEFT]) {
+      updatePos(Direction.UP, true);
+      updatePos(Direction.LEFT, true);
+    } else if (keyIsPressed[Direction.DOWN] && keyIsPressed[Direction.LEFT]) {
+      updatePos(Direction.DOWN, true);
+      updatePos(Direction.LEFT, true);
+    } else if (keyIsPressed[Direction.UP]) {
+      updatePos(Direction.UP, false);
+    } else if (keyIsPressed[Direction.DOWN]) {
+      updatePos(Direction.DOWN, false);
+    } else if (keyIsPressed[Direction.LEFT]) {
+      updatePos(Direction.LEFT, false);
+    } else if (keyIsPressed[Direction.RIGHT]) {
+      updatePos(Direction.RIGHT, false);
     }
 
     if (
@@ -79,8 +88,8 @@ class Player extends Character implements KeyListener {
   }
 
   // Helper method for updating the player's position
-  private void updatePos(int dir) {
-    walk(dir);
+  private void updatePos(int dir, boolean diagonal) {
+    walk(dir, diagonal);
     checkCollision(dir);
   }
 

@@ -100,16 +100,6 @@ class GamePanel extends JPanel {
       }
     }
 
-    g2d.setColor(Color.red);
-    for (Character c : characters) {
-      g2d.fillRect((int)(c.getX()*map.getBlockWidth()),(int)(c.getY()*map.getBlockHeight()),10,10);
-      if (c instanceof Enemy) {
-        g2d.setColor(Color.blue);
-        g2d.fillRect((int)(((Enemy)c).getStartX()*map.getBlockWidth()),(int)(((Enemy)c).getStartY()*map.getBlockHeight()),10,10);
-        g2d.setColor(Color.red);
-      }
-    }
-
     g.setColor(oldColor);
   }
 

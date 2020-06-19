@@ -27,29 +27,33 @@ public abstract class Character {
 
   public abstract void updatePos();
 
-  protected void walk(int dir) {
+  protected void walk(int dir, boolean diagonal) {
     prevDir = dir;
-    move(dir);
+    move(dir, diagonal);
   }
 
   protected void stop() {
     isMoving = false;
   }
 
-  protected void move(int dir) {
+  protected void move(int dir, boolean diagonal) {
     isMoving = true;
+
+    double moveSpeed = speed;
+    if (diagonal) moveSpeed = speed / Math.sqrt(2);
+
     switch (dir) {
       case Direction.UP:
-        y -= speed;
+        y -= moveSpeed;
         break;
       case Direction.DOWN:
-        y += speed;
+        y += moveSpeed;
         break;
       case Direction.LEFT:
-        x -= speed;
+        x -= moveSpeed;
         break;
       case Direction.RIGHT:
-        x += speed;
+        x += moveSpeed;
         break;
     }
   }
@@ -77,7 +81,7 @@ public abstract class Character {
     // Check collision with walls
     Line2D.Double[] walls = map.getWalls();
     if (walls == null) {
-      move(Direction.getOpposite(dir));
+      move(Direction.getOpposite(dir), false);
       return;
     }
 
@@ -90,7 +94,7 @@ public abstract class Character {
 
       wallBounds.setRect(x, y, width, height);
       if (myRect.intersects(wallBounds)) {
-        move(Direction.getOpposite(dir));
+        move(Direction.getOpposite(dir), false);
         return;
       }
     }
@@ -128,10 +132,10 @@ public abstract class Character {
     double width = map.getBlockWidth();
     double height = map.getBlockHeight();
 
-    double hitboxWidth = width * 0.5;
-    double hitboxHeight = height * 0.75;
+    double hitboxWidth = width * 0.4;
+    double hitboxHeight = height * 0.55;
     double hitboxXOffset = width / 2 - hitboxWidth / 2;
-    double hitboxYOffset = height / 2 - hitboxHeight * 0.4;
+    double hitboxYOffset = height / 2 - hitboxHeight * 0.35;
 
     return new Rectangle(
       (int) (x * width + hitboxXOffset),

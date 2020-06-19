@@ -8,6 +8,7 @@ class Enemy extends Character {
   private int attackDir;
   private int steps = 0;
   private int blocksTravelled = 0;
+  private int bfsFrequency;
   private ArrayList<ArrayList<Boolean>> visited;
   private ArrayList<ArrayList<Integer>> direction;
   private ArrayList<Integer> path;
@@ -27,12 +28,14 @@ class Enemy extends Character {
     Map map,
     CardLayout cards,
     Container pane,
-    MutableBoolean gameIsActive
+    MutableBoolean gameIsActive,
+    int bfsFrequency
   ) {
     super(x, y, spriteSheet, map);
     this.cards = cards;
     this.pane = pane;
     this.gameIsActive = gameIsActive;
+    this.bfsFrequency=bfsFrequency;
 
     // load attacking animation of enemy
     for (int i = 0; i < 4; ++i) {
@@ -151,7 +154,7 @@ class Enemy extends Character {
       steps = 0;
 
       if (
-        blocksTravelled == 5 ||
+        blocksTravelled == bfsFrequency ||
         blocksTravelled >= path.size() ||
         path.size() == 0
       ) {
@@ -174,19 +177,16 @@ class Enemy extends Character {
     }
     // if the player is adjacent AND there is no wall in between
     else if (
-      pos.isAdjacentTo(map.getPlayerPos()) &&
-      (
-        map.getEdge(playerX, playerY) &
-        (1 << Direction.getOpposite(pos.compareTo(map.getPlayerPos())))
-      ) == 1
-    ) {
+             Math.sqrt(Math.pow(getX()-map.getPlayerExactX(), 2) + Math.pow(getY()-map.getPlayerExactY(), 2)) < 0.5  &&
+            (map.getEdge(playerX, playerY) & (1 << Direction.getOpposite(pos.compareTo(map.getPlayerPos())))) == 1)
+    {
       isAttacking = true;
       attackDir = pos.compareTo(map.getPlayerPos());
     } else {
       isAttacking = false;
 
       if (path.size() != 0) {
-        walk(path.get(blocksTravelled));
+        walk(path.get(blocksTravelled), false);
         checkCollision(path.get(blocksTravelled));
         steps++;
       }

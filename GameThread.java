@@ -38,6 +38,11 @@ class GameThread implements Runnable {
         (int) Math.round(characters.get(0).getY() )
       );
 
+      map.setExactPlayerPos(
+        characters.get(0).getX(),
+        characters.get(0).getY()
+      );
+
       gamePanel.repaint();
 
       diffTime = System.currentTimeMillis() - prevTime;
