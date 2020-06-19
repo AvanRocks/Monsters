@@ -258,6 +258,28 @@ class Map {
         edges[numRows - 1][x + 1] |= (1 << Direction.LEFT);
       }
     }
+    /*
+
+    // merge random cells to create some loops
+    int numOfMerges = (int) (Math.random() * Math.min(numColumns, numRows)) +
+    Math.min(numColumns, numRows) *
+    3;
+    for (int i = 0; i < numOfMerges; ++i) {
+      int x = -1, y = -1, dir = -1;
+      do {
+        x = (int) (Math.random() * numColumns);
+        y = (int) (Math.random() * numRows);
+        dir = (int) (Math.random() * 4);
+      } while (
+        (y == 0 && dir == Direction.UP) ||
+        (y == numRows - 1 && dir == Direction.DOWN) ||
+        (x == 0 && dir == Direction.LEFT) ||
+        (x == numColumns - 1 && dir == Direction.RIGHT) ||
+        (edges[y][x] & (1 << dir)) == 1
+      );
+      edges[y][x] |= (1 << dir);
+    }
+     */
 
     // make the exit
     int side = (int) (Math.random() * 4);
