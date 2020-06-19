@@ -18,8 +18,13 @@ class Enemy extends Character {
   private final MutableBoolean gameIsActive;
   private int startX, startY;
 
-  public int getStartX() { return startX; }
-  public int getStartY() { return startY; }
+  public int getStartX() {
+    return startX;
+  }
+
+  public int getStartY() {
+    return startY;
+  }
 
   Enemy(
     int x,
@@ -35,7 +40,7 @@ class Enemy extends Character {
     this.cards = cards;
     this.pane = pane;
     this.gameIsActive = gameIsActive;
-    this.bfsFrequency=bfsFrequency;
+    this.bfsFrequency = bfsFrequency;
 
     // load attacking animation of enemy
     for (int i = 0; i < 4; ++i) {
@@ -164,8 +169,8 @@ class Enemy extends Character {
     }
 
     Coordinate pos = new Coordinate(
-      (int) Math.round(getX() ),
-      (int) Math.round(getY() )
+      (int) Math.round(getX()),
+      (int) Math.round(getY())
     );
 
     int playerX = map.getPlayerPos().getX();
@@ -177,9 +182,14 @@ class Enemy extends Character {
     }
     // if the player is adjacent AND there is no wall in between
     else if (
-             Math.sqrt(Math.pow(getX()-map.getPlayerExactX(), 2) + Math.pow(getY()-map.getPlayerExactY(), 2)) < 0.5  &&
-            (map.getEdge(playerX, playerY) & (1 << Direction.getOpposite(pos.compareTo(map.getPlayerPos())))) == 1)
-    {
+      Math.sqrt(
+        Math.pow(getX() - map.getPlayerExactX(), 2) +
+        Math.pow(getY() - map.getPlayerExactY(), 2)
+      ) < 0.5 && (
+        map.getEdge(playerX, playerY) &
+        (1 << Direction.getOpposite(pos.compareTo(map.getPlayerPos())))
+      ) == 1
+    ) {
       isAttacking = true;
       attackDir = pos.compareTo(map.getPlayerPos());
     } else {
@@ -216,10 +226,10 @@ class Enemy extends Character {
       Map map = getMap();
       g.drawImage(
         getImage(),
-        (int) (getX() * map.getBlockWidth() + map.getBlockWidth()/6),
-        (int) (getY() * map.getBlockHeight() + map.getBlockHeight()/6),
-        (int) (map.getBlockWidth()*2/3),
-        (int) (map.getBlockHeight()*2/3),
+        (int) (getX() * map.getBlockWidth() + map.getBlockWidth() / 6),
+        (int) (getY() * map.getBlockHeight() + map.getBlockHeight() / 6),
+        (int) (map.getBlockWidth() * 2 / 3),
+        (int) (map.getBlockHeight() * 2 / 3),
         null
       );
     }

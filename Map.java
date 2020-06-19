@@ -147,7 +147,7 @@ class Map {
                 cards,
                 pane,
                 gameIsActive,
-                Math.max(1,5-level)
+                Math.max(1, 5 - level)
               )
             );
           } catch (IOException e) {
@@ -281,16 +281,16 @@ class Map {
       edges[y][x] |= (1 << dir);
       switch (dir) {
         case Direction.UP:
-          edges[y-1][x] |= (1 << Direction.DOWN);
+          edges[y - 1][x] |= (1 << Direction.DOWN);
           break;
         case Direction.LEFT:
-          edges[y][x-1] |= (1 << Direction.RIGHT);
+          edges[y][x - 1] |= (1 << Direction.RIGHT);
           break;
         case Direction.RIGHT:
-          edges[y][x+1] |= (1 << Direction.LEFT);
+          edges[y][x + 1] |= (1 << Direction.LEFT);
           break;
         case Direction.DOWN:
-          edges[y+1][x] |= (1 << Direction.UP);
+          edges[y + 1][x] |= (1 << Direction.UP);
           break;
       }
     }
@@ -392,8 +392,13 @@ class Map {
     playerExactY = y;
   }
 
-  public double getPlayerExactX() { return playerExactX; }
-  public double getPlayerExactY() { return playerExactY; }
+  public double getPlayerExactX() {
+    return playerExactX;
+  }
+
+  public double getPlayerExactY() {
+    return playerExactY;
+  }
 
   public int getLevel() {
     return level;

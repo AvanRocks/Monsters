@@ -112,10 +112,10 @@ public abstract class Character {
   public void drawImage(Graphics g) {
     g.drawImage(
       getImage(),
-      (int) (getX() * map.getBlockWidth() + map.getBlockWidth()/6),
-      (int) (getY() * map.getBlockHeight() + map.getBlockHeight()/6),
-      (int) (map.getBlockWidth()*2/3),
-      (int) (map.getBlockHeight()*2/3),
+      (int) (getX() * map.getBlockWidth() + map.getBlockWidth() / 6),
+      (int) (getY() * map.getBlockHeight() + map.getBlockHeight() / 6),
+      (int) (map.getBlockWidth() * 2 / 3),
+      (int) (map.getBlockHeight() * 2 / 3),
       null
     );
   }

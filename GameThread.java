@@ -34,14 +34,11 @@ class GameThread implements Runnable {
 
       // tell map the player's new position
       map.setPlayerPos(
-        (int) Math.round(characters.get(0).getX() ),
-        (int) Math.round(characters.get(0).getY() )
+        (int) Math.round(characters.get(0).getX()),
+        (int) Math.round(characters.get(0).getY())
       );
 
-      map.setExactPlayerPos(
-        characters.get(0).getX(),
-        characters.get(0).getY()
-      );
+      map.setExactPlayerPos(characters.get(0).getX(), characters.get(0).getY());
 
       gamePanel.repaint();
 
