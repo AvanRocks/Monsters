@@ -103,6 +103,8 @@ class GamePanel extends JPanel {
     g.setColor(oldColor);
   }
 
+  public int getLevel() { return map.getLevel(); }
+
   private void advanceLevel() {
     map.nextLevel();
 
