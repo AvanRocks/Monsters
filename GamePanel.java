@@ -9,7 +9,12 @@ class GamePanel extends JPanel {
 	private final CardLayout cards;
 	private final Container pane;
 	private ArrayList<Line2D.Double> walls;
+
+	// The wall's width relative to the block width/height
 	public static double WALL_WIDTH_SCALE = 0.1;
+
+	// The thick stroke is used for the outer walls, while the thin stroke is
+	// used for the inner walls
 	private Stroke thickWallStroke;
 	private Stroke thinWallStroke;
 
@@ -102,7 +107,7 @@ class GamePanel extends JPanel {
 
 		g.setColor(oldColor);
   }
-  
+
   public int getLevel() { return map.getLevel(); }
 
 	private void advanceLevel() {
