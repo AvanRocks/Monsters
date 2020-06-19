@@ -32,6 +32,7 @@ class Map {
     PLAYER_SPAWN,
   }
 
+  // Initializing variables and basic map layout (block size)
   public Map(
     double panelWidth,
     double panelHeight,
@@ -45,14 +46,16 @@ class Map {
 
     updateBlockSize(panelWidth, panelHeight);
 
-    characters = new ArrayList<Character>();
+    characters = new ArrayList<>();
   }
 
+  // Updates needed variables before moving player to next level
   public void nextLevel() {
     level++;
     generateMap();
   }
 
+  // Returns the type of block at coordinate (x, y) of the map
   public BlockType getBlock(int x, int y) {
     switch (map[y][x]) {
       case 0:
@@ -66,7 +69,7 @@ class Map {
     }
   }
 
-  // Get the wall inbetween two coordinates
+  // Get the wall between two coordinates
   public Line2D.Double getLineInBetween(int x1, int y1, int x2, int y2) {
     if (y1 == y2) {
       if (x2 > x1) {
@@ -116,6 +119,8 @@ class Map {
       ) {
         playerPos = new Coordinate(x, y);
         try {
+          // Load the character from its image file and place it at its
+          // starting position
           characters.add(
             new Player(
               playerPos.getX(),
@@ -159,15 +164,19 @@ class Map {
   }
 
   // Union-find data structure methods
+
+  // Gets the head of a union-set
   private int find(int x) {
     while (x != link[x]) x = link[x];
     return x;
   }
 
+  // Returns of two nodes belong to the same union-set
   private boolean same(int a, int b) {
     return find(a) == find(b);
   }
 
+  // Connecting two union-sets
   private void unite(int a, int b) {
     a = find(a);
     b = find(b);
@@ -278,7 +287,10 @@ class Map {
         (x == numColumns - 1 && dir == Direction.RIGHT) ||
         (edges[y][x] & (1 << dir)) == 1
       );
+      // Adding an "anti-edge" in both the current cell and the other
+      // adjacent cell to the "anti-edge"/wall
       edges[y][x] |= (1 << dir);
+
       switch (dir) {
         case Direction.UP:
           edges[y - 1][x] |= (1 << Direction.DOWN);
@@ -368,6 +380,7 @@ class Map {
     this.walls = walls;
   }
 
+  // Returns the exit line
   public Line2D.Double getExit() {
     switch (exitDir) {
       case Direction.UP:
@@ -416,6 +429,7 @@ class Map {
     return blockHeight;
   }
 
+  // Resizes the block based on the window's width/height
   public void updateBlockSize(double panelWidth, double panelHeight) {
     this.panelWidth = (int) panelWidth;
     this.panelHeight = (int) panelHeight;
