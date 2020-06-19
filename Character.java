@@ -39,6 +39,7 @@ public abstract class Character {
   protected void move(int dir, boolean diagonal) {
     isMoving = true;
 
+    // if walking diagonally, decrease speed
     double moveSpeed = speed;
     if (diagonal) moveSpeed = speed / Math.sqrt(2);
 
