@@ -16,13 +16,13 @@ class MenuPanel extends JPanel {
 
     CustomImagePanel playButton = new CustomImagePanel(
       "images/play.png",
-      450,
-      100
+      120,
+      80
     );
     CustomImagePanel rulesButton = new CustomImagePanel(
       "images/rules.png",
-      450,
-      100
+      120,
+      80
     );
     CustomImagePanel titlePanel = new CustomImagePanel(
       "images/title.png",
@@ -30,7 +30,7 @@ class MenuPanel extends JPanel {
       100
     );
 
-    playButton.addMouseListener(
+    playButton.getButton().addMouseListener(
       new MouseAdapter() {
 
         @Override
@@ -42,7 +42,7 @@ class MenuPanel extends JPanel {
       }
     );
 
-    rulesButton.addMouseListener(
+    rulesButton.getButton().addMouseListener(
       new MouseAdapter() {
 
         @Override

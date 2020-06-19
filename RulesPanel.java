@@ -32,11 +32,11 @@ class RulesPanel extends JPanel {
 
     CustomImagePanel backBtn = new CustomImagePanel(
       "images/back.png",
-      450,
-      100
+      120,
+      80
     );
     backBtn.setBounds(10, 10, 80, 40);
-    backBtn.addMouseListener(
+    backBtn.getButton().addMouseListener(
       new MouseAdapter() {
 
         @Override

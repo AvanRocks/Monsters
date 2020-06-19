@@ -4,30 +4,29 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class CustomImagePanel extends JPanel {
-  private final String imagePath;
-  private final int width;
-  private final int height;
+  private final CustomButton button;
+
+  public CustomButton getButton() {
+    return this.button;
+  }
 
   CustomImagePanel(String imagePath, int width, int height) {
-    this.imagePath = imagePath;
-    this.width = width;
-    this.height = height;
+    this.button = new CustomButton(imagePath);
+    this.button.setPreferredSize(new Dimension(width, height));
+    this.button.setMaximumSize(new Dimension(width, height));
+    this.button.setPreferredSize(new Dimension(width, height));
+    this.add(this.button);
     this.setOpaque(false);
   }
+}
 
-  @Override
-  public Dimension getMinimumSize() {
-    return new Dimension(width, height);
-  }
+class CustomButton extends JPanel {
 
-  @Override
-  public Dimension getMaximumSize() {
-    return new Dimension(width, height);
-  }
+  String imagePath;
 
-  @Override
-  public Dimension getPreferredSize() {
-    return new Dimension(width, height);
+  CustomButton(String imagePath) {
+    this.imagePath = imagePath;
+    setOpaque(false);
   }
 
   @Override
