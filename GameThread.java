@@ -27,7 +27,10 @@ class GameThread implements Runnable {
 
     while (gameIsActive.getVal()) {
       // Move the characters
-      for (Character c : characters) c.updatePos();
+      for (Character c : characters) {
+        c.updatePos();
+        c.updateImage();
+      }
 
       // tell map the player's new position
       map.setPlayerPos(

@@ -104,9 +104,13 @@ public abstract class Character {
      */
   }
 
-  public BufferedImage getImage() {
+  public void updateImage() {
     if (!isMoving || prevStep == 8) prevStep = -1;
-    return walk[prevDir][++prevStep];
+    prevStep++;
+  }
+
+  public BufferedImage getImage() {
+    return walk[prevDir][prevStep];
   }
 
   public void drawImage(Graphics g) {

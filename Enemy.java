@@ -15,6 +15,10 @@ class Enemy extends Character {
   private final CardLayout cards;
   private final Container pane;
   private final MutableBoolean gameIsActive;
+  private int startX, startY;
+
+  public int getStartX() { return startX; }
+  public int getStartY() { return startY; }
 
   Enemy(
     int x,
@@ -84,8 +88,9 @@ class Enemy extends Character {
     resetArrays(map);
 
     Queue<Coordinate> queue = new LinkedList<>();
-    int startX = (int) Math.round(getX());
-    int startY = (int) Math.round(getY());
+    startX = (int) Math.round(getX());
+    startY = (int) Math.round(getY());
+    System.out.println("StartX: "+startX+" StartY: "+startY);
 
     queue.add(new Coordinate(startX, startY));
     visited.get(startY).set(startX, true);
@@ -147,7 +152,7 @@ class Enemy extends Character {
       steps = 0;
 
       if (
-        blocksTravelled == 1 ||
+        blocksTravelled == 5 ||
         blocksTravelled >= path.size() ||
         path.size() == 0
       ) {
