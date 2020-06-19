@@ -51,8 +51,8 @@ class GamePanel extends JPanel {
     thickWallStroke =
       new BasicStroke(
         (int) Math.min(
-          map.getBlockHeight() * WALL_WIDTH_SCALE * 3,
-          map.getBlockWidth() * WALL_WIDTH_SCALE * 3
+          map.getBlockHeight() * WALL_WIDTH_SCALE * 2,
+          map.getBlockWidth() * WALL_WIDTH_SCALE * 2
         )
       );
 
