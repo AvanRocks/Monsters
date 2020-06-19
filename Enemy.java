@@ -147,7 +147,7 @@ class Enemy extends Character {
       steps = 0;
 
       if (
-        blocksTravelled == 5 ||
+        blocksTravelled == 1 ||
         blocksTravelled >= path.size() ||
         path.size() == 0
       ) {
@@ -206,6 +206,30 @@ class Enemy extends Character {
 
   @Override
   public void drawImage(Graphics g) {
+    int curX =
+      (int) (getX() * getMap().getBlockWidth() + getMap().getBlockWidth() / 2);
+    int curY =
+      (int) (getY() * getMap().getBlockHeight() + getMap()
+    .getBlockHeight() / 2);
+    for (Integer d : path) {
+      g.drawLine(curX, curY, curX + 10, curY + 10);
+
+      switch (d) {
+        case Direction.UP:
+          curY -= getMap().getBlockHeight();
+          break;
+        case Direction.DOWN:
+          curY += getMap().getBlockHeight();
+          break;
+        case Direction.LEFT:
+          curX -= getMap().getBlockWidth();
+          break;
+        case Direction.RIGHT:
+          curX += getMap().getBlockWidth();
+          break;
+      }
+    }
+
     if (!isAttacking) {
       super.drawImage(g);
     } else {
