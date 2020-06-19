@@ -3,7 +3,7 @@ import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
 
-class GameOverPanel extends JPanel implements ActionListener {
+class GameOverPanel extends JPanel {
 	CardLayout cards;
 	Container pane;
 	JButton restartBtn;
@@ -25,34 +25,26 @@ class GameOverPanel extends JPanel implements ActionListener {
 		imgPanel.setBackground(Color.black);
 		imgPanel.add(imgLabel);
 
-		// restart button
-		restartBtn = MenuPanel.makeButton("Restart", this);
-		restartBtn.setBackground(Color.blue);
+		CustomImagePanel restartPanel = new CustomImagePanel("images/restart.png"
+			, 250, 100);
+		restartPanel.getButton().addMouseListener(
+			new MouseAdapter() {
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					cards.show(pane, "menu");
+				}
+			}
+		);
+
 		btnPanel = new JPanel();
 		btnPanel.setBackground(Color.black);
-		btnPanel.add(restartBtn);
+		btnPanel.add(restartPanel);
 
 		add(Box.createVerticalGlue());
 		add(imgPanel);
 		add(Box.createVerticalGlue());
 		add(btnPanel);
 		add(Box.createVerticalGlue());
-	}
-
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		restartBtn.setFont(
-			new Font(
-				"Dialog",
-				Font.PLAIN,
-				Math.max(getWidth() / 40, getHeight() / 25)
-			)
-		);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		cards.show(pane, "menu");
 	}
 }

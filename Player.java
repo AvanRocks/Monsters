@@ -3,6 +3,7 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
 class Player extends Character implements KeyListener {
+	// Array that gets updated as the direction keys (WASD/Arrow keys) are pressed
 	private final boolean[] keyIsPressed = new boolean[4];
 
 	Player(int x, int y, BufferedImage spriteSheet, Map map) {
@@ -52,7 +53,8 @@ class Player extends Character implements KeyListener {
 	public void keyTyped(KeyEvent e) {}
 
 	// Checks state of keys and uses them to decide whether to move the player
-	// or not
+	// or not. The player's movement is normalized so that they walk at the same
+	// speed horizontally/vertically and diagonally
 	@Override
 	public void updatePos() {
 		if (keyIsPressed[Direction.UP] && keyIsPressed[Direction.RIGHT]) {
@@ -77,6 +79,7 @@ class Player extends Character implements KeyListener {
 			updatePos(Direction.RIGHT, false);
 		}
 
+		// Stop the player of none of the movement keys are pressed
 		if (
 			!keyIsPressed[Direction.UP] &&
 			!keyIsPressed[Direction.DOWN] &&
@@ -87,13 +90,14 @@ class Player extends Character implements KeyListener {
 		}
 	}
 
-	// Helper method for updating the player's position
+	// Helper method for updating the player's position, moving the player and
+	// checking if the movement sent a player colliding with a wall
 	private void updatePos(int dir, boolean diagonal) {
 		walk(dir, diagonal);
 		checkCollision(dir, diagonal);
 	}
 
-	// Verifies if the player intersected with the exit wall
+	// Returns whether or not the player has intersected with the exit
 	public boolean reachedExit() {
 		Rectangle2D exitWallBounds = getMap().getExit().getBounds2D();
 		exitWallBounds.setRect(

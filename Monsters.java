@@ -9,45 +9,40 @@ import java.awt.*;
 import javax.swing.*;
 
 class Monsters extends JFrame {
-	private GamePanel game;
-	private MenuPanel menu;
-	private GameOverPanel gameOver;
-	private JPanel rules;
-	private JLabel rulesLabel;
-	private CardLayout cards;
-	private Dimension size = new Dimension(550, 550);
-
 	Monsters(String name) {
 		super(name);
+		Dimension size = new Dimension(550, 550);
 		setSize(size);
 
-		cards = new CardLayout();
+		// Using a card layout to display only one game scene at a time
+		CardLayout cards = new CardLayout();
 		getContentPane().setLayout(cards);
 
-		game = new GamePanel(cards, getContentPane());
-		menu =
-			new MenuPanel(
-				cards,
-				getContentPane(),
-				game,
-				(int) size.getWidth(),
-				(int) size.getHeight()
-			);
-		rules = new RulesPanel(cards, getContentPane());
-		gameOver =
-			new GameOverPanel(
-				cards,
-				getContentPane(),
-				size.getWidth(),
-				size.getHeight()
-			);
+		// Creating an instance of all the game scenes
+		GamePanel game = new GamePanel(cards, getContentPane());
+		MenuPanel menu = new MenuPanel(
+			cards,
+			getContentPane(),
+			game,
+			(int) size.getWidth(),
+			(int) size.getHeight()
+		);
+		JPanel rules = new RulesPanel(cards, getContentPane());
+		GameOverPanel gameOver = new GameOverPanel(
+			cards,
+			getContentPane(),
+			size.getWidth(),
+			size.getHeight()
+		);
 
+		// Adding the game scenes to the card layout
 		getContentPane().add("menu", menu);
 		getContentPane().add("rules", rules);
 		getContentPane().add("game", game);
 		getContentPane().add("game-over", gameOver);
 	}
 
+	// Creating and initializing the game window
 	public static void main(String[] args) {
 		JFrame frame = new Monsters("Monsters");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -13,11 +13,14 @@ class RulesPanel extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(Color.blue);
 
+		// Reading the rules from rules.txt into rulesText
 		String rulesText = "";
 		try {
 			rulesText = String.join("\n", Files.readAllLines(Paths.get("rules.txt")));
 		} catch (Exception ignored) {}
 
+		// Creating and making the rules text area non-editable, multiline and
+		// with proper wrapping
 		JTextArea rulesTextArea;
 		rulesTextArea = new JTextArea(rulesText);
 		rulesTextArea.setLineWrap(true);
@@ -30,6 +33,7 @@ class RulesPanel extends JPanel {
 		rulesTextArea.setWrapStyleWord(true);
 		rulesTextArea.setBorder(new EmptyBorder(10, 10, 10, 10));
 
+		// Adding the back button to return to the main menu
 		CustomImagePanel backBtn = new CustomImagePanel("images/back.png", 120, 80);
 		backBtn.setBounds(10, 10, 80, 40);
 		backBtn

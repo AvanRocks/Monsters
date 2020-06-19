@@ -12,9 +12,12 @@ class MenuPanel extends JPanel {
 		int width,
 		int height
 	) {
+		// Using a box layout for a vertical column of panels
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		setBackground(Color.blue);
 
+		// Creating an instance of the panels (buttons & title) needed for the
+		// main menu screen
 		CustomImagePanel playButton = new CustomImagePanel(
 			"images/play.png",
 			120,
@@ -31,6 +34,8 @@ class MenuPanel extends JPanel {
 			100
 		);
 
+		// Adding the mousePressed listener to the play button to start the game
+		// when it is clicked
 		playButton
 			.getButton()
 			.addMouseListener(
@@ -45,6 +50,8 @@ class MenuPanel extends JPanel {
 				}
 			);
 
+		// Adding a mouseListener to the rules button to display the rules screen
+		// when the button is pressed
 		rulesButton
 			.getButton()
 			.addMouseListener(
@@ -57,6 +64,7 @@ class MenuPanel extends JPanel {
 				}
 			);
 
+		// Adding all the buttons/title to the main menu panel
 		add(Box.createVerticalGlue());
 		add(titlePanel);
 		add(Box.createVerticalGlue());
@@ -64,18 +72,5 @@ class MenuPanel extends JPanel {
 		add(Box.createVerticalGlue());
 		add(rulesButton);
 		add(Box.createVerticalGlue());
-	}
-
-	public static JButton makeButton(String text, ActionListener listener) {
-		JButton btn = new JButton(text);
-		btn.setBorderPainted(false);
-		btn.setFocusPainted(false);
-		btn.setContentAreaFilled(false);
-		btn.setBackground(Color.black);
-		btn.setForeground(Color.white);
-		btn.setOpaque(true);
-		btn.addActionListener(listener);
-
-		return btn;
 	}
 }
