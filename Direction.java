@@ -35,4 +35,3 @@ public class Direction {
     return !isHorizontal(dir);
   }
 }
-

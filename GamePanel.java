@@ -54,10 +54,7 @@ class GamePanel extends JPanel {
 
     if (wall == null) return;
     walls.add(wall);
-    if (
-      x2 == map.getNumColumns() ||
-      y2 == map.getNumRows()
-    ) {
+    if (x2 == map.getNumColumns() || y2 == map.getNumRows()) {
       Stroke oldStroke = g2d.getStroke();
       g2d.setStroke(thickWallStroke);
       g2d.draw(wall);
@@ -159,8 +156,6 @@ class GamePanel extends JPanel {
     if (isFirstPaint) {
       paintLevel(g);
       isFirstPaint = false;
-      //try { Thread.sleep(5000); }
-      //catch (Exception ignored) {}
     }
   }
 }

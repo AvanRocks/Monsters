@@ -93,18 +93,18 @@ class Enemy extends Character {
     Coordinate s;
     while ((s = queue.poll()) != null) {
       if (s.equals(map.getPlayerPos())) break;
-      if (visit(s.getX() + 1, s.getY(), Direction.RIGHT, map)) queue.add(
-        new Coordinate(s.getX() + 1, s.getY())
-      );
-      if (visit(s.getX() - 1, s.getY(), Direction.LEFT, map)) queue.add(
-        new Coordinate(s.getX() - 1, s.getY())
-      );
-      if (visit(s.getX(), s.getY() + 1, Direction.DOWN, map)) queue.add(
-        new Coordinate(s.getX(), s.getY() + 1)
-      );
-      if (visit(s.getX(), s.getY() - 1, Direction.UP, map)) queue.add(
-        new Coordinate(s.getX(), s.getY() - 1)
-      );
+      if (visit(s.getX() + 1, s.getY(), Direction.RIGHT, map)) {
+        queue.add(new Coordinate(s.getX() + 1, s.getY()));
+      }
+      if (visit(s.getX() - 1, s.getY(), Direction.LEFT, map)) {
+        queue.add(new Coordinate(s.getX() - 1, s.getY()));
+      }
+      if (visit(s.getX(), s.getY() + 1, Direction.DOWN, map)) {
+        queue.add(new Coordinate(s.getX(), s.getY() + 1));
+      }
+      if (visit(s.getX(), s.getY() - 1, Direction.UP, map)) {
+        queue.add(new Coordinate(s.getX(), s.getY() - 1));
+      }
     }
     path = new ArrayList<>();
     int x = map.getPlayerPos().getX();
@@ -157,6 +157,9 @@ class Enemy extends Character {
       (int) Math.round(getY())
     );
 
+    int playerX = map.getPlayerPos().getX();
+    int playerY = map.getPlayerPos().getY();
+
     if (pos.equals(map.getPlayerPos())) {
       isAttacking = true;
       attackDir = getPrevDir();
@@ -165,10 +168,9 @@ class Enemy extends Character {
     else if (
       pos.isAdjacentTo(map.getPlayerPos()) &&
       (
-        map.getEdge(map.getPlayerPos().getX(), map.getPlayerPos().getY()) &
+        map.getEdge(playerX, playerY) &
         (1 << Direction.getOpposite(pos.compareTo(map.getPlayerPos())))
-      ) ==
-      1
+      ) == 1
     ) {
       isAttacking = true;
       attackDir = pos.compareTo(map.getPlayerPos());
@@ -200,7 +202,9 @@ class Enemy extends Character {
 
   @Override
   public void drawImage(Graphics g) {
-    if (!isAttacking) super.drawImage(g); else {
+    if (!isAttacking) {
+      super.drawImage(g);
+    } else {
       Map map = getMap();
       g.drawImage(
         getImage(),
