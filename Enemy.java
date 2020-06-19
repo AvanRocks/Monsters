@@ -250,7 +250,7 @@ class Enemy extends Character {
           curX += getMap().getBlockWidth();
           break;
       }
-     */
     }
+     */
   }
 }
