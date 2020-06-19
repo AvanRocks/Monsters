@@ -15,7 +15,7 @@ class Map {
   private int[] link;
   private int[] size;
   private ArrayList<Line2D.Double> walls = null;
-  private Line2D.Double exit;
+  private int exitX, exitY, exitDir;
   private int[][] map;
   // these are actually inverse edges
   // they determine where there are NO walls
@@ -297,47 +297,41 @@ class Map {
 
     // Creating the exit in the maze
     int side = (int) (Math.random() * 4);
-    int x = -1, y = -1;
-    int dir = -1;
     switch (side) {
       // top
       case 0:
         {
-          x = (int) (Math.random() * numColumns);
-          y = 0;
-          dir = Direction.UP;
-          exit = getLineInBetween(x, y, x, y - 1);
+          exitX = (int) (Math.random() * numColumns);
+          exitY = 0;
+          exitDir = Direction.UP;
           break;
         }
       // right
       case 1:
         {
-          x = numColumns - 1;
-          y = (int) (Math.random() * numRows);
-          dir = Direction.RIGHT;
-          exit = getLineInBetween(x, y, x + 1, y);
+          exitX = numColumns - 1;
+          exitY = (int) (Math.random() * numRows);
+          exitDir = Direction.RIGHT;
           break;
         }
       // down
       case 2:
         {
-          x = (int) (Math.random() * numColumns);
-          y = numRows - 1;
-          dir = Direction.DOWN;
-          exit = getLineInBetween(x, y, x, y + 1);
+          exitX = (int) (Math.random() * numColumns);
+          exitY = numRows - 1;
+          exitDir = Direction.DOWN;
           break;
         }
       // left
       case 3:
         {
-          x = 0;
-          y = (int) (Math.random() * numRows);
-          dir = Direction.LEFT;
-          exit = getLineInBetween(x, y, x - 1, y);
+          exitX = 0;
+          exitY = (int) (Math.random() * numRows);
+          exitDir = Direction.LEFT;
           break;
         }
     }
-    edges[y][x] |= (1 << dir);
+    edges[exitY][exitX] |= (1 << exitDir);
 
     // place the player spawn
     int playerX = (int) (Math.random() * numColumns);
@@ -375,7 +369,17 @@ class Map {
   }
 
   public Line2D.Double getExit() {
-    return exit;
+    switch (exitDir) {
+      case Direction.UP:
+        return getLineInBetween(exitX, exitY, exitX, exitY-1);
+      case Direction.LEFT:
+        return getLineInBetween(exitX, exitY, exitX-1, exitY);
+      case Direction.RIGHT:
+        return getLineInBetween(exitX, exitY, exitX+1, exitY);
+      case Direction.DOWN:
+        return getLineInBetween(exitX, exitY, exitX, exitY+1);
+    }
+    return null;
   }
 
   public void setPlayerPos(int x, int y) {
