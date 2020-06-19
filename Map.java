@@ -6,26 +6,65 @@ import java.util.Map.Entry;
 import javax.imageio.ImageIO;
 
 class Map {
+  // Number of rows and columns in the map's maze
   private int numRows;
   private int numColumns;
+
+  // Block width (sized relative to the window's width and height)
   private double blockWidth, blockHeight;
+
+  // Player's current level
   private int level = 0;
+
+  // Player's current position in the maze based on rows and columns (not
+  // pixels)
   private Coordinate playerPos = new Coordinate(0, 0);
+
+  // An array where the first character is always the player and subsequent
+  // characters are monsters in the curren tlevel
   private final ArrayList<Character> characters;
+
+  // Union-set related variables
+
+  // link[i] = The head of node i
   private int[] link;
+
+  // size[i] = The # of nodes of the set which node i belongs to
   private int[] size;
+
+  // The walls of the maze
   private ArrayList<Line2D.Double> walls = null;
+
+  // The exit position and orientation
   private int exitX, exitY, exitDir;
+
+  // The block type of the coordinates in the game map/maze
   private int[][] map;
-  // these are actually inverse edges
+
+  // The edges of the map, these are actually inverse edges ("anti-edges"):
   // they determine where there are NO walls
   public int[][] edges;
+
+  // The card layout (needed to switch scenes (e.g. if the player loses,
+  // switch to the game over screen))
   private final CardLayout cards;
+
+  // Pane needed to switch the card layout (e.g. game over screen)
   private final Container pane;
+
+  // MutableBoolean representing the active state of the game (active, or
+  // non-active: game over or on main menu)
   private final MutableBoolean gameIsActive;
+
+  // The panel width and height based on JFrame's getWidth() and getHeight()
   private int panelWidth, panelHeight;
+
+  // The player's exact coordinates from the top-left in fractional rows and
+  // columns (e.g. if the player is in between column 2 and 3, playerExactX
+  // would be a double between 2 and 3)
   private double playerExactX, playerExactY;
 
+  // An enum representing a grid cell's type (used for map initialization)
   public enum BlockType {
     EMPTY,
     ENEMY_SPAWN,
