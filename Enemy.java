@@ -162,8 +162,8 @@ class Enemy extends Character {
     }
 
     Coordinate pos = new Coordinate(
-      (int) Math.round(getX()),
-      (int) Math.round(getY())
+      (int) Math.round(getX() ),
+      (int) Math.round(getY() )
     );
 
     int playerX = map.getPlayerPos().getX();
@@ -211,11 +211,27 @@ class Enemy extends Character {
 
   @Override
   public void drawImage(Graphics g) {
+
+    if (!isAttacking) {
+      super.drawImage(g);
+    } else {
+      Map map = getMap();
+      g.drawImage(
+        getImage(),
+        (int) (getX() * map.getBlockWidth()),
+        (int) (getY() * map.getBlockHeight()),
+        (int) (map.getBlockWidth()),
+        (int) (map.getBlockHeight()),
+        null
+      );
+    }
+
+    g.setColor(Color.orange);
     int curX =
       (int) (getX() * getMap().getBlockWidth() + getMap().getBlockWidth() / 2);
     int curY =
       (int) (getY() * getMap().getBlockHeight() + getMap()
-    .getBlockHeight() / 2);
+        .getBlockHeight() / 2);
     for (Integer d : path) {
       g.drawLine(curX, curY, curX + 10, curY + 10);
 
@@ -233,20 +249,6 @@ class Enemy extends Character {
           curX += getMap().getBlockWidth();
           break;
       }
-    }
-
-    if (!isAttacking) {
-      super.drawImage(g);
-    } else {
-      Map map = getMap();
-      g.drawImage(
-        getImage(),
-        (int) (getX() * map.getBlockWidth()),
-        (int) (getY() * map.getBlockHeight()),
-        (int) (map.getBlockWidth()),
-        (int) (map.getBlockHeight()),
-        null
-      );
     }
   }
 }
