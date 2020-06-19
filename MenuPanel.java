@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+// The Start Screen of the Monsters game
 class MenuPanel extends JPanel {
 
   MenuPanel(

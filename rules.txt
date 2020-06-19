@@ -5,3 +5,4 @@ In each level, there is a maze with one exit. You need to move the player past t
 Controls:
 - Arrow keys/WASD to move
 - Mouse and Drag to resize the screen (the game is resizable!)
+
