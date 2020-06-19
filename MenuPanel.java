@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+// The Start Screen of the Monsters game
 class MenuPanel extends JPanel {
 
   MenuPanel(
@@ -30,27 +31,31 @@ class MenuPanel extends JPanel {
       100
     );
 
-    playButton.getButton().addMouseListener(
-      new MouseAdapter() {
+    playButton
+      .getButton()
+      .addMouseListener(
+        new MouseAdapter() {
 
-        @Override
-        public void mousePressed(MouseEvent e) {
-          game.start();
-          cards.show(pane, "game");
-          game.requestFocusInWindow();
+          @Override
+          public void mousePressed(MouseEvent e) {
+            game.start();
+            cards.show(pane, "game");
+            game.requestFocusInWindow();
+          }
         }
-      }
-    );
+      );
 
-    rulesButton.getButton().addMouseListener(
-      new MouseAdapter() {
+    rulesButton
+      .getButton()
+      .addMouseListener(
+        new MouseAdapter() {
 
-        @Override
-        public void mousePressed(MouseEvent e) {
-          cards.show(pane, "rules");
+          @Override
+          public void mousePressed(MouseEvent e) {
+            cards.show(pane, "rules");
+          }
         }
-      }
-    );
+      );
 
     add(Box.createVerticalGlue());
     add(titlePanel);

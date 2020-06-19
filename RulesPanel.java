@@ -30,21 +30,19 @@ class RulesPanel extends JPanel {
     rulesTextArea.setWrapStyleWord(true);
     rulesTextArea.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-    CustomImagePanel backBtn = new CustomImagePanel(
-      "images/back.png",
-      120,
-      80
-    );
+    CustomImagePanel backBtn = new CustomImagePanel("images/back.png", 120, 80);
     backBtn.setBounds(10, 10, 80, 40);
-    backBtn.getButton().addMouseListener(
-      new MouseAdapter() {
+    backBtn
+      .getButton()
+      .addMouseListener(
+        new MouseAdapter() {
 
-        @Override
-        public void mousePressed(MouseEvent e) {
-          cards.show(pane, "menu");
+          @Override
+          public void mousePressed(MouseEvent e) {
+            cards.show(pane, "menu");
+          }
         }
-      }
-    );
+      );
 
     add(backBtn);
     add(rulesTextArea);

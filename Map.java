@@ -32,7 +32,6 @@ class Map {
     PLAYER_SPAWN,
   }
 
-  // For testing
   public Map(
     double panelWidth,
     double panelHeight,
@@ -67,6 +66,7 @@ class Map {
     }
   }
 
+  // Get the wall inbetween two coordinates
   public Line2D.Double getLineInBetween(int x1, int y1, int x2, int y2) {
     if (y1 == y2) {
       if (x2 > x1) {
@@ -105,10 +105,11 @@ class Map {
     return null;
   }
 
+  // Creates and displays the characters in the game
   private void createCharacters() {
     characters.clear();
 
-    // create player
+    // Creating the player
     for (int y = 0; y < getNumRows(); ++y) {
       for (int x = 0; x < getNumColumns(); ++x) if (
         getBlock(x, y) == BlockType.PLAYER_SPAWN
@@ -129,7 +130,7 @@ class Map {
       }
     }
 
-    // create Enemies at their specified starting positions
+    // Creating the enemies and placing them at their starting positions
     for (int y = 0; y < numRows; ++y) {
       for (int x = 0; x < numColumns; ++x) {
         // create enemy
@@ -146,7 +147,7 @@ class Map {
                 cards,
                 pane,
                 gameIsActive,
-                Math.max(1,5-level)
+                Math.max(1, 5 - level)
               )
             );
           } catch (IOException e) {
@@ -157,6 +158,7 @@ class Map {
     }
   }
 
+  // Union-find data structure methods
   private int find(int x) {
     while (x != link[x]) x = link[x];
     return x;
@@ -178,8 +180,8 @@ class Map {
     size[b] += size[a];
   }
 
+  // Generating the map using Eller's algorithm (Using Union-Find)
   private void generateMap() {
-    //int temp = (int) (Math.random() * (level-1)*2) + 6;
     int temp = 6 + (level - 1) * 3;
     numColumns = temp;
     numRows = temp;
@@ -188,8 +190,6 @@ class Map {
 
     edges = new int[numRows][numColumns];
     map = new int[numRows][numColumns];
-
-    // Eller's algorithm for maze generation (using Union Find structure)
 
     int[][] set = new int[2][numColumns];
     link = new int[numColumns * (numRows + 1) + 1];
@@ -281,21 +281,21 @@ class Map {
       edges[y][x] |= (1 << dir);
       switch (dir) {
         case Direction.UP:
-          edges[y-1][x] |= (1 << Direction.DOWN);
+          edges[y - 1][x] |= (1 << Direction.DOWN);
           break;
         case Direction.LEFT:
-          edges[y][x-1] |= (1 << Direction.RIGHT);
+          edges[y][x - 1] |= (1 << Direction.RIGHT);
           break;
         case Direction.RIGHT:
-          edges[y][x+1] |= (1 << Direction.LEFT);
+          edges[y][x + 1] |= (1 << Direction.LEFT);
           break;
         case Direction.DOWN:
-          edges[y+1][x] |= (1 << Direction.UP);
+          edges[y + 1][x] |= (1 << Direction.UP);
           break;
       }
     }
 
-    // make the exit
+    // Creating the exit in the maze
     int side = (int) (Math.random() * 4);
     int x = -1, y = -1;
     int dir = -1;
@@ -392,8 +392,13 @@ class Map {
     playerExactY = y;
   }
 
-  public double getPlayerExactX() { return playerExactX; }
-  public double getPlayerExactY() { return playerExactY; }
+  public double getPlayerExactX() {
+    return playerExactX;
+  }
+
+  public double getPlayerExactY() {
+    return playerExactY;
+  }
 
   public int getLevel() {
     return level;

@@ -21,7 +21,6 @@ public class CustomImagePanel extends JPanel {
 }
 
 class CustomButton extends JPanel {
-
   String imagePath;
 
   CustomButton(String imagePath) {
