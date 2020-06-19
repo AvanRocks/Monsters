@@ -9,7 +9,6 @@ class GamePanel extends JPanel {
   private final CardLayout cards;
   private final Container pane;
   private ArrayList<Line2D.Double> walls;
-  private boolean isFirstPaint = true;
   public static double WALL_WIDTH_SCALE = 0.1;
 
   GamePanel(CardLayout cards, Container pane) {
@@ -91,25 +90,6 @@ class GamePanel extends JPanel {
     addKeyListener((Player) characters.get(0));
   }
 
-  private void paintLevel(Graphics g) {
-    int rectWidth = getWidth() / 3;
-    int rectHeight = getWidth() / 5;
-
-    Color oldColor = g.getColor();
-    g.setColor(Color.black);
-
-    g.fillRoundRect(
-      getWidth() - rectWidth / 2,
-      getHeight() - rectHeight / 2,
-      rectWidth,
-      rectHeight,
-      10,
-      10
-    );
-
-    g.setColor(oldColor);
-  }
-
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);
@@ -130,14 +110,6 @@ class GamePanel extends JPanel {
     // check if the player has reached the exit
     if (((Player) characters.get(0)).reachedExit()) {
       advanceLevel();
-      paintLevel(g);
-    }
-
-    if (isFirstPaint) {
-      paintLevel(g);
-      isFirstPaint = false;
-      //try { Thread.sleep(5000); }
-      //catch (Exception ignored) {}
     }
   }
 }

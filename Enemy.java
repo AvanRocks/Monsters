@@ -137,6 +137,12 @@ class Enemy extends Character {
     Map map = getMap();
     double speed = getSpeed();
 
+    System.out.println("x:"+getX()+" y: "+getY());
+
+    if (path.size() == 0) {
+      calcPath();
+    }
+
     if (steps == (int) (1 / speed)) {
       blocksTravelled++;
 
@@ -161,14 +167,13 @@ class Enemy extends Character {
       isAttacking = true;
       attackDir = getPrevDir();
     }
-    // if the player is adjacent AND there is no wall int between
+    // if the player is adjacent AND there is no wall in between
     else if (
       pos.isAdjacentTo(map.getPlayerPos()) &&
       (
         map.getEdge(map.getPlayerPos().getX(), map.getPlayerPos().getY()) &
         (1 << Direction.getOpposite(pos.compareTo(map.getPlayerPos())))
-      ) ==
-      1
+      ) == 1
     ) {
       isAttacking = true;
       attackDir = pos.compareTo(map.getPlayerPos());
