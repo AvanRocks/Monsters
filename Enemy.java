@@ -226,6 +226,7 @@ class Enemy extends Character {
       );
     }
 
+    /*
     g.setColor(Color.orange);
     int curX =
       (int) (getX() * getMap().getBlockWidth() + getMap().getBlockWidth() / 2);
@@ -249,6 +250,7 @@ class Enemy extends Character {
           curX += getMap().getBlockWidth();
           break;
       }
+     */
     }
   }
 }
