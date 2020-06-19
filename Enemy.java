@@ -187,7 +187,7 @@ class Enemy extends Character {
 
       if (path.size() != 0) {
         walk(path.get(blocksTravelled), false);
-        checkCollision(path.get(blocksTravelled));
+        checkCollision(path.get(blocksTravelled), false);
         steps++;
       }
     }
