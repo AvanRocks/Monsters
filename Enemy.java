@@ -137,8 +137,6 @@ class Enemy extends Character {
     Map map = getMap();
     double speed = getSpeed();
 
-    System.out.println("x:"+getX()+" y: "+getY());
-
     if (path.size() == 0) {
       calcPath();
     }
