@@ -1,7 +1,0 @@
-Add monsters
-	- add ones that chase the player (grid bfs)
-	- add ones that intercept the player (bfs from player to exit, then bfs from monster to player's path and find shortest path to intersect it)
-	- make monsters have different colors based on their "personality"
-Add randomly-generated maps (using random Kruskal's or Prim's)
-Normalize player movement (don't let them walk faster diagonally)
-Add a better-looking map (like the one in ChemShooter)
