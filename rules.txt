@@ -1,8 +1,10 @@
-You control a player who is trying to escape a maze while being chased by monsters. Your job is to make it past as many levels as possible before the monsters reach you. 
+Monsters is a 2D game where you control a player who is trying to escape a maze while being chased by monsters. Your job is to make it past as many levels as possible before the monsters reach you. The monsters are smart; they don't move randomly. Rather, they know where you are at all times and intelligently track you down. They are trained in smelling out humans even in the largest and darkest of mazes. They aren't slow either; you move at the same speed as the monsters, so in order to outrun them, you need to be smart.
 
-In each level, there is a maze with one exit. You need to move the player through this exit to advance to the next level.
+The maze is randomly generated each level, so you get a new experience every time you play. The monsters and player's spawn are also random, although we made sure that the monsters don't spawn too close to you and easily kill you before you had a chance to run away.
 
-Each level consists of a randomly generated maze. As you progess in levels, the maze will get larger, the number of monsters will increase, and the monsters will get smarter.
+As you progress through levels, the maze gets bigger and the monsters get smarter. In fact, the monsters recruit more of their members to hunt you down as you continue avoiding them each level, so the amount of monsters increase as you get further into the game.
+
+When a monster reaches you and successfully attacks you, the game is over and you are presented with a game over screen that lets you know the level you lost at. However, not all is lost! You can easily start again from level 1 and continue trying to beat you and your friends' high scores.
 
 Controls:
 - Arrow keys/WASD to move
